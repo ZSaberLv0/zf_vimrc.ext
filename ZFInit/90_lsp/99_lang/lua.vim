@@ -12,12 +12,18 @@ if g:zflsp_lua && executable('java')
         return filereadable(ZF_LSP_lua_archiveFile())
     endfunction
     function! ZF_LSP_lua_installer()
-        let fileUrl = ZF_ModuleGetGithubRelease('EmmyLua', 'EmmyLua-LanguageServer')
-        if empty(fileUrl) || match(fileUrl[0], 'EmmyLua-LS-all\.jar') < 0
+        let fileUrl = ''
+        for fileUrlTmp in ZF_ModuleGetGithubRelease('EmmyLua', 'EmmyLua-LanguageServer')
+            if match(fileUrlTmp, 'EmmyLua-LS-all\.jar') >= 0
+                let fileUrl = fileUrlTmp
+            endif
+        endfor
+        if empty(fileUrl)
+            echo 'ERROR: unable to obtain release'
             return
         endif
         if !ZF_LSP_lua_checker()
-            call ZF_ModuleDownloadFile(ZF_LSP_lua_archiveFile(), fileUrl[0])
+            call ZF_ModuleDownloadFile(ZF_LSP_lua_archiveFile(), fileUrl)
         endif
     endfunction
     call ZFLSP_autoSetup(1, 'lua', function('ZF_LSP_lua_checker'), function('ZF_LSP_lua_installer'), {

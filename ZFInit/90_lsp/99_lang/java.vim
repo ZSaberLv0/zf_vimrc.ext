@@ -16,6 +16,7 @@ if g:zflsp_java && executable('java')
     endfunction
     function! ZF_LSP_java_installer()
         if !executable('tar')
+            echo 'ERROR: no tar available'
             return
         endif
         if !filereadable(ZF_LSP_java_archiveFile())

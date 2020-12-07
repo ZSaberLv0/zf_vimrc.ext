@@ -10,9 +10,6 @@ if g:zflsp_java && executable('java')
     function! ZF_LSP_java_contentsPath()
         return g:zf_vim_cache_path . '/ZFLSP_jdt/contents'
     endfunction
-    function! ZF_LSP_java_cachePath()
-        return g:zf_vim_cache_path . '/ZFLSP_jdt/cache'
-    endfunction
 
     function! ZF_LSP_java_checker()
         return executable('tar') && filereadable(ZF_LSP_java_archiveFile())
@@ -55,7 +52,7 @@ if g:zflsp_java && executable('java')
                     \     '-configuration',
                     \     ZF_LSP_java_contentsPath() . '/' . config,
                     \     '-data',
-                    \     ZF_LSP_java_cachePath(),
+                    \     getcwd(),
                     \   ]
     endfunction
     call ZFLSP_autoSetup(1, 'java', function('ZF_LSP_java_checker'), function('ZF_LSP_java_installer'), {

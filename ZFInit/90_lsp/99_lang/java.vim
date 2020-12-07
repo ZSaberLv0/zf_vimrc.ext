@@ -10,6 +10,9 @@ if g:zflsp_java && executable('java')
     function! ZF_LSP_java_contentsPath()
         return g:zf_vim_cache_path . '/ZFLSP_jdt/contents'
     endfunction
+    function! ZF_LSP_java_cachePath()
+        return g:zf_vim_cache_path . '/ZFLSP_jdt/cache'
+    endfunction
 
     function! ZF_LSP_java_checker()
         return executable('tar') && filereadable(ZF_LSP_java_archiveFile())
@@ -35,6 +38,24 @@ if g:zflsp_java && executable('java')
         else
             let config = 'config_linux'
         endif
+
+        " try to get rid of build files
+        let dataPath = ZF_LSP_java_cachePath()
+        let projRoot = getcwd()
+        while 1
+            if 0
+                        \ || filereadable(projRoot . '/build.gradle')
+                        \ || filereadable(projRoot . '/pom.xml')
+                let dataPath = projRoot . '/build/.jdt'
+                break
+            endif
+            let projRootOld = projRoot
+            let projRoot = fnamemodify(projRoot, ':h')
+            if projRoot == projRootOld
+                break
+            endif
+        endwhile
+
         return [
                     \     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
                     \     '-Dosgi.bundles.defaultStartLevel=4',
@@ -52,7 +73,7 @@ if g:zflsp_java && executable('java')
                     \     '-configuration',
                     \     ZF_LSP_java_contentsPath() . '/' . config,
                     \     '-data',
-                    \     getcwd(),
+                    \     dataPath,
                     \   ]
     endfunction
     call ZFLSP_autoSetup(1, 'java', function('ZF_LSP_java_checker'), function('ZF_LSP_java_installer'), {

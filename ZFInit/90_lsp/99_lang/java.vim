@@ -10,6 +10,9 @@ if g:zflsp_java && executable('java')
     function! ZF_LSP_java_contentsPath()
         return g:zf_vim_cache_path . '/ZFLSP_jdt/contents'
     endfunction
+    function! ZF_LSP_java_cachePath()
+        return g:zf_vim_cache_path . '/ZFLSP_jdt/cache'
+    endfunction
 
     function! ZF_LSP_java_checker()
         return executable('tar') && filereadable(ZF_LSP_java_archiveFile())
@@ -36,22 +39,23 @@ if g:zflsp_java && executable('java')
             let config = 'config_linux'
         endif
         return [
+                    \     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+                    \     '-Dosgi.bundles.defaultStartLevel=4',
+                    \     '-Declipse.product=org.eclipse.jdt.ls.core.product',
+                    \     '-Dlog.level=NONE',
+                    \     '-noverify',
                     \     '-Xmx1G',
                     \     '--add-modules=ALL-SYSTEM',
                     \     '--add-opens',
                     \     'java.base/java.util=ALL-UNNAMED',
                     \     '--add-opens',
                     \     'java.base/java.lang=ALL-UNNAMED',
-                    \     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-                    \     '-Dosgi.bundles.defaultStartLevel=4',
-                    \     '-Declipse.product=org.eclipse.jdt.ls.core.product',
-                    \     '-Dlog.level=NONE',
                     \     '-jar',
                     \     glob(ZF_LSP_java_contentsPath() . '/plugins/org.eclipse.equinox.launcher_*.jar', 1),
                     \     '-configuration',
                     \     ZF_LSP_java_contentsPath() . '/' . config,
                     \     '-data',
-                    \     getcwd(),
+                    \     ZF_LSP_java_cachePath(),
                     \   ]
     endfunction
     call ZFLSP_autoSetup(1, 'java', function('ZF_LSP_java_checker'), function('ZF_LSP_java_installer'), {

@@ -57,19 +57,27 @@ if g:ZF_Plugin_ncm2_vim_lsp && g:ZF_Plugin_ncm2
     nnoremap zi :LspCodeAction<cr>
 
     function! s:ncm2_vim_lsp()
-        for lsp in keys(g:zflsp)
-            call lsp#register_server({
-                        \   'name' : lsp,
-                        \   'cmd' : [&shell, &shellcmdflag, ZFLSP_getFullCmd(g:zflsp[lsp])],
-                        \   'whitelist' : g:zflsp[lsp].ft,
-                        \   'initialization_options': ZFLSP_get(g:zflsp[lsp].options),
-                        \ })
-        endfor
+        if get(g:, 'lsp_loaded', 0)
+            for lsp in keys(g:zflsp)
+                call lsp#register_server({
+                            \   'name' : lsp,
+                            \   'cmd' : [&shell, &shellcmdflag, ZFLSP_getFullCmd(g:zflsp[lsp])],
+                            \   'whitelist' : g:zflsp[lsp].ft,
+                            \   'initialization_options': ZFLSP_get(g:zflsp[lsp].options),
+                            \ })
+            endfor
+        endif
+    endfunction
+    function! s:ncm2_vim_lsp_restart()
+        if get(g:, 'lsp_loaded', 0)
+            call s:ncm2_vim_lsp()
+            silent! LspStopServer
+        endif
     endfunction
     augroup ZF_Plugin_ncm2_vim_lsp_augroup
         autocmd!
         autocmd User ZFLSP_setup call s:ncm2_vim_lsp()
-        autocmd User ZFLSP_restart call s:ncm2_vim_lsp()
+        autocmd User ZFLSP_restart call s:ncm2_vim_lsp_restart()
     augroup END
 endif
 

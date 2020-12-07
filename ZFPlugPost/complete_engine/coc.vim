@@ -54,10 +54,16 @@ if g:ZF_Plugin_coc_lsp && g:ZF_Plugin_coc
             endfor
         endif
     endfunction
+    function! s:coc_lsp_restart()
+        if exists('*CocAction')
+            call s:coc_lsp()
+            silent! CocRestart
+        endif
+    endfunction
     augroup ZF_Plugin_coc_lsp_augroup
         autocmd!
         autocmd User ZFLSP_setup call s:coc_lsp()
-        autocmd User ZFLSP_restart call s:coc_lsp()
+        autocmd User ZFLSP_restart call s:coc_lsp_restart()
     augroup END
 endif
 

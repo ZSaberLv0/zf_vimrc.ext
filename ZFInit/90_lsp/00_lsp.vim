@@ -187,6 +187,19 @@ augroup ZFLSP_augroup
     endif
 augroup END
 function! ZFLSP_restart()
+    if has('timers')
+        if exists('s:restart_delayTimerId')
+            call timer_stop(s:restart_delayTimerId)
+        endif
+        let s:restart_delayTimerId = timer_start(3000, function('s:restart_delay'))
+    else
+        call s:restart_delay()
+    endif
+endfunction
+function! s:restart_delay(...)
+    if exists('s:restart_delayTimerId')
+        unlet s:restart_delayTimerId
+    endif
     doautocmd User ZFLSP_restartBegin
     doautocmd User ZFLSP_restart
     doautocmd User ZFLSP_restartEnd

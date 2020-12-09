@@ -33,31 +33,6 @@ if g:ZF_Plugin_caw
 endif
 
 " ==================================================
-if !exists('g:ZF_Plugin_syntastic')
-    let g:ZF_Plugin_syntastic = 1
-endif
-if g:ZF_Plugin_syntastic
-    ZFPlug 'vim-syntastic/syntastic'
-    if exists('*SyntasticStatuslineFlag')
-        set statusline-=%#warningmsg#
-        set statusline+=%#warningmsg#
-        set statusline-=%{SyntasticStatuslineFlag()}
-        set statusline+=%{SyntasticStatuslineFlag()}
-        set statusline-=%*
-        set statusline+=%*
-    endif
-    let g:syntastic_always_populate_loc_list = 1
-    let g:syntastic_auto_loc_list = 0
-    let g:syntastic_check_on_open = 1
-    let g:syntastic_check_on_wq = 0
-    let g:syntastic_mode_map = {'mode' : 'passive'}
-    if g:zf_windows
-        " this would hang if SHELL is cmd.exe
-        let g:syntastic_sh_checkers = []
-    endif
-endif
-
-" ==================================================
 if !exists('g:ZF_Plugin_polyglot')
     " good for idea, but shit for countless bugs
     let g:ZF_Plugin_polyglot = 0

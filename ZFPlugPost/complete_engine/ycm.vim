@@ -35,7 +35,7 @@ if g:ZF_Plugin_YouCompleteMe
     function! ZF_Plugin_YouCompleteMe_install()
         call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'jedi')
 
-        let path = fnamemodify(globpath('*/YouCompleteMe', 'install.py'), ':p')
+        let path = CygpathFix_absPath(globpath('*/YouCompleteMe', 'install.py'), ':p')
         if empty(path)
             echomsg 'unable to find YCM install.py'
             return

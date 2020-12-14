@@ -21,7 +21,7 @@ if g:ZF_Plugin_youdao_translater
             return ''
         endif
 
-        let modulePath = fnamemodify(globpath(&rtp, 'youdao.py'), ':p:h')
+        let modulePath = fnamemodify(CygpathFix_absPath(globpath(&rtp, 'youdao.py')), ':h')
 
 execute pyBegin
 import vim,sys

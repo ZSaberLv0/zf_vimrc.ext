@@ -121,7 +121,7 @@ if g:zflsp_cpp
             endif
         endfor
         if !empty(file)
-            let path = fnamemodify(file, ':p:h')
+            let path = fnamemodify(CygpathFix_absPath(file), ':h')
             for t in readfile(file)
                 " (^[ \t]+)|([ \t]+$)
                 let line = substitute(t, '\(^[ \t]\+\)\|\([ \t]\+$\)', '', 'g')
@@ -130,7 +130,7 @@ if g:zflsp_cpp
                 endif
                 " ^-[a-zA-Z]\.+[\/\\]
                 if match(line, '^-[a-zA-Z]\.\+[\/\\]') >= 0
-                    let line = strpart(line, 0, 2) . fnamemodify(path . '/' . strpart(line, 2), ':p')
+                    let line = strpart(line, 0, 2) . CygpathFix_absPath(path . '/' . strpart(line, 2))
                 endif
                 let flags[line] = 1
             endfor

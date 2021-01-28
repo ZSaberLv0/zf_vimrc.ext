@@ -16,8 +16,11 @@ if g:zflsp_kotlin
     endfunction
     function! ZF_LSP_kotlin_installer()
         if !executable('unzip')
-            echo 'ERROR: no unzip available'
-            return
+            call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'unzip')
+            if !executable('unzip')
+                echo 'ERROR: no unzip available'
+                return
+            endif
         endif
         let fileUrl = ''
         for fileUrlTmp in ZF_ModuleGetGithubRelease('fwcd', 'kotlin-language-server')

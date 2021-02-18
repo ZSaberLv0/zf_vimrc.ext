@@ -62,7 +62,7 @@ if g:zflsp_cpp && !empty(ZF_ModuleGetApt())
             let clangd_path = executable('clangd') ? 'clangd' : '/usr/local/opt/llvm/bin/clangd'
             return {
                         \   'cmd' : clangd_path,
-                        \   'cmdargs' : [],
+                        \   'cmdargs' : ['-header-insertion=never'],
                         \   'ft' : ft,
                         \   'options' : function('s:options_clangd'),
                         \ }

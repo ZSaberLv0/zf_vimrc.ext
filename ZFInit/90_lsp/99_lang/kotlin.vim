@@ -37,7 +37,7 @@ if g:zflsp_kotlin
         endif
         if filereadable(ZF_LSP_kotlin_archiveFile())
             call system('mkdir "' . ZF_LSP_kotlin_contentsPath() . '"')
-            call system('unzip "' . ZF_LSP_kotlin_archiveFile() . '" -d "' . ZF_LSP_kotlin_contentsPath() . '/."')
+            call system('yes | unzip "' . ZF_LSP_kotlin_archiveFile() . '" -d "' . ZF_LSP_kotlin_contentsPath() . '/."')
         endif
     endfunction
     call ZFLSP_autoSetup(1, 'kotlin', function('ZF_LSP_kotlin_checker'), function('ZF_LSP_kotlin_installer'), {

@@ -18,9 +18,10 @@ note: this repo requires zf_vimrc.vim, to install, follow
         * `apt-cyg`
         * `yum`
         * `brew`
-    1. have any of these available:
-        * `node` (which would use `coc.nvim` by if available)
-        * `python3` and `pip` (which would use `ncm2` by if no `node` available)
+    1. we would automatically install complete engine according to your env in this order:
+        * `coc.nvim` if `node` available
+        * `ncm2` if `python3` and `pip` available
+        * `asyncomplete` if none of above available
     1. use `curl zsaber.com/vim | sh` to install,
         this may take a long time,
         but required for only once

@@ -32,10 +32,18 @@ if g:ZF_Plugin_CompleteParameter
     endfunction
     function! ZF_Plugin_CompleteParameter_setting()
         inoremap <silent><expr> <cr> pumvisible() ? "\<c-y>" . complete_parameter#pre_complete('') : "\<c-g>u\<cr>"
-        map <tab> <Plug>(complete_parameter#goto_next_parameter)
-        map <s-tab> <Plug>(complete_parameter#goto_previous_parameter)
+
+        nmap <tab> <Plug>(complete_parameter#goto_next_parameter)
+        smap <tab> <Plug>(complete_parameter#goto_next_parameter)
         imap <silent><expr> <tab> '' . ZF_Plugin_CompleteParameter_tab(1)
+
+        nmap <s-tab> <Plug>(complete_parameter#goto_previous_parameter)
+        smap <s-tab> <Plug>(complete_parameter#goto_previous_parameter)
         imap <silent><expr> <s-tab> '' . ZF_Plugin_CompleteParameter_tab(0)
+
+        nmap <c-tab> <Plug>(complete_parameter#overload_down)
+        smap <c-tab> <Plug>(complete_parameter#overload_down)
+        imap <c-tab> <Plug>(complete_parameter#overload_down)
     endfunction
     augroup ZF_Plugin_CompleteParameter_augroup
         autocmd!

@@ -35,14 +35,17 @@ endif
 " ==================================================
 if !exists('g:ZF_Plugin_polyglot')
     " good for idea, but shit for countless bugs
-    let g:ZF_Plugin_polyglot = 0
+    let g:ZF_Plugin_polyglot = 1
 endif
 if v:version <= 704
     let g:ZF_Plugin_polyglot = 0
 endif
 if g:ZF_Plugin_polyglot
     ZFPlug 'sheerun/vim-polyglot'
-    let g:polyglot_disabled = ['markdown']
-    let g:polyglot_disabled = ['autoindent']
+    let g:polyglot_disabled = [
+                \   'autoindent',
+                \   'markdown',
+                \   'sensible',
+                \ ]
 endif
 

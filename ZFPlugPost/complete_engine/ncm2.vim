@@ -47,37 +47,6 @@ if g:ZF_Plugin_ncm2_vim_lsp && g:ZF_Plugin_ncm2
     ZFPlug 'prabirshrestha/async.vim'
     ZFPlug 'prabirshrestha/vim-lsp'
     ZFPlug 'ncm2/ncm2-vim-lsp'
-
-    let g:lsp_signature_help_enabled = 0
-
-    nnoremap zj :LspDefinition<cr>
-    nnoremap zk <c-o>
-    nnoremap <f2> :LspRename<cr>
-    nnoremap zu :LspDocumentDiagnostics<cr>
-    nnoremap zi :LspCodeAction<cr>
-
-    function! s:ncm2_vim_lsp()
-        if get(g:, 'lsp_loaded', 0)
-            for lsp in keys(g:zflsp)
-                call lsp#register_server({
-                            \   'name' : lsp,
-                            \   'cmd' : [&shell, &shellcmdflag, ZFLSP_getFullCmd(g:zflsp[lsp])],
-                            \   'whitelist' : g:zflsp[lsp].ft,
-                            \   'initialization_options': ZFLSP_get(g:zflsp[lsp].options),
-                            \ })
-            endfor
-        endif
-    endfunction
-    function! s:ncm2_vim_lsp_restart()
-        if get(g:, 'lsp_loaded', 0)
-            call s:ncm2_vim_lsp()
-            silent! LspStopServer
-        endif
-    endfunction
-    augroup ZF_Plugin_ncm2_vim_lsp_augroup
-        autocmd!
-        autocmd User ZFLSP_setup call s:ncm2_vim_lsp()
-        autocmd User ZFLSP_restart call s:ncm2_vim_lsp_restart()
-    augroup END
+    call ZF_Plugin_vimlsp_setup()
 endif
 

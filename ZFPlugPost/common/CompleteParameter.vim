@@ -8,6 +8,10 @@ if !exists('v:completed_item')
 endif
 if g:ZF_Plugin_CompleteParameter
     ZFPlug 'tenfyzhong/CompleteParameter.vim'
+    if get(g:, 'ZF_Plugin_CompleteParameter_generic', 1)
+        ZFPlug 'ZSaberLv0/CompleteParameter_generic.vim'
+    endif
+
     let g:complete_parameter_use_ultisnips_mappings = 0
     function! ZF_Plugin_CompleteParameter_tab(forward)
         if pumvisible()

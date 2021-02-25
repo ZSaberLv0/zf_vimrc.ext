@@ -9,7 +9,7 @@ if !exists('g:ZF_Plugin_complete_engine')
     elseif has('python3')
         let g:ZF_Plugin_complete_engine = 'ncm2'
     else
-        let g:ZF_Plugin_complete_engine = ''
+        let g:ZF_Plugin_complete_engine = 'asyncomplete'
     endif
 endif
 

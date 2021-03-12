@@ -63,11 +63,3 @@ if g:ZF_Plugin_markdown_toc
     command! -nargs=0 TOCUpdate :UpdateToc
 endif
 
-" ==================================================
-if !exists('g:ZF_Plugin_fenced_code_blocks')
-    let g:ZF_Plugin_fenced_code_blocks = 1
-endif
-if g:ZF_Plugin_fenced_code_blocks
-    ZFPlug 'amiorin/vim-fenced-code-blocks'
-endif
-

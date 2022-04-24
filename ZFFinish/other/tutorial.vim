@@ -39,6 +39,7 @@ if 1
     endfunction
 
     function! ZFVimrcGuide_tools()
+        call ZF_VimCmdMenuAdd({'showKeyHint':1, 'text':';; to toggle input method', 'command':'normal ;;'})
         call ZF_VimCmdMenuAdd({'showKeyHint':1, 'text':'<leader>vgf / <leader>vgr to grep/replace (with perl regexp syntax)', 'itemType':'keep'})
         call ZF_VimCmdMenuAdd({'showKeyHint':1, 'text':'<leader>zs to open interactive shell within vim', 'itemType':'keep'})
         call ZF_VimCmdMenuAdd({'showKeyHint':1, 'text':'<leader>vs / <leader>vc to run shell/vim command and copy result to clipboard', 'itemType':'keep'})

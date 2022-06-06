@@ -39,7 +39,7 @@ note: this repo requires zf_vimrc.vim, to install, follow
 see also:
 
 * [complete_engine](https://github.com/ZSaberLv0/zf_vimrc.ext/tree/master/ZFPlugPost/complete_engine)
-* [lsp](https://github.com/ZSaberLv0/zf_vimrc.ext/tree/master/ZFInit/90_lsp/99_lang)
+* [lsp](https://github.com/ZSaberLv0/zf_vimrc.ext/tree/master/ZFInit/lsp)
 
 
 ## C/C++

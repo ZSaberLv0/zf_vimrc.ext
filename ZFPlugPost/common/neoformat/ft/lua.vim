@@ -19,10 +19,6 @@ function! ZF_Plugin_neoformat_lua_install()
     endif
 
     if g:zf_windows || g:zf_cygwin
-        if !has('win64')
-            echo 'ERROR: only win64 supported'
-            return
-        endif
         let platform = 'win64'
     elseif g:zf_mac
         let platform = 'macos'

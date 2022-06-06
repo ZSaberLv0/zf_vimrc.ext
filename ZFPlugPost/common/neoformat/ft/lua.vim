@@ -53,6 +53,11 @@ function! ZF_Plugin_neoformat_lua_install()
                 \ , g:zf_vim_cache_path
                 \ ))
     call ZF_ModuleExecShell(printf('chmod +x "%s/neoformat/lua/bin/stylua"', g:zf_vim_cache_path))
+
+    call writefile([
+                \   'indent_type="Spaces"',
+                \   'quote_style="AutoPreferSingle"',
+                \ ], printf('%s/neoformat/lua/stylua.toml', g:zf_vim_cache_path))
 endfunction
 call ZF_ModuleInstaller('neoformat_lua', 'call ZF_Plugin_neoformat_lua_install()')
 

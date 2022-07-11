@@ -10,7 +10,8 @@ if g:ZF_Plugin_asyncomplete
     ZFPlug 'prabirshrestha/asyncomplete.vim'
 
     ZFPlug 'prabirshrestha/asyncomplete-buffer.vim'
-    ZFPlug 'prabirshrestha/asyncomplete-file.vim'
+    " https://github.com/prabirshrestha/asyncomplete-file.vim/issues/4
+    " ZFPlug 'prabirshrestha/asyncomplete-file.vim'
     ZFPlug 'prabirshrestha/asyncomplete-ultisnips.vim'
     function! s:source()
         let maxSize = 2*1024*1024
@@ -22,12 +23,12 @@ if g:ZF_Plugin_asyncomplete
                     \      'max_buffer_size': maxSize,
                     \   },
                     \ }))
-        call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-                    \   'name': 'file',
-                    \   'allowlist': ['*'],
-                    \   'priority': 10,
-                    \   'completor': function('asyncomplete#sources#file#completor')
-                    \ }))
+        " call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+        "            \   'name': 'file',
+        "            \   'allowlist': ['*'],
+        "            \   'priority': 10,
+        "            \   'completor': function('asyncomplete#sources#file#completor')
+        "            \ }))
         call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
                     \ 'name': 'ultisnips',
                     \ 'allowlist': ['*'],

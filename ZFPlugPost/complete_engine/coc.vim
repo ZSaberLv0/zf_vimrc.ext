@@ -8,6 +8,11 @@ if v:version < 800 || !executable('node')
 endif
 if g:ZF_Plugin_coc
     ZFPlug 'neoclide/coc.nvim', {'branch': 'release'}
+
+    inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<cr>"
+    inoremap <silent><expr> <tab> coc#pum#visible() ? coc#pum#next(1): "\<tab>"
+    inoremap <expr><s-tab> coc#pum#visible() ? coc#pum#prev(1) : "\<nop>"
+
     let g:coc_disable_startup_warning = 1
     let g:coc_data_home = g:zf_vim_cache_path . '/ZFLSP_coc'
     if !isdirectory(g:coc_data_home)

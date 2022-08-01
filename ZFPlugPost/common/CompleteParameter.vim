@@ -14,6 +14,15 @@ if g:ZF_Plugin_CompleteParameter
 
     let g:complete_parameter_use_ultisnips_mappings = 0
     function! ZF_Plugin_CompleteParameter_tab(forward)
+        if get(g:, 'coc_enabled', 0)
+            if coc#pum#visible()
+                if a:forward
+                    return coc#pum#next(1)
+                else
+                    return coc#pum#prev(1)
+                endif
+            endif
+        endif
         if pumvisible()
             return a:forward ? "\<c-n>" : "\<c-p>"
         endif
@@ -40,8 +49,20 @@ if g:ZF_Plugin_CompleteParameter
     function! ZF_Plugin_CompleteParameter_tab_p()
         return ZF_Plugin_CompleteParameter_tab(0)
     endfunction
+    function! ZF_Plugin_CompleteParameter_cr()
+        if get(g:, 'coc_enabled', 0)
+            if coc#pum#visible()
+                return coc#_select_confirm()
+            endif
+        endif
+        if pumvisible()
+            return "\<c-y>" . complete_parameter#pre_complete('')
+        else
+            return "\<c-g>u\<cr>"
+        endif
+    endfunction
     function! ZF_Plugin_CompleteParameter_setting()
-        inoremap <silent><expr> <cr> pumvisible() ? "\<c-y>" . complete_parameter#pre_complete('') : "\<c-g>u\<cr>"
+        inoremap <silent><expr> <cr> ZF_Plugin_CompleteParameter_cr()
 
         nmap <tab> <Plug>(complete_parameter#goto_next_parameter)
         smap <tab> <Plug>(complete_parameter#goto_next_parameter)

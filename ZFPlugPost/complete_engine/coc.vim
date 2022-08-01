@@ -32,6 +32,11 @@ if g:ZF_Plugin_coc
                 \       'silentAutoupdate' : 1,
                 \     },
                 \   },
+                \   'suggest' : {
+                \     'noselect' : 1,
+                \     'selection' : 'none',
+                \     'enablePreselect' : 0,
+                \   },
                 \ }
     augroup ZF_Plugin_coc_largefile_augroup
         autocmd!

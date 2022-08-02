@@ -3,7 +3,10 @@
 if !exists('g:ZF_Plugin_coc')
     let g:ZF_Plugin_coc = (get(g:, 'ZF_Plugin_complete_engine', '') == 'coc')
 endif
-if v:version < 800 || !executable('node')
+if !(executable('node') && (1
+                \   || (has('nvim') && has('nvim-0.4.0'))
+                \   || (!has('nvim') && has('patch-8.1.1719'))
+                \ ))
     let g:ZF_Plugin_coc = 0
 endif
 if g:ZF_Plugin_coc

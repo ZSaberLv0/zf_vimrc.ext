@@ -5,7 +5,7 @@ if !exists('g:ZF_Plugin_complete_engine')
     if v:version < 800
                 \ || (has('nvim') && !has('nvim-0.4'))
         let g:ZF_Plugin_complete_engine = ''
-    elseif executable('node') && (1
+    elseif executable('node') && !g:zf_windows && (1
                 \   || (has('nvim') && has('nvim-0.4.0'))
                 \   || (!has('nvim') && has('patch-8.1.1719'))
                 \ )

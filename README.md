@@ -20,8 +20,19 @@ note: this repo requires zf_vimrc.vim, to install, follow
         * `brew`
     1. we would automatically install complete engine according to your env in this order:
         * `coc.nvim` if `node` available
+            * on Windows, this check is disabled by default,
+                since the required node version is pretty high for coc.nvim,
+                which is not so easy to install on old Windows
         * `ncm2` if `python3` and `pip` available
         * `asyncomplete` if none of above available
+        * if you want to use specified complete engine:
+            (see [complete_engine](https://github.com/ZSaberLv0/zf_vimrc.ext/tree/master/ZFPlugPost/complete_engine)
+            for possible values)
+
+            ```
+            let g:ZF_Plugin_complete_engine = 'coc'
+            ```
+
     1. use `curl zsaber.com/vim | sh` to install,
         this may take a long time,
         but required for only once

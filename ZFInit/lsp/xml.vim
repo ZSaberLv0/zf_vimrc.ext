@@ -20,9 +20,9 @@ if g:zflsp_xml && executable('java')
                 \   'cmd' : 'java',
                 \   'cmdargs' : ['-cp', ZF_LSP_xml_archiveFile(), 'org.eclipse.lemminx.XMLServerLauncher'],
                 \   'ft' : ['xml', 'html'],
-                \   'options' : {
+                \   'initOption' : {
                 \   },
-                \   'settings' : {
+                \   'workspaceOption' : {
                 \   },
                 \ })
 endif

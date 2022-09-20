@@ -5,8 +5,8 @@
 "     'cmd' : '(string) or (func ref) to get lsp command',
 "     'cmdargs' : '(List of string) or (func ref) to get lsp command args',
 "     'ft' : ['filetype list'],
-"     'options' : '(Dictionary) or (func ref) to get lsp initializationOptions',
-"     'settings' : '(Dictionary) or (func ref) to get lsp workspace settings',
+"     'initOption' : '(Dictionary) or (func ref) to get lsp initializationOptions',
+"     'workspaceOption' : '(Dictionary) or (func ref) to get lsp workspace settings',
 "   },
 "   ...
 " }
@@ -51,8 +51,8 @@ endfunction
 "           \   'cmd' : 'xxx',
 "           \   'cmdargs' : [],
 "           \   'ft' : ['xxx'],
-"           \   'options' : {},
-"           \   'settings' : {},
+"           \   'initOption' : {},
+"           \   'workspaceOption' : {},
 "           \ })
 function! ZFLSP_autoSetup(installByDefault, name, checker, installer, lsp)
     if get(g:, 'zflspAutoInstall_' . a:name, a:installByDefault)

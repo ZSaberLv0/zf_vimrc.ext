@@ -14,10 +14,10 @@ if g:zflsp_cmake && !empty(ZF_ModuleGetPip())
                 \   'cmd' : 'cmake-language-server',
                 \   'cmdargs' : [],
                 \   'ft' : ['cmake'],
-                \   'options' : {
+                \   'initOption' : {
                 \     'buildDirectory' : 'build',
                 \   },
-                \   'settings' : {
+                \   'workspaceOption' : {
                 \   },
                 \ })
 endif

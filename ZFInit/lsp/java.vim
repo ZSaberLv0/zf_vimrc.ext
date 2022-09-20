@@ -80,9 +80,9 @@ if g:zflsp_java && executable('java')
                 \   'cmd' : 'java',
                 \   'cmdargs' : function('ZF_LSP_java_cmdargs'),
                 \   'ft' : ['java'],
-                \   'options' : {
+                \   'initOption' : {
                 \   },
-                \   'settings' : {
+                \   'workspaceOption' : {
                 \   },
                 \ })
 endif

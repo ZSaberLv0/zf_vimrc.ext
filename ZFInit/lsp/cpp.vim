@@ -64,8 +64,8 @@ if g:zflsp_cpp && !empty(ZF_ModuleGetApt())
                         \   'cmd' : clangd_path,
                         \   'cmdargs' : ['-header-insertion=never', '--completion-style=detailed'],
                         \   'ft' : ft,
-                        \   'options' : function('s:options_clangd'),
-                        \   'settings' : {
+                        \   'initOption' : function('s:options_clangd'),
+                        \   'workspaceOption' : {
                         \   },
                         \ }
         elseif executable('ccls')
@@ -83,8 +83,8 @@ if g:zflsp_cpp && !empty(ZF_ModuleGetApt())
                         \   'cmd' : 'ccls',
                         \   'cmdargs' : [],
                         \   'ft' : ft,
-                        \   'options' : function('s:options_ccls'),
-                        \   'settings' : {
+                        \   'initOption' : function('s:options_ccls'),
+                        \   'workspaceOption' : {
                         \   },
                         \ }
         else

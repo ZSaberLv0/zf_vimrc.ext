@@ -18,12 +18,12 @@ if g:zflsp_php && !empty(ZF_ModuleGetNpm())
                 \   'cmd' : 'intelephense',
                 \   'cmdargs' : ['--stdio'],
                 \   'ft' : ['php'],
-                \   'options' : {
+                \   'initOption' : {
                 \     'storagePath' : ZF_LSP_php_storagePath() . '/storage',
                 \     'globalStoragePath' : ZF_LSP_php_storagePath() . '/globalStorage',
                 \     'clearCache' : 1,
                 \   },
-                \   'settings' : {
+                \   'workspaceOption' : {
                 \   },
                 \ })
 endif

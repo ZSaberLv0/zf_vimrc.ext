@@ -20,9 +20,9 @@ if g:zflsp_go && executable('go')
                 \   'cmd' : ZF_LSP_go_GOPATH() . '/bin/gopls',
                 \   'cmdargs' : [],
                 \   'ft' : ['go'],
-                \   'options' : {
+                \   'initOption' : {
                 \   },
-                \   'settings' : {
+                \   'workspaceOption' : {
                 \   },
                 \ })
 endif

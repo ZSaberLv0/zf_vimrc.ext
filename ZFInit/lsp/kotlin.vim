@@ -44,9 +44,9 @@ if g:zflsp_kotlin
                 \   'cmd' : ZF_LSP_kotlin_contentsPath() . '/server/bin/kotlin-language-server',
                 \   'cmdargs' : [],
                 \   'ft' : ['kotlin'],
-                \   'options' : {
+                \   'initOption' : {
                 \   },
-                \   'settings' : {
+                \   'workspaceOption' : {
                 \   },
                 \ })
 endif

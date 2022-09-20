@@ -35,10 +35,10 @@ if g:zflsp_lua && executable('java')
                 \   'cmd' : 'java',
                 \   'cmdargs' : ['-cp', ZF_LSP_lua_archiveFile(), 'com.tang.vscode.MainKt'],
                 \   'ft' : ['lua'],
-                \   'options' : {
+                \   'initOption' : {
                 \     'stdFolder' : 'file://' . ZF_LSP_lua_stdPath() . '/std/Lua54',
                 \   },
-                \   'settings' : {
+                \   'workspaceOption' : {
                 \   },
                 \ })
 endif

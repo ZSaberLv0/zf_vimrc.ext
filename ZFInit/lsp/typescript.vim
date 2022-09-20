@@ -14,9 +14,9 @@ if g:zflsp_typescript && !empty(ZF_ModuleGetNpm())
                 \   'cmd' : 'typescript-language-server',
                 \   'cmdargs' : ['--stdio'],
                 \   'ft' : ['typescript', 'typescript.tsx', 'javascript', 'javascript.jsx'],
-                \   'options' : {
+                \   'initOption' : {
                 \   },
-                \   'settings' : {
+                \   'workspaceOption' : {
                 \   },
                 \ })
 endif

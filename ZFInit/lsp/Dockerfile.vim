@@ -14,9 +14,9 @@ if g:zflsp_Dockerfile && !empty(ZF_ModuleGetNpm())
                 \   'cmd' : 'docker-langserver',
                 \   'cmdargs' : ['--stdio'],
                 \   'ft' : ['Dockerfile', 'dockerfile'],
-                \   'options' : {
+                \   'initOption' : {
                 \   },
-                \   'settings' : {
+                \   'workspaceOption' : {
                 \   },
                 \ })
 endif

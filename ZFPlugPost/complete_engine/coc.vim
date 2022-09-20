@@ -69,8 +69,8 @@ if g:ZF_Plugin_coc_lsp && g:ZF_Plugin_coc
                         \   'command': &shell,
                         \   'args': [&shellcmdflag, ZFLSP_getFullCmd(g:zflsp[lsp])],
                         \   'filetypes': ZFLSP_get(get(g:zflsp[lsp], 'ft', [])),
-                        \   'initializationOptions': ZFLSP_get(get(g:zflsp[lsp], 'options', {})),
-                        \   'settings': ZFLSP_get(get(g:zflsp[lsp], 'settings', {})),
+                        \   'initializationOptions': ZFLSP_get(get(g:zflsp[lsp], 'initOption', {})),
+                        \   'settings': ZFLSP_get(get(g:zflsp[lsp], 'workspaceOption', {})),
                         \ })
         endfor
         silent! CocRestart

@@ -14,9 +14,9 @@ if g:zflsp_yaml && !empty(ZF_ModuleGetNpm())
                 \   'cmd' : 'yaml-language-server',
                 \   'cmdargs' : ['--stdio'],
                 \   'ft' : ['yaml'],
-                \   'options' : {
+                \   'initOption' : {
                 \   },
-                \   'settings' : {
+                \   'workspaceOption' : {
                 \   },
                 \ })
 endif

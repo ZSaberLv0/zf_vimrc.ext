@@ -14,9 +14,9 @@ if g:zflsp_sh && !empty(ZF_ModuleGetNpm())
                 \   'cmd' : 'bash-language-server',
                 \   'cmdargs' : ['start'],
                 \   'ft' : ['sh'],
-                \   'options' : {
+                \   'initOption' : {
                 \   },
-                \   'settings' : {
+                \   'workspaceOption' : {
                 \   },
                 \ })
 endif

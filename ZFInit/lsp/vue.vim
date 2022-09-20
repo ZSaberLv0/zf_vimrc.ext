@@ -14,14 +14,14 @@ if g:zflsp_vue && !empty(ZF_ModuleGetNpm())
                 \   'cmd' : 'vls',
                 \   'cmdargs' : [],
                 \   'ft' : ['vue'],
-                \   'options' : {
+                \   'initOption' : {
                 \     'config' : {
                 \       'vetur' : {
                 \         'ignoreProjectWarning' : 1,
                 \       },
                 \     },
                 \   },
-                \   'settings' : {
+                \   'workspaceOption' : {
                 \   },
                 \ })
 endif

@@ -14,12 +14,12 @@ if g:zflsp_vim && !empty(ZF_ModuleGetNpm())
                 \   'cmd' : 'vim-language-server',
                 \   'cmdargs' : ['--stdio'],
                 \   'ft' : ['vim'],
-                \   'options' : {
+                \   'initOption' : {
                 \     'iskeyword' : &iskeyword,
                 \     'vimruntime' : $VIMRUNTIME,
                 \     'runtimepath' : &rtp,
                 \   },
-                \   'settings' : {
+                \   'workspaceOption' : {
                 \   },
                 \ })
 endif

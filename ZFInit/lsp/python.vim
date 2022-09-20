@@ -14,9 +14,9 @@ if g:zflsp_python && !empty(ZF_ModuleGetPip())
                 \   'cmd' : 'pyls',
                 \   'cmdargs' : [],
                 \   'ft' : ['python'],
-                \   'options' : {
+                \   'initOption' : {
                 \   },
-                \   'settings' : {
+                \   'workspaceOption' : {
                 \   },
                 \ })
 endif

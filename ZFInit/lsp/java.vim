@@ -85,5 +85,7 @@ if g:zflsp_java && executable('java')
                 \   'workspaceOption' : {
                 \   },
                 \ })
+
+    call ZFCache_autoClean(ZF_LSP_java_cachePath())
 endif
 

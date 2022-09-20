@@ -26,5 +26,7 @@ if g:zflsp_php && !empty(ZF_ModuleGetNpm())
                 \   'workspaceOption' : {
                 \   },
                 \ })
+
+    call ZFCache_autoClean(ZF_LSP_php_storagePath())
 endif
 

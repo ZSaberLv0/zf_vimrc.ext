@@ -26,6 +26,7 @@ if g:zflsp_java && executable('java')
             call ZF_ModuleDownloadFile(ZF_LSP_java_archiveFile(), 'http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz')
         endif
         if filereadable(ZF_LSP_java_archiveFile())
+            call ZF_rm(ZF_LSP_java_contentsPath())
             call system('mkdir "' . ZF_LSP_java_contentsPath() . '"')
             call system('tar zxf "' . ZF_LSP_java_archiveFile() . '" -C "' . ZF_LSP_java_contentsPath() . '/."')
         endif

@@ -60,9 +60,13 @@ if g:zflsp_cpp && !empty(ZF_ModuleGetApt())
                             \ }
             endfunction
             let clangd_path = executable('clangd') ? 'clangd' : '/usr/local/opt/llvm/bin/clangd'
+            let cmdargs = ['--completion-style=detailed']
+            if ZF_versionCompare(ZF_versionGet('clangd'), '10.0') >= 0
+                call add(cmdargs, '-header-insertion=never')
+            endif
             return {
                         \   'cmd' : clangd_path,
-                        \   'cmdargs' : ['-header-insertion=never', '--completion-style=detailed'],
+                        \   'cmdargs' : cmdargs,
                         \   'ft' : ft,
                         \   'initOption' : function('s:options_clangd'),
                         \   'workspaceOption' : {

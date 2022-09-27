@@ -9,7 +9,7 @@ if !exists('g:ZF_Plugin_complete_engine')
                 \   || (has('nvim') && has('nvim-0.4.0'))
                 \   || (!has('nvim') && has('patch-8.1.1719'))
                 \ )
-                \ && ZF_versionCompare(ZF_node_version(), '14.14.0') >= 0
+                \ && ZF_versionCompare(ZF_versionGet('node'), '14.14.0') >= 0
         let g:ZF_Plugin_complete_engine = 'coc'
     elseif has('python3') && (has('nvim') || ZF_pynvim_check())
         let g:ZF_Plugin_complete_engine = 'ncm2'

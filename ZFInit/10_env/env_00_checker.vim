@@ -7,9 +7,25 @@ function! ZF_exepath(prog)
     endif
 endfunction
 
-function! ZF_versionGet(text)
+function! ZF_versionGet(exe, ...)
+    let args = get(a:, 1, '--version')
+    if !exists('s:versionMap')
+        let s:versionMap = {}
+    endif
+    if !exists('s:versionMap[a:exe]')
+        if !executable(a:exe)
+            let s:versionMap[a:exe] = ''
+        else
+            let s:versionMap[a:exe] = ZF_versionParse(system(a:exe . ' ' . args))
+        endif
+    endif
+    return s:versionMap[a:exe]
+endfunction
+
+function! ZF_versionParse(text)
     for line in split(a:text, "\n")
-        let v = substitute(line, '.\{-}[ \t]*[vV]\([0-9]\+\(\.[0-9]\)\+\)\>.\{-}', '\1', '')
+        " ([0-9]+(\.[0-9]+)+)
+        let v = matchstr(line, '\([0-9]\+\(\.[0-9]\+\)\+\)')
         if !empty(v)
             return v
         endif
@@ -18,9 +34,8 @@ function! ZF_versionGet(text)
 endfunction
 
 function! ZF_versionCompare(v0, v1)
-    " .*?[ \t]*[vV]([0-9]+(\.[0-9])+)\>.*?
-    let v0 = substitute(a:v0, '.\{-}[ \t]*[vV]\([0-9]\+\(\.[0-9]\)\+\)\>.\{-}', '\1', '')
-    let v1 = substitute(a:v1, '.\{-}[ \t]*[vV]\([0-9]\+\(\.[0-9]\)\+\)\>.\{-}', '\1', '')
+    let v0 = ZF_versionParse(a:v0)
+    let v1 = ZF_versionParse(a:v1)
     let l0 = split(v0, '\.')
     let l1 = split(v1, '\.')
 

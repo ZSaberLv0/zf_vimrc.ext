@@ -27,23 +27,16 @@ function! ZF_pynvim_check()
 endfunction
 
 if !has('nvim')
-    function! s:exepath(prog)
-        if exists('*exepath')
-            return exepath(a:prog)
-        else
-            return get(split(globpath(join(split($PATH, ':'), ','), a:prog), "\n"), 0, '')
-        endif
-    endfunction
     if has('python3')
-        let g:python3_host_prog = s:exepath('python3')
+        let g:python3_host_prog = ZF_exepath('python3')
         if empty(g:python3_host_prog)
-            let g:python3_host_prog = s:exepath('python')
+            let g:python3_host_prog = ZF_exepath('python')
         endif
         if empty(g:python3_host_prog)
             unlet g:python3_host_prog
         endif
     elseif has('python')
-        let g:python_host_prog = s:exepath('python')
+        let g:python_host_prog = ZF_exepath('python')
         if empty(g:python_host_prog)
             unlet g:python_host_prog
         endif

@@ -50,3 +50,10 @@ if !has('nvim')
     endif
 endif
 
+if !has('nvim')
+    function! ZF_Plugin_pynvim_install()
+        call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'pynvim')
+    endfunction
+    call ZF_ModuleInstaller('pynvim', 'call ZF_Plugin_pynvim_install()')
+endif
+

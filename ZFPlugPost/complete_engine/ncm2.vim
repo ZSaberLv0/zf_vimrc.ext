@@ -3,20 +3,9 @@
 if !exists('g:ZF_Plugin_ncm2')
     let g:ZF_Plugin_ncm2 = (get(g:, 'ZF_Plugin_complete_engine', '') == 'ncm2')
 endif
-if v:version < 800 || !has('python3')
+if v:version < 800 || !has('python3') || (!has('nvim') && !ZF_pynvim_check())
     let g:ZF_Plugin_ncm2 = 0
 endif
-if g:ZF_Plugin_ncm2 && !has('nvim')
-    function! ZF_Plugin_ncm2_install()
-        call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'pynvim')
-    endfunction
-    call ZF_ModuleInstaller('ncm2', 'call ZF_Plugin_ncm2_install()')
-
-    if !ZF_pynvim_check()
-        let g:ZF_Plugin_ncm2 = 0
-    endif
-endif
-
 if g:ZF_Plugin_ncm2
     ZFPlug 'ncm2/ncm2'
     ZFPlug 'roxma/nvim-yarp'

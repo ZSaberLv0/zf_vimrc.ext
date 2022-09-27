@@ -10,7 +10,7 @@ if !exists('g:ZF_Plugin_complete_engine')
                 \   || (!has('nvim') && has('patch-8.1.1719'))
                 \ )
         let g:ZF_Plugin_complete_engine = 'coc'
-    elseif has('python3')
+    elseif has('python3') && (has('nvim') || ZF_pynvim_check())
         let g:ZF_Plugin_complete_engine = 'ncm2'
     else
         let g:ZF_Plugin_complete_engine = 'asyncomplete'

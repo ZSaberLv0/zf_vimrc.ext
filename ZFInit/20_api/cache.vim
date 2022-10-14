@@ -21,7 +21,6 @@ function! s:check()
             endif
         endfor
     endif
-    echo time
     if time + get(g:, 'ZFCache_interval', 7*24*60*60) > localtime()
         return
     endif

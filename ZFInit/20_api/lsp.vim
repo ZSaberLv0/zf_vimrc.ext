@@ -188,10 +188,12 @@ augroup ZFLSP_augroup
     endif
 augroup END
 function! ZFLSP_restart(...)
-    if has('timers')
-        if exists('s:restart_delayTimerId')
-            call timer_stop(s:restart_delayTimerId)
-        endif
+    let delay = get(a:, 1, 3000)
+    if exists('s:restart_delayTimerId')
+        call timer_stop(s:restart_delayTimerId)
+        unlet s:restart_delayTimerId
+    endif
+    if has('timers') && delay > 0
         let s:restart_delayTimerId = timer_start(get(a:, 1, 3000), function('s:restart_delay'))
     else
         call s:restart_delay()

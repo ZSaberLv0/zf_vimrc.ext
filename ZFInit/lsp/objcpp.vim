@@ -51,3 +51,9 @@ function! ZF_LSP_objcpp_iOS_install()
 endfunction
 call ZF_ModuleInstaller('ZF_LSP_objcpp_iOS', 'call ZF_LSP_objcpp_iOS_install()')
 
+augroup ZF_LSP_objcpp_iOS_augroup
+    autocmd!
+    autocmd! BufNewFile,BufRead,BufWritePost *.m set filetype=objc
+    autocmd! BufNewFile,BufRead,BufWritePost *.mm set filetype=objcpp
+augroup END
+

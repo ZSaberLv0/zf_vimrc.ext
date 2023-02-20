@@ -15,7 +15,7 @@ function! ZF_LSP_objcpp_setup(...)
 
     " /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/Foundation.framework/Headers
     let frameworkPath = xcodePath . '/Contents/Developer/Platforms/' . platform . '.platform/Developer/SDKs/' . platform . '.sdk/System/Library/Frameworks'
-    let frameworks = split(system(printf('ls "%s/."', frameworkPath)), "\n")
+    let frameworks = split(ZF_system(printf('ls "%s/."', frameworkPath)), "\n")
 
     if !isdirectory(frameworkPath)
         echo 'framework path not exist: ' . frameworkPath
@@ -27,7 +27,7 @@ function! ZF_LSP_objcpp_setup(...)
         return 0
     endif
 
-    call system('rm -rf "' . cachePath . '"')
+    call ZF_system('rm -rf "' . cachePath . '"')
     call mkdir(cachePath, 'p')
 
     for framework in frameworks
@@ -35,7 +35,7 @@ function! ZF_LSP_objcpp_setup(...)
             continue
         endif
         let frameworkName = substitute(framework, '\.framework', '', '')
-        call system('ln -s "' . frameworkPath . '/' . framework . '/Headers" "' . cachePath . '/' . frameworkName . '"')
+        call ZF_system('ln -s "' . frameworkPath . '/' . framework . '/Headers" "' . cachePath . '/' . frameworkName . '"')
     endfor
 
     return 1

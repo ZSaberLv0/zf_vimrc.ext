@@ -24,7 +24,7 @@ if g:ZF_Plugin_tldr
         if exists('*ZFAsyncRun')
             call ZFAsyncRun('tldr ' . a:cmd)
         else
-            let result = system('tldr ' . a:cmd)
+            let result = ZF_system('tldr ' . a:cmd)
             " \x1b\[[0-9]+m
             let result = substitute(result, nr2char(27) . '\[[0-9]\+m', '', 'g')
             echo result

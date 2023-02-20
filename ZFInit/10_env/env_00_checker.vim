@@ -16,7 +16,7 @@ function! ZF_versionGet(exe, ...)
         if !executable(a:exe)
             let s:versionMap[a:exe] = ''
         else
-            let s:versionMap[a:exe] = ZF_versionParse(system(a:exe . ' ' . args))
+            let s:versionMap[a:exe] = ZF_versionParse(ZF_system(a:exe . ' ' . args))
         endif
     endif
     return s:versionMap[a:exe]

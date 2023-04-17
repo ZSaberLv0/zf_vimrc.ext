@@ -23,7 +23,6 @@ note: this repo requires zf_vimrc.vim, to install, follow
             * on Windows, this check is disabled by default,
                 since the required node version is pretty high for coc.nvim,
                 which is not so easy to install on old Windows
-        * `ncm2` if `python3` and `pip` available
         * `asyncomplete` if none of above available
         * if you want to use specified complete engine:
             (see [complete_engine](https://github.com/ZSaberLv0/zf_vimrc.ext/tree/master/ZFPlugPost/complete_engine)

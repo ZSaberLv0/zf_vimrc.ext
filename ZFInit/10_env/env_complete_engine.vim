@@ -11,8 +11,8 @@ if !exists('g:ZF_Plugin_complete_engine')
                 \ )
                 \ && ZF_versionCompare(ZF_versionGet('node'), '14.14.0') >= 0
         let g:ZF_Plugin_complete_engine = 'coc'
-    elseif has('python3') && (has('nvim') || ZF_pynvim_check())
-        let g:ZF_Plugin_complete_engine = 'ncm2'
+    " elseif has('python3') && (has('nvim') || ZF_pynvim_check())
+    "     let g:ZF_Plugin_complete_engine = 'ncm2'
     else
         let g:ZF_Plugin_complete_engine = 'asyncomplete'
     endif

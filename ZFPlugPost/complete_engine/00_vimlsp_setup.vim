@@ -11,6 +11,7 @@ function! ZF_Plugin_vimlsp_setup()
     nnoremap zj :LspDefinition<cr>
     nnoremap zk <c-o>
     nnoremap <f2> :LspRename<cr>
+    nnoremap <f3> :LspReferences<cr>
     nnoremap zu :LspDocumentDiagnostics<cr>
     nnoremap zi :LspCodeAction<cr>
 

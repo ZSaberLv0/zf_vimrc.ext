@@ -1,6 +1,6 @@
 
 if !exists('g:ZF_Plugin_codeium')
-    let g:ZF_Plugin_codeium = 1
+    let g:ZF_Plugin_codeium = 0
 endif
 if has('nvim')
     if !has('nvim-0.6')

@@ -35,6 +35,9 @@ if g:ZF_Plugin_coc
                 \       'silentAutoupdate' : 1,
                 \     },
                 \   },
+                \   'inlayHint' : {
+                \     'enable' : 0,
+                \   },
                 \   'suggest' : {
                 \     'noselect' : 1,
                 \     'selection' : 'none',

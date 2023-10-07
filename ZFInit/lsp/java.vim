@@ -22,9 +22,7 @@ if g:zflsp_java && executable('java')
             echo 'ERROR: no tar available'
             return
         endif
-        if !filereadable(ZF_LSP_java_archiveFile())
-            call ZF_ModuleDownloadFile(ZF_LSP_java_archiveFile(), 'http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz')
-        endif
+        call ZF_ModuleDownloadFile(ZF_LSP_java_archiveFile(), 'http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz')
         if filereadable(ZF_LSP_java_archiveFile())
             call ZF_rm(ZF_LSP_java_cachePath())
             call ZF_rm(ZF_LSP_java_contentsPath())

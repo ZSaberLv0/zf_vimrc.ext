@@ -32,9 +32,7 @@ if g:zflsp_kotlin
             echo 'ERROR: unable to obtain release'
             return
         endif
-        if !filereadable(ZF_LSP_kotlin_archiveFile())
-            call ZF_ModuleDownloadFile(ZF_LSP_kotlin_archiveFile(), fileUrl)
-        endif
+        call ZF_ModuleDownloadFile(ZF_LSP_kotlin_archiveFile(), fileUrl)
         if filereadable(ZF_LSP_kotlin_archiveFile())
             call ZF_system('mkdir "' . ZF_LSP_kotlin_contentsPath() . '"')
             call ZF_system('yes | unzip "' . ZF_LSP_kotlin_archiveFile() . '" -d "' . ZF_LSP_kotlin_contentsPath() . '/."')

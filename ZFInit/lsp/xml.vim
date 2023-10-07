@@ -12,9 +12,7 @@ if g:zflsp_xml && executable('java')
         return filereadable(ZF_LSP_xml_archiveFile())
     endfunction
     function! ZF_LSP_xml_installer()
-        if !ZF_LSP_xml_checker()
-            call ZF_ModuleDownloadFile(ZF_LSP_xml_archiveFile(), 'http://download.eclipse.org/lemminx/snapshots/org.eclipse.lemminx-uber.jar')
-        endif
+        call ZF_ModuleDownloadFile(ZF_LSP_xml_archiveFile(), 'http://download.eclipse.org/lemminx/snapshots/org.eclipse.lemminx-uber.jar')
     endfunction
     call ZFLSP_autoSetup(1, 'xml', function('ZF_LSP_xml_checker'), function('ZF_LSP_xml_installer'), {
                 \   'cmd' : 'java',

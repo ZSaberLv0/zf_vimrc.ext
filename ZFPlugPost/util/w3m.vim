@@ -23,7 +23,19 @@ if g:ZF_Plugin_w3m
     let g:w3m#option_accept_cookie = 1
     let g:w3m#user_agent = 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.187 Safari/535.1'
     let g:user_agent = g:w3m#user_agent
-    let g:w3m#download_ext = []
+    let g:w3m#download_ext = [
+                \   '7z',
+                \   'dll',
+                \   'dmg',
+                \   'exe',
+                \   'gz',
+                \   'iso',
+                \   'msi',
+                \   'rar',
+                \   'tar',
+                \   'z',
+                \   'zip',
+                \ ]
 
     " keymap
     let g:w3m#disable_default_keymap = 1
@@ -53,7 +65,8 @@ if g:ZF_Plugin_w3m
         nmap <buffer> <tab> <Plug>(w3m-next-link)
         nmap <buffer> <s-tab> <Plug>(w3m-prev-link)
         nmap <buffer> <bs> <Plug>(w3m-back)
-        nmap <buffer> <s-bs> <Plug>(w3m-forward)
+        nmap <buffer> zk <Plug>(w3m-back)
+        nmap <buffer> zj <Plug>(w3m-forward)
         nnoremap <buffer><silent> = :call ZF_Plugin_w3m_printUrl()<cr>
         nnoremap <buffer><silent> p :call ZF_Plugin_w3m_printUrl()<cr>
     endfunction

@@ -58,10 +58,24 @@ if g:ZF_Plugin_w3m
         endif
         let @" = url
     endfunction
+    function! ZF_Plugin_w3m_openInTab()
+        let url = ZF_Plugin_w3m_getCurUrl()
+        if !empty(url)
+            call ZF_Plugin_w3m(url, {
+                        \   'tab' : 1,
+                        \ })
+        endif
+    endfunction
+    function! ZF_Plugin_w3m_checkUpdateSyntax()
+        if &filetype == 'w3m'
+            call w3m#BufWinEnter()
+        endif
+    endfunction
     function! ZF_Plugin_w3m_keymap()
         nmap <buffer> <cr> <Plug>(w3m-click)
         nmap <buffer> o <Plug>(w3m-click)
-        nnoremap <buffer> q :bd<cr>
+        nnoremap <buffer> O :call ZF_Plugin_w3m_openInTab()<cr>
+        nnoremap <silent><buffer> q :bd<cr>:call ZF_Plugin_w3m_checkUpdateSyntax()<cr>
         nmap <buffer> <tab> <Plug>(w3m-next-link)
         nmap <buffer> <s-tab> <Plug>(w3m-prev-link)
         nmap <buffer> <bs> <Plug>(w3m-back)
@@ -76,18 +90,20 @@ if g:ZF_Plugin_w3m
     augroup END
 
     " command
-    function! ZF_Plugin_w3m(arg)
+    function! ZF_Plugin_w3m(arg, ...)
+        let option = get(a:, 1, {})
+        let cmd = get(option, 'tab', 0) ? 'W3mTab' : 'W3m'
         let arg = substitute(a:arg, '^ \+', '', 'g')
         let arg = substitute(arg, ' \+$', '', 'g')
         if match(arg, '^[a-z]\+://') >= 0
             " ^[a-z]+://
-            execute 'W3m ' . a:arg
+            execute cmd . ' ' . a:arg
         elseif match(arg, '^[a-z0-9_]\+\(\.[a-z0-9_]\+\)\+') >= 0
                     \ && match(arg, ' ') < 0
             " ^[a-z0-9_]+(\.[a-z0-9_]+)+
-            execute 'W3m http://' . arg
+            execute cmd . ' http://' . arg
         else
-            execute 'W3m ' . a:arg
+            execute cmd . ' ' . a:arg
         endif
     endfunction
     command! -nargs=* ZFWeb :call ZF_Plugin_w3m(<q-args>)

@@ -182,7 +182,7 @@ augroup ZFLSP_augroup
     autocmd User ZFLSP_restartBegin silent
     autocmd User ZFLSP_restart silent
     autocmd User ZFLSP_restartEnd silent
-    autocmd User ZFVimrcPostNormal call ZFLSP_restart(0)
+    autocmd User ZFVimrcPostNormal call ZFLSP_restart(1000)
     if exists('##DirChanged')
         autocmd DirChanged * call ZFLSP_restart()
     endif

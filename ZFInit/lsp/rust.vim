@@ -42,7 +42,7 @@ if g:zflsp_rust
     endfunction
     call ZFLSP_autoSetup(1, 'rust', function('ZF_LSP_rust_checker'), function('ZF_LSP_rust_installer'), {
                 \   'cmd' : 'rust-analyzer',
-                \   'cmdargs' : ['-v', '--log-file', '/Users/mac/Desktop/cache/log.txt'],
+                \   'cmdargs' : [],
                 \   'ft' : ['rust'],
                 \   'initOption' : function('ZF_LSP_rust_initOption'),
                 \   'workspaceOption' : {

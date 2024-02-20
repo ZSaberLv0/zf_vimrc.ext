@@ -5,10 +5,7 @@ if !exists('g:zflsp_go')
 endif
 if g:zflsp_go && executable('go')
     function! ZF_LSP_go_GOPATH()
-        if !exists('s:GOPATH')
-            let s:GOPATH = CygpathFix_absPath(substitute(ZF_system('go env GOPATH'), '[\r\n]', '', 'g'))
-        endif
-        return s:GOPATH
+        return CygpathFix_absPath(substitute(ZF_shellcache('go env GOPATH'), '[\r\n]', '', 'g'))
     endfunction
     function! ZF_LSP_go_checker()
         return executable('go') && executable(ZF_LSP_go_GOPATH() . '/bin/gopls')

@@ -27,7 +27,7 @@ if g:zflsp_rust
             return defConfig
         endif
 
-        let sysroot = trim(ZF_system('rustc --print sysroot'))
+        let sysroot = trim(ZF_shellcache('rustc --print sysroot'))
         if !executable('rustc') || empty(sysroot)
             call s:augroupStop()
             return defConfig

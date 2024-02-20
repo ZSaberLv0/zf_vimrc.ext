@@ -1,12 +1,4 @@
 
-function! ZF_exepath(prog)
-    if exists('*exepath')
-        return exepath(a:prog)
-    else
-        return get(split(globpath(join(split($PATH, ':'), ','), a:prog), "\n"), 0, '')
-    endif
-endfunction
-
 function! ZF_versionGet(exe, ...)
     let args = get(a:, 1, '--version')
     if !exists('s:versionMap')

@@ -12,8 +12,20 @@ function! ZF_shellcache(cmd, ...)
     call s:cacheLoad()
 
     if exists('s:cache[a:cmd]')
-        if exists('*ZFJobAvailable') && ZFJobAvailable() && s:cache[a:cmd]['jobId'] == -1
-            call s:update(a:cmd, Fn_callback)
+        if exists('*ZFJobAvailable') && ZFJobAvailable()
+            if s:cache[a:cmd]['jobId'] == -1
+                        \ && localtime() - s:cache[a:cmd]['cacheTime'] >= get(g:, 'ZF_shellcache_updateTime', 60*60)
+                call s:updateAsync(a:cmd, Fn_callback)
+            endif
+        elseif exists('v:vim_did_enter') && !v:vim_did_enter
+            if !exists('s:autoUpdate')
+                let s:autoUpdate = [
+                            \   {
+                            \     'cmd' : a:cmd,
+                            \     'callback' : Fn_callback,
+                            \   },
+                            \ ]
+            endif
         endif
         return s:cache[a:cmd]['result']
     endif
@@ -24,17 +36,10 @@ function! ZF_shellcache(cmd, ...)
                     \   'jobId' : -1,
                     \   'cacheTime' : localtime(),
                     \ }
-        call s:update(a:cmd, Fn_callback)
+        call s:updateAsync(a:cmd, Fn_callback)
         return ''
     else
-        let result = ZF_system(a:cmd)
-        let s:cache[a:cmd] = {
-                    \   'result' : result,
-                    \   'jobId' : -1,
-                    \   'cacheTime' : localtime(),
-                    \ }
-        call s:cacheSave()
-        return result
+        return s:updateSync(a:cmd)
     endif
 endfunction
 
@@ -75,11 +80,22 @@ function! _ZF_shellcache_onExit(cmd, callback, jobStatus, exitCode)
         call ZFJobFuncCall(a:callback, [a:cmd, result, a:exitCode])
     endif
 endfunction
-function! s:update(cmd, callback)
+function! s:updateAsync(cmd, callback)
     let s:cache[a:cmd]['jobId'] = ZFGroupJobStart({
                 \   'jobCmd' : a:cmd,
                 \   'onExit' : ZFJobFunc(function('_ZF_shellcache_onExit'), [a:cmd, a:callback]),
                 \ })
+endfunction
+
+function! s:updateSync(cmd)
+    let result = ZF_system(a:cmd)
+    let s:cache[a:cmd] = {
+                \   'result' : result,
+                \   'jobId' : -1,
+                \   'cacheTime' : localtime(),
+                \ }
+    call s:cacheSave()
+    return result
 endfunction
 
 " file format:
@@ -101,14 +117,13 @@ function! s:cacheLoad()
 
     let cacheFile = s:cacheFile()
     if filereadable(cacheFile)
-        let curTime = localtime()
         for line in readfile(cacheFile)
             let items = split(line, "\t")
             if len(items) != 3 || empty(items[0])
                 continue
             endif
             let cacheTime = str2nr(items[2])
-            if cacheTime <= 0 || curTime - cacheTime >= get(g:, 'ZF_shellcache_cacheTime', 24*60*60)
+            if cacheTime <= 0
                 continue
             endif
             let cmd = s:decode(items[0])
@@ -137,13 +152,47 @@ function! _ZF_shellcache_cacheSaveAction(...)
     let s:cacheSaveTaskId = -1
 
     let contents = []
+    let curTime = localtime()
     for cmd in keys(s:cache)
-        call add(contents,
-                    \          s:encode(cmd)
-                    \ . "\t" . s:encode(s:cache[cmd]['result'])
-                    \ . "\t" . s:cache[cmd]['cacheTime']
-                    \ )
+        if curTime - s:cache[cmd]['cacheTime'] < get(g:, 'ZF_shellcache_cacheTime', 24*60*60)
+            call add(contents,
+                        \          s:encode(cmd)
+                        \ . "\t" . s:encode(s:cache[cmd]['result'])
+                        \ . "\t" . s:cache[cmd]['cacheTime']
+                        \ )
+        endif
     endfor
     call writefile(contents, s:cacheFile())
 endfunction
+
+function! s:autoUpdateAction()
+    if !exists('s:autoUpdate')
+        return
+    endif
+    let autoUpdate = s:autoUpdate
+    unlet s:autoUpdate
+    if exists('*ZFJobAvailable') && ZFJobAvailable()
+        for item in autoUpdate
+            call s:updateAsync(item['cmd'], item['callback'])
+        endfor
+    else
+        if exists('*ZFJobFuncCall')
+            for item in autoUpdate
+                let result = s:updateSync(item['cmd'])
+                call ZFJobFuncCall(item['callback'], [item['cmd'], result, v:shell_error])
+            endfor
+        else
+            for item in autoUpdate
+                let result = s:updateSync(item['cmd'])
+                if type(item['callback']) == type(function('type'))
+                    call call(item['callback'], [item['cmd'], result, v:shell_error])
+                endif
+            endfor
+        endif
+    endif
+endfunction
+augroup _ZF_shellcache_autoUpdate_augroup
+    autocmd!
+    autocmd VimEnter * call s:autoUpdateAction()
+augroup END
 

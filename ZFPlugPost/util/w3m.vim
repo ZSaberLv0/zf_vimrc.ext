@@ -102,11 +102,24 @@ if g:ZF_Plugin_w3m
                     \ && match(arg, ' ') < 0
             " ^[a-z0-9_]+(\.[a-z0-9_]+)+
             execute cmd . ' http://' . arg
+        elseif a:arg == ''
+            let file = expand('%')
+            if filereadable(file) && !&modified
+                execute cmd . ' local ' . file
+            else
+                let tmp_file = CygpathFix_absPath(tempname()) . '.html'
+                let content = getline(1, '$')
+                call writefile(content, tmp_file)
+                execute cmd . ' local ' . tmp_file
+                call delete(tmp_file)
+            endif
+        elseif filereadable(a:arg)
+            execute cmd . ' local ' . a:arg
         else
             execute cmd . ' ' . a:arg
         endif
     endfunction
-    command! -nargs=* ZFWeb :call ZF_Plugin_w3m(<q-args>)
+    command! -nargs=* -complete=file ZFWeb :call ZF_Plugin_w3m(<q-args>)
     nnoremap <leader>vw :ZFWeb<space>
 endif
 

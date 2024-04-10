@@ -54,7 +54,7 @@ if g:ZF_Plugin_coc
     nnoremap <f2> :call CocActionAsync('rename')<cr>
     nnoremap <f3> :call CocAction('jumpReferences')<cr>
     nnoremap zu :CocDiagnostics<cr>
-    nnoremap zi :CocFix<cr>
+    nmap zi <plug>(coc-fix-current)
 endif
 
 " ==================================================

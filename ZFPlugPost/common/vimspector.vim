@@ -61,10 +61,12 @@ if g:ZF_Plugin_vimspector
                     \     'configuration' : {
                     \       'request' : 'launch',
                     \       'program' : fnamemodify(a:path, ':p'),
+                    \       'stopOnEntry#json' : 'true',
                     \     },
                     \     'breakpoints' : {
                     \       'exception' : {
-                    \         'raised' : 'N',
+                    \         'raised' : '',
+                    \         'caught' : '',
                     \         'uncaught' : '',
                     \         'userUnhandled' : '',
                     \         'all' : '',

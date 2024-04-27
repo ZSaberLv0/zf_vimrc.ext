@@ -23,6 +23,8 @@ if g:ZF_Plugin_vimspector
     endif
 
     function! ZFDebugRestart()
+        VimspectorReset
+
         let path = ZF_stateGet('ZFDebug_path')
         let adapter = ZF_stateGet('ZFDebug_adapter')
         if !empty(path) && !empty(adapter)

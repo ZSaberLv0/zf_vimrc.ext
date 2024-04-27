@@ -10,15 +10,29 @@ if g:ZF_Plugin_vimspector
 
     if get(g:, 'zf_vimspector_keymap', 1)
         nmap <f4> :VimspectorReset<cr>
-        nmap <f5> <Plug>VimspectorRestart
-        nmap <f6> <Plug>VimspectorToggleBreakpoint
-        nmap <f7> :call vimspector#ClearBreakpoints()<cr>
+        nmap <f5> :call ZFDebugRestart()<cr>
+        nmap DB <Plug>VimspectorToggleBreakpoint
+        nmap DC :call vimspector#ClearBreakpoints()<cr>
+        nmap <f6> :call vimspector#DownFrame()<cr>
+        nmap <f7> :call vimspector#UpFrame()<cr>
         nmap <f8> <Plug>VimspectorRunToCursor
-        nmap <f9> <Plug>VimspectorBalloonEval
+        nmap DI <Plug>VimspectorBalloonEval
         nmap <f10> <Plug>VimspectorStepOver
         nmap <f11> <Plug>VimspectorStepInto
         nmap <f12> <Plug>VimspectorStepOut
     endif
+
+    function! ZFDebugRestart()
+        let path = ZF_stateGet('ZFDebug_path')
+        let adapter = ZF_stateGet('ZFDebug_adapter')
+        if !empty(path) && !empty(adapter)
+            call ZFDebug(path, adapter)
+            return
+        endif
+
+        redraw
+        echo 'no debug session, use `:ZFDebug path [adapter]` to start new one'
+    endfunction
 
     command! -nargs=+ -complete=file ZFDebug :call ZFDebug(<f-args>)
     function! ZFDebug(path, ...)
@@ -37,6 +51,9 @@ if g:ZF_Plugin_vimspector
             endif
             let adapter = candidates[choice]
         endif
+
+        call ZF_stateSet('ZFDebug_path', a:path)
+        call ZF_stateSet('ZFDebug_adapter', adapter)
 
         call vimspector#LaunchWithConfigurations({
                     \   'ZFDebug' : {

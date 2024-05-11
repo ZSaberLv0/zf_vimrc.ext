@@ -28,12 +28,15 @@ if g:ZF_Plugin_vimspector
         let path = ZF_stateGet('ZFDebug_path')
         let adapter = ZF_stateGet('ZFDebug_adapter')
         if !empty(path) && !empty(adapter)
-            call ZFDebug(path, adapter)
+            call timer_start(10, function('s:ZFDebugRestartDelay', [path, adapter]))
             return
         endif
 
         redraw
         echo 'no debug session, use `:ZFDebug path [adapter]` to start new one'
+    endfunction
+    function! s:ZFDebugRestartDelay(path, adapter, ...)
+        call ZFDebug(a:path, a:adapter)
     endfunction
 
     command! -nargs=+ -complete=file ZFDebug :call ZFDebug(<f-args>)
@@ -63,7 +66,7 @@ if g:ZF_Plugin_vimspector
                     \     'configuration' : {
                     \       'request' : 'launch',
                     \       'program' : fnamemodify(a:path, ':p'),
-                    \       'stopOnEntry#json' : 'true',
+                    \       'stopOnEntry#json' : 'false',
                     \     },
                     \     'breakpoints' : {
                     \       'exception' : {

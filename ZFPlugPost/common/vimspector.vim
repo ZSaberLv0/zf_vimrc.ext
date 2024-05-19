@@ -9,7 +9,7 @@ if g:ZF_Plugin_vimspector
     ZFPlug 'puremourning/vimspector'
 
     if get(g:, 'zf_vimspector_keymap', 1)
-        nmap <f4> :VimspectorReset<cr>
+        nmap <f4> :silent! call vimspector#Stop()<cr>:silent! call vimspector#Reset()<cr>
         nmap <f5> :call ZFDebugRestart()<cr>
         nmap DB <Plug>VimspectorToggleBreakpoint
         nmap DC :call vimspector#ClearBreakpoints()<cr>
@@ -23,12 +23,13 @@ if g:ZF_Plugin_vimspector
     endif
 
     function! ZFDebugRestart()
-        VimspectorReset
+        silent! call vimspector#Stop()
+        silent! call vimspector#Reset()
 
         let path = ZF_stateGet('ZFDebug_path')
         let adapter = ZF_stateGet('ZFDebug_adapter')
         if !empty(path) && !empty(adapter)
-            call timer_start(10, function('s:ZFDebugRestartDelay', [path, adapter]))
+            call timer_start(500, function('s:ZFDebugRestartDelay', [path, adapter]))
             return
         endif
 

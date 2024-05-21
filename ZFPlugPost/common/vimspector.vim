@@ -17,9 +17,9 @@ if g:ZF_Plugin_vimspector
         nmap <f7> :call vimspector#UpFrame()<cr>
         nmap <f8> <Plug>VimspectorRunToCursor
         nmap DI <Plug>VimspectorBalloonEval
+        nmap <f9> <Plug>VimspectorStepOut
         nmap <f10> <Plug>VimspectorStepOver
         nmap <f11> <Plug>VimspectorStepInto
-        nmap <f12> <Plug>VimspectorStepOut
     endif
 
     function! ZFDebugRestart()

@@ -15,7 +15,7 @@ if g:ZF_Plugin_vimspector
         nmap DC :call vimspector#ClearBreakpoints()<cr>
         nmap <f6> :call vimspector#DownFrame()<cr>
         nmap <f7> :call vimspector#UpFrame()<cr>
-        nmap <f8> <Plug>VimspectorRunToCursor
+        nmap <f8> <Plug>VimspectorContinue
         nmap DI <Plug>VimspectorBalloonEval
         nmap <f9> <Plug>VimspectorStepOut
         nmap <f10> <Plug>VimspectorStepOver
@@ -26,22 +26,57 @@ if g:ZF_Plugin_vimspector
         silent! call vimspector#Stop()
         silent! call vimspector#Reset()
 
-        let path = ZF_stateGet('ZFDebug_path')
+        let program = ZF_stateGet('ZFDebug_program')
         let adapter = ZF_stateGet('ZFDebug_adapter')
-        if !empty(path) && !empty(adapter)
-            call timer_start(500, function('s:ZFDebugRestartDelay', [path, adapter]))
+        if !empty(program) && !empty(adapter)
+            call timer_start(500, function('s:ZFDebugRestartDelay', [json_decode(program), adapter]))
             return
         endif
 
         redraw
-        echo 'no debug session, use `:ZFDebug path [adapter]` to start new one'
+        echo 'no debug session, use `:ZFDebug program [adapter]` to start new one'
     endfunction
-    function! s:ZFDebugRestartDelay(path, adapter, ...)
-        call ZFDebug(a:path, a:adapter)
+    function! s:ZFDebugRestartDelay(program, adapter, ...)
+        call ZFDebug(a:program, a:adapter)
     endfunction
 
     command! -nargs=+ -complete=file ZFDebug :call ZFDebug(<f-args>)
-    function! ZFDebug(path, ...)
+    " program can be:
+    " * program path
+    " * {
+    "     'path' : 'program path',
+    "     'args' : [...],
+    "   }
+    function! ZFDebug(program, ...)
+        if type(a:program) == type('')
+            let program = {
+                        \   'path' : fnamemodify(a:program, ':p'),
+                        \   'args' : [],
+                        \ }
+        else
+            let path = get(a:program, 'path', '')
+            if empty(path)
+                echo 'invalid program'
+                return
+            endif
+            let argsTmp = get(a:program, 'args', [])
+            if type(argsTmp) == type('')
+                if argsTmp != ''
+                    let args = [argsTmp]
+                else
+                    let args = []
+                endif
+            elseif type(argsTmp) == type([])
+                let args = argsTmp
+            else
+                let args = []
+            endif
+            let program = {
+                        \   'path' : fnamemodify(path, ':p'),
+                        \   'args' : args,
+                        \ }
+        endif
+
         let adapter = get(a:, 1, '')
         if empty(adapter)
             let candidates = split(vimspector#CompleteInstall('', '', 0), "\n")
@@ -58,7 +93,7 @@ if g:ZF_Plugin_vimspector
             let adapter = candidates[choice]
         endif
 
-        call ZF_stateSet('ZFDebug_path', a:path)
+        call ZF_stateSet('ZFDebug_program', json_encode(program))
         call ZF_stateSet('ZFDebug_adapter', adapter)
 
         call vimspector#LaunchWithConfigurations({
@@ -66,7 +101,8 @@ if g:ZF_Plugin_vimspector
                     \     'adapter' : adapter,
                     \     'configuration' : {
                     \       'request' : 'launch',
-                    \       'program' : fnamemodify(a:path, ':p'),
+                    \       'program' : program['path'],
+                    \       'args' : program['args'],
                     \       'stopOnEntry#json' : 'false',
                     \     },
                     \     'breakpoints' : {

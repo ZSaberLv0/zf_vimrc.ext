@@ -27,6 +27,13 @@ if g:ZF_Plugin_coc
     call add(g:coc_global_extensions, 'coc-json')
     call add(g:coc_global_extensions, 'coc-tag')
     call add(g:coc_global_extensions, 'coc-dictionary')
+    let s:floatConfig = {
+                \   'border' : 0,
+                \   'highlight' : 'Pmenu',
+                \   'close' : 0,
+                \   'focusable' : 0,
+                \   'shadow' : 0,
+                \ }
     let g:coc_user_config = {
                 \   'coc' : {
                 \     'preferences' : {
@@ -42,6 +49,20 @@ if g:ZF_Plugin_coc
                 \     'noselect' : 1,
                 \     'selection' : 'none',
                 \     'enablePreselect' : 0,
+                \     'floatConfig' : s:floatConfig,
+                \   },
+                \   'diagnostic' : {
+                \     'messageTarget' : 'echo',
+                \     'floatConfig' : s:floatConfig,
+                \   },
+                \   'signature' : {
+                \     'floatConfig' : s:floatConfig,
+                \   },
+                \   'hover' : {
+                \     'floatConfig' : s:floatConfig,
+                \   },
+                \   'floatFactory' : {
+                \     'floatConfig' : s:floatConfig,
                 \   },
                 \ }
     augroup ZF_Plugin_coc_largefile_augroup

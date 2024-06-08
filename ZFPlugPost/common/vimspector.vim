@@ -9,7 +9,7 @@ if g:ZF_Plugin_vimspector
     ZFPlug 'puremourning/vimspector'
 
     if get(g:, 'zf_vimspector_keymap', 1)
-        nmap <f4> :silent! call vimspector#Stop()<cr>:silent! call vimspector#Reset()<cr>
+        nmap <f4> :call ZFDebugStop()<cr>
         nmap <f5> :call ZFDebugRestart()<cr>
         nmap DB <Plug>VimspectorToggleBreakpoint
         nmap DC :call vimspector#ClearBreakpoints()<cr>
@@ -23,31 +23,66 @@ if g:ZF_Plugin_vimspector
     endif
 
     function! ZFDebugRestart()
-        silent! call vimspector#Stop()
-        silent! call vimspector#Reset()
+        call ZFDebugStop()
+
+        let Fn_l_action = get(b:, 'ZFDebug_action', '')
+        if !empty(Fn_l_action)
+            call Fn_l_action()
+        endif
+        let l_program = get(b:, 'ZFDebug_program', '')
+        let l_adapter = get(b:, 'ZFDebug_adapter', '')
+        if !empty(l_program)
+            if empty(l_adapter)
+                let l_adapter = ZFDebug_adapterChoose()
+                if empty(l_adapter)
+                    return 0
+                endif
+                let b:ZFDebug_adapter = l_adapter
+            endif
+            call timer_start(500, function('s:ZFDebugRestartDelay', [json_decode(l_program), l_adapter, {'saveState':0}]))
+            return 1
+        endif
 
         let program = ZF_stateGet('ZFDebug_program')
         let adapter = ZF_stateGet('ZFDebug_adapter')
         if !empty(program) && !empty(adapter)
             call timer_start(500, function('s:ZFDebugRestartDelay', [json_decode(program), adapter]))
-            return
+            return 1
         endif
 
         redraw
         echo 'no debug session, use `:ZFDebug program [adapter]` to start new one'
+        return 0
     endfunction
     function! s:ZFDebugRestartDelay(program, adapter, ...)
         call ZFDebug(a:program, a:adapter)
     endfunction
 
-    command! -nargs=+ -complete=file ZFDebug :call ZFDebug(<f-args>)
-    " program can be:
-    " * program path
-    " * {
-    "     'path' : 'program path',
-    "     'args' : [...],
+    function! ZFDebugStop()
+        silent! call vimspector#Stop()
+        silent! call vimspector#Reset()
+    endfunction
+
+    command! -nargs=+ -bang -complete=file ZFDebug :call ZFDebug(<f-args>, {'saveState':(<q-bang>=='!'?0:1)})
+    " params:
+    " * program:
+    "     * program path
+    "     * {
+    "         'path' : 'program path',
+    "         'args' : [...],
+    "       }
+    " * [adapter]
+    " * [option]: {
+    "     'saveState' : '1/0, whether to save last debug config',
     "   }
+    "
+    " you may also set buffer local vars to override config for local file:
+    "     let b:ZFDebug_program = xxx
+    "     let b:ZFDebug_adapter = xxx
     function! ZFDebug(program, ...)
+        let adapter = get(a:, 1, '')
+        let option = get(a:, 2, {})
+
         if type(a:program) == type('')
             let program = {
                         \   'path' : fnamemodify(a:program, ':p'),
@@ -57,7 +92,7 @@ if g:ZF_Plugin_vimspector
             let path = get(a:program, 'path', '')
             if empty(path)
                 echo 'invalid program'
-                return
+                return 0
             endif
             let argsTmp = get(a:program, 'args', [])
             if type(argsTmp) == type('')
@@ -77,24 +112,17 @@ if g:ZF_Plugin_vimspector
                         \ }
         endif
 
-        let adapter = get(a:, 1, '')
         if empty(adapter)
-            let candidates = split(vimspector#CompleteInstall('', '', 0), "\n")
-            let hints = ['choose adapter:']
-            for i in range(len(candidates))
-                call add(hints, printf('    %2d : %s', i + 1, candidates[i]))
-            endfor
-            let choice = inputlist(hints) - 1
-            redraw
-            if choice < 0 || choice >= len(candidates)
-                echo 'canceled'
-                return
+            let adapter = ZFDebug_adapterChoose()
+            if empty(adapter)
+                return 0
             endif
-            let adapter = candidates[choice]
         endif
 
-        call ZF_stateSet('ZFDebug_program', json_encode(program))
-        call ZF_stateSet('ZFDebug_adapter', adapter)
+        if get(option, 'saveState', 1)
+            call ZF_stateSet('ZFDebug_program', json_encode(program))
+            call ZF_stateSet('ZFDebug_adapter', adapter)
+        endif
 
         call vimspector#LaunchWithConfigurations({
                     \   'ZFDebug' : {
@@ -118,6 +146,21 @@ if g:ZF_Plugin_vimspector
                     \     },
                     \   },
                     \ })
+        return 1
+    endfunction
+    function! ZFDebug_adapterChoose()
+        let candidates = split(vimspector#CompleteInstall('', '', 0), "\n")
+        let hints = ['choose adapter:']
+        for i in range(len(candidates))
+            call add(hints, printf('    %2d : %s', i + 1, candidates[i]))
+        endfor
+        let choice = inputlist(hints) - 1
+        redraw
+        if choice < 0 || choice >= len(candidates)
+            echo 'canceled'
+            return ''
+        endif
+        return candidates[choice]
     endfunction
 endif
 

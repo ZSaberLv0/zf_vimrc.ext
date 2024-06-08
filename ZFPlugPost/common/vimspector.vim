@@ -63,7 +63,7 @@ if g:ZF_Plugin_vimspector
         silent! call vimspector#Reset()
     endfunction
 
-    command! -nargs=+ -bang -complete=file ZFDebug :call ZFDebug(<f-args>, {'saveState':(<q-bang>=='!'?0:1)})
+    command! -nargs=+ -complete=file ZFDebug :call ZFDebug(<f-args>)
     " params:
     " * program:
     "     * program path

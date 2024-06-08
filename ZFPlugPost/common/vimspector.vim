@@ -24,7 +24,7 @@ if g:ZF_Plugin_vimspector
         augroup zf_vimspector_keymap_VimspectorPrompt
             autocmd!
             autocmd FileType VimspectorPrompt
-                        \ nmap dd :call vimspector#DeleteWatch()<cr>
+                        \ nmap <buffer> dd :call vimspector#DeleteWatch()<cr>
         augroup END
     endif
 

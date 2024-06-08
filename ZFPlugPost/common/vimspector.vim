@@ -39,14 +39,14 @@ if g:ZF_Plugin_vimspector
                 endif
                 let b:ZFDebug_adapter = l_adapter
             endif
-            call timer_start(500, function('s:ZFDebugRestartDelay', [json_decode(l_program), l_adapter, {'saveState':0}]))
+            call timer_start(500, function('s:ZFDebugRestartDelay', [l_program, l_adapter, {'saveState':0}]))
             return 1
         endif
 
         let program = ZF_stateGet('ZFDebug_program')
         let adapter = ZF_stateGet('ZFDebug_adapter')
         if !empty(program) && !empty(adapter)
-            call timer_start(500, function('s:ZFDebugRestartDelay', [json_decode(program), adapter]))
+            call timer_start(500, function('s:ZFDebugRestartDelay', [json_decode(program), adapter, {}]))
             return 1
         endif
 
@@ -54,8 +54,8 @@ if g:ZF_Plugin_vimspector
         echo 'no debug session, use `:ZFDebug program [adapter]` to start new one'
         return 0
     endfunction
-    function! s:ZFDebugRestartDelay(program, adapter, ...)
-        call ZFDebug(a:program, a:adapter)
+    function! s:ZFDebugRestartDelay(program, adapter, option, ...)
+        call ZFDebug(a:program, a:adapter, a:option)
     endfunction
 
     function! ZFDebugStop()
@@ -136,6 +136,7 @@ if g:ZF_Plugin_vimspector
                     \       'program' : program['path'],
                     \       'args' : program['args'],
                     \       'stopOnEntry#json' : 'false',
+                    \       'expressions' : 'native',
                     \     },
                     \     'breakpoints' : {
                     \       'exception' : {

@@ -63,7 +63,7 @@ if g:ZF_Plugin_vimspector
         silent! call vimspector#Reset()
     endfunction
 
-    command! -nargs=+ -complete=file ZFDebug :call ZFDebug(<f-args>)
+    command! -nargs=+ -bang -complete=file ZFDebug :call s:ZFDebug({'saveState':(<q-bang>=='!'?0:1)}, <f-args>)
     " params:
     " * program:
     "     * program path
@@ -80,8 +80,12 @@ if g:ZF_Plugin_vimspector
     "     let b:ZFDebug_program = xxx
     "     let b:ZFDebug_adapter = xxx
     function! ZFDebug(program, ...)
+        return s:ZFDebug(get(a:, 2, {}), a:program, get(a:, 1, ''))
+    endfunction
+
+    function! s:ZFDebug(option, program, ...)
         let adapter = get(a:, 1, '')
-        let option = get(a:, 2, {})
+        let option = a:option
 
         if type(a:program) == type('')
             let program = {

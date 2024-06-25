@@ -9,17 +9,19 @@ if g:ZF_Plugin_vimspector
     ZFPlug 'puremourning/vimspector'
 
     if get(g:, 'zf_vimspector_keymap', 1)
-        nmap <f4> :call ZFDebugStop()<cr>
-        nmap <f5> :call ZFDebugRestart()<cr>
         nmap DB <Plug>VimspectorToggleBreakpoint
         nmap DC :call vimspector#ClearBreakpoints()<cr>
+        nmap DI <Plug>VimspectorBalloonEval
+        nmap <f4> :call ZFDebugStop()<cr>
+        nmap <f5> :call ZFDebugRestart()<cr>
         nmap <f6> :call vimspector#DownFrame()<cr>
         nmap <f7> :call vimspector#UpFrame()<cr>
         nmap <f8> <Plug>VimspectorContinue
-        nmap DI <Plug>VimspectorBalloonEval
-        nmap <f9> <Plug>VimspectorStepOut
+        nmap z<f8> <Plug>VimspectorRunToCursor
+        nmap <f9> <Plug>VimspectorPause
         nmap <f10> <Plug>VimspectorStepOver
         nmap <f11> <Plug>VimspectorStepInto
+        nmap z<f11> <Plug>VimspectorStepOut
 
         augroup zf_vimspector_keymap_VimspectorPrompt
             autocmd!

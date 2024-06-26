@@ -17,12 +17,11 @@ if g:ZF_Plugin_vimspector
         nmap <f6> :call vimspector#DownFrame()<cr>
         nmap <f7> :call vimspector#UpFrame()<cr>
         nmap <f8> <Plug>VimspectorContinue
-        nmap z<f8> <Plug>VimspectorRunToCursor
-        nmap <f9> <Plug>VimspectorPause
+        nmap z<f8> <Plug>VimspectorPause
+        nmap <f9> <Plug>VimspectorStepOut
         nmap <f10> <Plug>VimspectorStepOver
         nmap <f11> <Plug>VimspectorStepInto
         nmap z<f11> <Plug>VimspectorStepOut
-        nmap <f12> <Plug>VimspectorStepOut
 
         augroup zf_vimspector_keymap_VimspectorPrompt
             autocmd!

@@ -15,7 +15,7 @@ if g:ZF_Plugin_tldr
         return {
                     \   'TLDR_CACHE_ENABLED' : 0,
                     \   'XDG_CACHE_HOME' : ZF_Plugin_tldr_cachePath() . '/cache',
-                    \   'TLDR_PAGES_SOURCE_LOCATION' : 'file:///Users/mac/Desktop/cache/tldr/pages',
+                    \   'TLDR_PAGES_SOURCE_LOCATION' : 'file://' . ZF_Plugin_tldr_cachePath() . '/tldr',
                     \   'TLDR_CACHE_MAX_AGE' : 20*365*24,
                     \ }
     endfunction

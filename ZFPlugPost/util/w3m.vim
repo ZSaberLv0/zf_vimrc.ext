@@ -97,12 +97,12 @@ if g:ZF_Plugin_w3m
         let arg = substitute(arg, ' \+$', '', 'g')
         if match(arg, '^[a-z]\+://') >= 0
             " ^[a-z]+://
-            execute cmd . ' ' . a:arg
+            execute cmd . ' ' . arg
         elseif match(arg, '^[a-z0-9_]\+\(\.[a-z0-9_]\+\)\+') >= 0
                     \ && match(arg, ' ') < 0
             " ^[a-z0-9_]+(\.[a-z0-9_]+)+
             execute cmd . ' http://' . arg
-        elseif a:arg == ''
+        elseif arg == ''
             let file = expand('%')
             if filereadable(file) && !&modified
                 execute cmd . ' local ' . file
@@ -113,10 +113,10 @@ if g:ZF_Plugin_w3m
                 execute cmd . ' local ' . tmp_file
                 call delete(tmp_file)
             endif
-        elseif filereadable(a:arg)
-            execute cmd . ' local ' . a:arg
+        elseif filereadable(substitute(arg, '#.*', '', ''))
+            execute cmd . ' local ' . arg
         else
-            execute cmd . ' ' . a:arg
+            execute cmd . ' ' . arg
         endif
     endfunction
     command! -nargs=* -complete=file ZFWeb :call ZF_Plugin_w3m(<q-args>)

@@ -66,6 +66,7 @@ if g:zflsp_rust
                         \   'path = "' . fnamemodify(filePath, ':p') . '"',
                         \ ])
         endif
+        call mkdir(fnamemodify(s:globalConfigPath, ':h'), 'p')
         call writefile(contents, s:globalConfigPath)
         if filePath != get(s:, 'filePathLast', '')
             let s:filePathLast = filePath

@@ -16,6 +16,7 @@ function! ZF_Plugin_vimlsp_setup()
     nnoremap <f3> :LspReferences<cr>
     nnoremap zu :LspDocumentDiagnostics<cr>
     nnoremap zi :LspCodeAction<cr>
+    nnoremap zo :LspCodeAction source.organizeImports<cr>
 
     function! s:vimlsp_setupSetver(server_info)
         let lsp = a:server_info['name']

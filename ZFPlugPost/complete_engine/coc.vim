@@ -76,6 +76,7 @@ if g:ZF_Plugin_coc
     nnoremap <f3> :call CocAction('jumpReferences')<cr>
     nnoremap zu :CocDiagnostics<cr>
     nmap zi <plug>(coc-fix-current)
+    nnoremap zo :call CocAction('organizeImport')<cr>
 endif
 
 " ==================================================

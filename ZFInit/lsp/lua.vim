@@ -27,6 +27,7 @@ if g:zflsp_lua && executable('java')
                 echo 'ERROR: unable to obtain release'
                 return
             endif
+            call ZF_ModuleDownloadFile(ZF_LSP_lua_archiveFile(), fileUrl)
         endif
 
         call ZF_ModuleGitClone(get(g:, 'zf_githost', 'https://github.com') . '/ZSaberLv0/EmmyLua_stdFolder', ZF_LSP_lua_stdPath())

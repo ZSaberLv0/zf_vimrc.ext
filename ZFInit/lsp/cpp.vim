@@ -45,7 +45,8 @@ if g:zflsp_cpp && !empty(ZF_ModuleGetApt())
         if !executable('clangd') && !executable('/usr/local/opt/llvm/bin/clangd')
             call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'clangd clang-tools llvm')
         endif
-        if !executable('ccls')
+        if !executable('clangd') && !executable('/usr/local/opt/llvm/bin/clangd')
+                    \ && !executable('ccls')
             call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'ccls')
         endif
     endfunction

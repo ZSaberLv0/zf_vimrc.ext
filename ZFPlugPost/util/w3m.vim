@@ -31,6 +31,7 @@ if g:ZF_Plugin_w3m
                 \   'gz',
                 \   'iso',
                 \   'msi',
+                \   'pdf',
                 \   'rar',
                 \   'tar',
                 \   'z',

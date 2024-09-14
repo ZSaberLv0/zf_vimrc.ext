@@ -21,7 +21,8 @@ if g:ZF_Plugin_vimspector
         nmap <f9> <Plug>VimspectorStepOut
         nmap <f10> <Plug>VimspectorStepOver
         nmap <f11> <Plug>VimspectorStepInto
-        nmap z<f11> <Plug>VimspectorStepOut
+        nmap z<f10> :call vimspector#DownFrame()<cr>
+        nmap z<f11> :call vimspector#UpFrame()<cr>
 
         augroup zf_vimspector_keymap_VimspectorPrompt
             autocmd!

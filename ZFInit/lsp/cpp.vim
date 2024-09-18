@@ -37,15 +37,15 @@ endif
 if g:zflsp_cpp && !empty(ZF_ModuleGetApt())
     function! ZF_LSP_cpp_checker()
         return 0
-                    \ || executable('clangd') || executable('/usr/local/opt/llvm/bin/clangd')
+                    \ || executable('clangd')
                     \ || executable('ccls')
     endfunction
 
     function! ZF_LSP_cpp_installer()
-        if !executable('clangd') && !executable('/usr/local/opt/llvm/bin/clangd')
+        if !executable('clangd')
             call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'clangd clang-tools llvm')
         endif
-        if !executable('clangd') && !executable('/usr/local/opt/llvm/bin/clangd')
+        if !executable('clangd')
                     \ && !executable('ccls')
             call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'ccls')
         endif
@@ -54,19 +54,18 @@ if g:zflsp_cpp && !empty(ZF_ModuleGetApt())
     function! ZF_LSP_cpp_lsp()
         let ft = ['c', 'cpp', 'objc', 'objcpp']
         if 0
-        elseif executable('clangd') || executable('/usr/local/opt/llvm/bin/clangd')
+        elseif executable('clangd')
             function! s:options_clangd()
                 return {
                             \   'fallbackFlags' : ZF_LSP_cpp_detectFlag(),
                             \ }
             endfunction
-            let clangd_path = executable('clangd') ? 'clangd' : '/usr/local/opt/llvm/bin/clangd'
             let cmdargs = ['--completion-style=detailed']
             if ZF_versionCompare(ZF_versionGet('clangd'), '10.0') >= 0
                 call add(cmdargs, '-header-insertion=never')
             endif
             return {
-                        \   'cmd' : clangd_path,
+                        \   'cmd' : 'clangd',
                         \   'cmdargs' : cmdargs,
                         \   'ft' : ft,
                         \   'initOption' : function('s:options_clangd'),

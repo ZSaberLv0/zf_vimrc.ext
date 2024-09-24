@@ -11,18 +11,16 @@ if g:ZF_Plugin_vimspector
     if get(g:, 'zf_vimspector_keymap', 1)
         nmap DB <Plug>VimspectorToggleBreakpoint
         nmap DC :call vimspector#ClearBreakpoints()<cr>
-        nmap DI <Plug>VimspectorBalloonEval
+        nmap DF <Plug>VimspectorBalloonEval
         nmap <f4> :call ZFDebugStop()<cr>
         nmap <f5> :call ZFDebugRestart()<cr>
-        nmap <f6> :call vimspector#DownFrame()<cr>
-        nmap <f7> :call vimspector#UpFrame()<cr>
-        nmap <f8> <Plug>VimspectorContinue
-        nmap z<f8> <Plug>VimspectorPause
-        nmap <f9> <Plug>VimspectorStepOut
-        nmap <f10> <Plug>VimspectorStepOver
-        nmap <f11> <Plug>VimspectorStepInto
-        nmap z<f10> :call vimspector#DownFrame()<cr>
-        nmap z<f11> :call vimspector#UpFrame()<cr>
+        nmap DN :call vimspector#DownFrame()<cr>
+        nmap DM :call vimspector#UpFrame()<cr>
+        nmap DS <Plug>VimspectorContinue
+        nmap Ds <Plug>VimspectorPause
+        nmap DU <Plug>VimspectorStepOut
+        nmap DO <Plug>VimspectorStepOver
+        nmap DI <Plug>VimspectorStepInto
 
         augroup zf_vimspector_keymap_VimspectorPrompt
             autocmd!

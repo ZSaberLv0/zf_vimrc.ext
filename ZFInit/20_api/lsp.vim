@@ -5,6 +5,7 @@
 "     'cmd' : '(string) or (func ref) to get lsp command',
 "     'cmdargs' : '(List of string) or (func ref) to get lsp command args',
 "     'ft' : ['filetype list'],
+"     'rootUri' : '(string) or (func ref) to get lsp workspace root dir',
 "     'initOption' : '(Dictionary) or (func ref) to get lsp initializationOptions',
 "     'workspaceOption' : '(Dictionary) or (func ref) to get lsp workspace settings',
 "   },
@@ -51,6 +52,7 @@ endfunction
 "           \   'cmd' : 'xxx',
 "           \   'cmdargs' : [],
 "           \   'ft' : ['xxx'],
+"           \   'rootUri' : '',
 "           \   'initOption' : {},
 "           \   'workspaceOption' : {},
 "           \ })

@@ -24,14 +24,15 @@ function! ZF_Plugin_vimlsp_setup()
                     \   'name' : lsp,
                     \   'cmd' : [&shell, &shellcmdflag, ZFLSP_getFullCmd(g:zflsp[lsp])],
                     \   'whitelist' : get(g:zflsp[lsp], 'ft', []),
+                    \   'root_uri': function('s:vimlsp_root_uri'),
                     \   'initialization_options': ZFLSP_get(get(g:zflsp[lsp], 'initOption', {})),
                     \   'workspace_config': ZFLSP_get(get(g:zflsp[lsp], 'workspaceOption', {})),
-                    \   'root_uri': function('s:vimlsp_root_uri'),
                     \ })
     endfunction
     function! s:vimlsp_root_uri(server_info)
-        call s:vimlsp_setupSetver(a:server_info)
-        return lsp#utils#path_to_uri(getcwd())
+        let lsp = a:server_info['name']
+        let path = ZFLSP_get(get(g:zflsp[lsp], 'rootUri', ''))
+        return lsp#utils#path_to_uri(path)
     endfunction
     function! s:vimlsp_restart()
         if !get(g:, 'lsp_loaded', 0)

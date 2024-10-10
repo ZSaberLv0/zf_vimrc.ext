@@ -95,6 +95,7 @@ if g:ZF_Plugin_coc_lsp && g:ZF_Plugin_coc
                         \   'command': &shell,
                         \   'args': [&shellcmdflag, ZFLSP_getFullCmd(g:zflsp[lsp])],
                         \   'filetypes': ZFLSP_get(get(g:zflsp[lsp], 'ft', [])),
+                        \   'cwd': ZFLSP_get(get(g:zflsp[lsp], 'rootUri', '')),
                         \   'initializationOptions': ZFLSP_get(get(g:zflsp[lsp], 'initOption', {})),
                         \   'settings': ZFLSP_get(get(g:zflsp[lsp], 'workspaceOption', {})),
                         \ })

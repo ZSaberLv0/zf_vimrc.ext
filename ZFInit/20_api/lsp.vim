@@ -48,7 +48,7 @@ endfunction
 " ============================================================
 " utils to setup g:zflsp
 " usage:
-"   call ZFLSP_autoSetup('name', function('s:checker'), function('s:installer'), {
+"   call ZFLSP_autoSetup(installByDefault, 'name', function('s:checker'), function('s:installer'), func() or {
 "           \   'cmd' : 'xxx',
 "           \   'cmdargs' : [],
 "           \   'ft' : ['xxx'],
@@ -81,7 +81,7 @@ function! ZFLSP_autoSetup(installByDefault, name, checker, installer, lsp)
     execute 'augroup END'
 endfunction
 if !g:zflspEnable
-    function! ZFLSP_autoSetup(name, checker, installer, lsp)
+    function! ZFLSP_autoSetup(installByDefault, name, checker, installer, lsp)
     endfunction
 endif
 

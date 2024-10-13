@@ -3,44 +3,72 @@
 if !exists('g:zflsp_lua')
     let g:zflsp_lua = g:zflspEnable
 endif
-if g:zflsp_lua && executable('java')
-    function! ZF_LSP_lua_archiveFile()
-        return g:zf_vim_cache_path . '/ZFLSP_EmmyLua/EmmyLua-LS-all.jar'
-    endfunction
-    function! ZF_LSP_lua_stdPath()
-        return g:zf_vim_cache_path . '/ZFLSP_EmmyLua/EmmyLua_stdFolder'
-    endfunction
-
+if g:zflsp_lua
     function! ZF_LSP_lua_checker()
-        return filereadable(ZF_LSP_lua_archiveFile())
-                    \ && filereadable(ZF_LSP_lua_stdPath() . '/README.md')
+        return executable('lua-language-server')
     endfunction
     function! ZF_LSP_lua_installer()
-        if !filereadable(ZF_LSP_lua_archiveFile())
-            let fileUrl = ''
-            for fileUrlTmp in ZF_ModuleGetGithubRelease('EmmyLua', 'EmmyLua-LanguageServer')
-                if match(fileUrlTmp, 'EmmyLua-LS-all\.jar') >= 0
-                    let fileUrl = fileUrlTmp
+        call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'lua-language-server')
+        call ZF_LSP_lua_configUpdate()
+    endfunction
+    function! ZF_LSP_lua_config(...)
+        let ignore = ['.vscode']
+        if !ZF_LSP_lua_isValidWorkspace()
+            for f in glob('./*', 1, 1)
+                if isdirectory(f)
+                    call add(ignore, fnamemodify(f, ':t'))
                 endif
             endfor
-            if empty(fileUrl)
-                echo 'ERROR: unable to obtain release'
-                return
-            endif
-            call ZF_ModuleDownloadFile(ZF_LSP_lua_archiveFile(), fileUrl)
         endif
-
-        call ZF_ModuleGitClone(get(g:, 'zf_githost', 'https://github.com') . '/ZSaberLv0/EmmyLua_stdFolder', ZF_LSP_lua_stdPath())
+        return {
+                    \   'Lua' : {
+                    \     'completion.autoRequire' : v:false,
+                    \     'completion.callSnippet' : 'Replace',
+                    \     'diagnostics.disable' : [
+                    \       'assign-type-mismatch',
+                    \       'cast-local-type',
+                    \       'lowercase-global',
+                    \       'missing-parameter',
+                    \       'need-check-nil',
+                    \       'param-type-mismatch',
+                    \       'redefined-local',
+                    \       'unused-local',
+                    \     ],
+                    \     'workspace.preloadFileSize' : 10240,
+                    \     'workspace.useGitIgnore' : v:false,
+                    \     'workspace.ignoreDir' : ignore,
+                    \   },
+                    \ }
+    endfunction
+    function! ZF_LSP_lua_configUpdate()
+        call writefile([json_encode(ZF_LSP_lua_config())], printf('%s/config.json', ZF_LSP_lua_cachePath()))
+    endfunction
+    function! ZF_LSP_lua_cachePath()
+        return g:zf_vim_cache_path . '/ZFLSP_lua'
+    endfunction
+    function! ZF_LSP_lua_isValidWorkspace()
+        let Fn = get(g:, 'ZFLSP_lua_workspaceChecker', '')
+        if !empty(Fn)
+            return Fn()
+        else
+            return 0
+                        \ || isdirectory('.git')
+                        \ || filereadable('.gitignore')
+                        \ || filereadable('.gitattributes')
+                        \ || isdirectory('.svn')
+                        \ || !empty(glob('./*.lua'))
+        endif
     endfunction
     call ZFLSP_autoSetup(1, 'lua', function('ZF_LSP_lua_checker'), function('ZF_LSP_lua_installer'), {
-                \   'cmd' : 'java',
-                \   'cmdargs' : ['-cp', ZF_LSP_lua_archiveFile(), 'com.tang.vscode.MainKt'],
+                \   'cmd' : 'lua-language-server',
+                \   'cmdargs' : [
+                \     printf('--logpath="%s/logs"', ZF_LSP_lua_cachePath()),
+                \     printf('--metapath="%s/meta"', ZF_LSP_lua_cachePath()),
+                \   ],
                 \   'ft' : ['lua'],
                 \   'initOption' : {
-                \     'stdFolder' : 'file://' . ZF_LSP_lua_stdPath() . '/std/Lua54',
                 \   },
-                \   'workspaceOption' : {
-                \   },
+                \   'workspaceOption' : function('ZF_LSP_lua_config'),
                 \ })
 endif
 

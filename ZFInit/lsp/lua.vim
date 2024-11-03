@@ -41,6 +41,7 @@ if g:zflsp_lua
                     \ }
     endfunction
     function! ZF_LSP_lua_configUpdate()
+        call mkdir(ZF_LSP_lua_cachePath(), 'p')
         call writefile([json_encode(ZF_LSP_lua_config())], printf('%s/config.json', ZF_LSP_lua_cachePath()))
     endfunction
     function! ZF_LSP_lua_cachePath()

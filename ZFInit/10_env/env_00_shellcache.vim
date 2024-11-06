@@ -19,13 +19,12 @@ function! ZF_shellcache(cmd, ...)
             endif
         elseif exists('v:vim_did_enter') && !v:vim_did_enter
             if !exists('s:autoUpdate')
-                let s:autoUpdate = [
-                            \   {
-                            \     'cmd' : a:cmd,
-                            \     'callback' : Fn_callback,
-                            \   },
-                            \ ]
+                let s:autoUpdate = []
             endif
+            call add(s:autoUpdate, {
+                            \   'cmd' : a:cmd,
+                            \   'callback' : Fn_callback,
+                            \ })
         endif
         return s:cache[a:cmd]['result']
     endif

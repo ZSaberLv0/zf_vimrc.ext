@@ -8,8 +8,38 @@ endif
 if g:ZF_Plugin_vimspector
     ZFPlug 'puremourning/vimspector'
 
+    function! ZF_Plugin_vimspector_openBreakpoints()
+        VimspectorBreakpoints
+        if &syntax=='vimspector-breakpoints'
+            nnoremap <silent><buffer> q :q<cr>
+        endif
+    endfunction
+
     if get(g:, 'zf_vimspector_keymap', 1)
+        let g:vimspector_mappings = {
+                    \   'variables' : {
+                    \     'expand_collapse' : ['o', '<cr>'],
+                    \     'delete' : ['<del>'],
+                    \     'set_value' : ['cc'],
+                    \     'read_memory' : ['r'],
+                    \   },
+                    \   'stack_trace' : {
+                    \     'expand_or_jump' : ['o', '<cr>'],
+                    \     'focus_thread' : ['<leader><cr>'],
+                    \   },
+                    \   'breakpoints': {
+                    \     'toggle' : ['t'],
+                    \     'toggle_all' : ['T'],
+                    \     'delete' : ['dd', '<del>'],
+                    \     'edit' : ['cc', 'C'],
+                    \     'add_line' : ['i', 'a'],
+                    \     'add_func' : ['I', 'A'],
+                    \     'jump_to' : ['o', '<cr>'],
+                    \   },
+                    \ }
+
         nmap DB <Plug>VimspectorToggleBreakpoint
+        nmap <silent> DV :call ZF_Plugin_vimspector_openBreakpoints()<cr>
         nmap DC :call vimspector#ClearBreakpoints()<cr>
         nmap DF <Plug>VimspectorBalloonEval
         nmap <f4> :call ZFDebugStop()<cr>

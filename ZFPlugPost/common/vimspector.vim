@@ -10,7 +10,7 @@ if g:ZF_Plugin_vimspector
 
     function! ZF_Plugin_vimspector_openBreakpoints()
         VimspectorBreakpoints
-        if &syntax=='vimspector-breakpoints'
+        if &syntax == 'vimspector-breakpoints'
             nnoremap <silent><buffer> q :q<cr>
         endif
     endfunction

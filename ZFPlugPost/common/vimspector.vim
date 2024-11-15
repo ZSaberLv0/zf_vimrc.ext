@@ -199,7 +199,6 @@ if g:ZF_Plugin_vimspector
     "     let b:ZFDebug_args = xxx
     "     let b:ZFDebug_adapter = xxx
     function! ZFDebug(params)
-        let g:zfzfzf = copy(a:params)
         let path = get(a:params, 'path', '')
         let args = get(a:params, 'args', [])
         let adapter = get(a:params, 'adapter', '')

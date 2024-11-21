@@ -178,6 +178,7 @@ if g:ZF_Plugin_vimspector
         let i = 0
         while i < len(args)
             let args[i] = substitute(args[i], '_zf_space_', ' ', 'g')
+            let i += 1
         endwhile
         return {
                     \   'path' : path,

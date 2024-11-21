@@ -9,7 +9,6 @@ if g:zflsp_lua
     endfunction
     function! ZF_LSP_lua_installer()
         call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'lua-language-server')
-        call ZF_LSP_lua_configUpdate()
     endfunction
     function! ZF_LSP_lua_config(...)
         let ignore = ['.vscode']
@@ -39,10 +38,6 @@ if g:zflsp_lua
                     \     'workspace.ignoreDir' : ignore,
                     \   },
                     \ }
-    endfunction
-    function! ZF_LSP_lua_configUpdate()
-        call mkdir(ZF_LSP_lua_cachePath(), 'p')
-        call writefile([json_encode(ZF_LSP_lua_config())], printf('%s/config.json', ZF_LSP_lua_cachePath()))
     endfunction
     function! ZF_LSP_lua_cachePath()
         return g:zf_vim_cache_path . '/ZFLSP_lua'

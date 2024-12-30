@@ -4,14 +4,6 @@ if !get(g:, 'ZF_Plugin_neoformat', 0)
 endif
 
 function! ZF_Plugin_neoformat_lua_install()
-    if !executable('unzip')
-        call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'unzip')
-        if !executable('unzip')
-            echo 'ERROR: no unzip available'
-            return
-        endif
-    endif
-
     let urls = ZF_ModuleGetGithubRelease('JohnnyMorganz', 'StyLua')
     if empty(urls)
         echo 'ERROR: unable to obtain release files'
@@ -44,10 +36,11 @@ function! ZF_Plugin_neoformat_lua_install()
     endif
 
     call mkdir(printf('%s/neoformat/lua/bin', g:zf_vim_cache_path), 'p')
-    call ZF_ModuleExecShell(printf('yes | unzip "%s/neoformat/lua/%s" -d "%s/neoformat/lua/bin/."'
-                \ , g:zf_vim_cache_path, fileName
-                \ , g:zf_vim_cache_path
-                \ ))
+    if !ZF_unzip(printf('%s/neoformat/lua/bin', g:zf_vim_cache_path)
+                \ , printf('%s/neoformat/lua/%s', g:zf_vim_cache_path, fileName)
+                \ )
+        return
+    endif
     call ZF_ModuleExecShell(printf('chmod +x "%s/neoformat/lua/bin/stylua"', g:zf_vim_cache_path))
 
     call writefile([

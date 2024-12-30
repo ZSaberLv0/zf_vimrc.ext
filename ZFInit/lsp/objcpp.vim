@@ -27,7 +27,7 @@ function! ZF_LSP_objcpp_setup(...)
         return 0
     endif
 
-    call ZF_system('rm -rf "' . cachePath . '"')
+    call ZF_rm(cachePath)
     call mkdir(cachePath, 'p')
 
     for framework in frameworks

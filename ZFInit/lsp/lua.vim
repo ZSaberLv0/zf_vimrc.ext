@@ -6,9 +6,26 @@ endif
 if g:zflsp_lua
     function! ZF_LSP_lua_checker()
         return executable('lua-language-server')
+                    \ || executable(ZF_LSP_lua_exePath())
     endfunction
     function! ZF_LSP_lua_installer()
-        call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'lua-language-server')
+        if g:zf_windows && 0
+            let itemList = ZF_ModuleGetGithubRelease('LuaLS', 'lua-language-server')
+            let itemIndex = match(itemList, 'win32-x64')
+            if itemIndex != -1
+                if !ZF_ModuleDownloadFile(printf('%s/LuaLS.zip', ZF_LSP_lua_cachePath()), itemList[itemIndex])
+                    return
+                endif
+                if !ZF_unzip(printf('%s/LuaLS', ZF_LSP_lua_cachePath()), printf('%s/LuaLS.zip', ZF_LSP_lua_cachePath()))
+                    return
+                endif
+            endif
+        else
+            call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'lua-language-server')
+        endif
+    endfunction
+    function! ZF_LSP_lua_exePath()
+        return printf('%s/LuaLS/bin/lua-language-server.exe', ZF_LSP_lua_cachePath())
     endfunction
     function! ZF_LSP_lua_config(...)
         let ignore = ['.vscode']
@@ -56,7 +73,7 @@ if g:zflsp_lua
         endif
     endfunction
     call ZFLSP_autoSetup(1, 'lua', function('ZF_LSP_lua_checker'), function('ZF_LSP_lua_installer'), {
-                \   'cmd' : 'lua-language-server',
+                \   'cmd' : executable(ZF_LSP_lua_exePath()) ? ZF_LSP_lua_exePath() : 'lua-language-server',
                 \   'cmdargs' : [
                 \     printf('--logpath="%s/logs"', ZF_LSP_lua_cachePath()),
                 \     printf('--metapath="%s/meta"', ZF_LSP_lua_cachePath()),

@@ -60,11 +60,11 @@ function! ZFLSP_autoSetup(installByDefault, name, checker, installer, lsp)
     if get(g:, 'zflspAutoInstall_' . a:name, a:installByDefault)
         call ZF_ModuleInstaller('ZF_LSP_' . a:name, a:installer)
     endif
-    if get(g:_ZFLSP_autoSetup_doNotUpdateMap, a:name, 0)
-        return
-    endif
     if a:checker()
         let g:zflsp[a:name] = ZFLSP_get(a:lsp)
+        return
+    endif
+    if ZF_stateGet('ZFLSP_doNotUpdate_' . a:name, 0)
         return
     endif
 
@@ -90,14 +90,6 @@ if !exists('g:_ZFLSP_autoSetup_taskMap')
 endif
 if !exists('g:_ZFLSP_autoSetup_timerMap')
     let g:_ZFLSP_autoSetup_timerMap = {}
-endif
-if !exists('g:_ZFLSP_autoSetup_doNotUpdateMap')
-    if g:zflspEnable && filereadable(g:zf_vim_cache_path . '/ZFLSP_doNotUpdateMap')
-        let g:_ZFLSP_autoSetup_doNotUpdateMap = json_decode(
-                    \ readfile(g:zf_vim_cache_path . '/ZFLSP_doNotUpdateMap')[0])
-    else
-        let g:_ZFLSP_autoSetup_doNotUpdateMap = {}
-    endif
 endif
 function! _ZFLSP_autoSetup_checker(name)
     let data = g:_ZFLSP_autoSetup_taskMap[a:name]
@@ -142,10 +134,7 @@ function! _ZFLSP_autoSetup_checker_action(name)
                 execute 'augroup END'
 
                 if choice == 'd'
-                    let g:_ZFLSP_autoSetup_doNotUpdateMap[a:name] = 1
-                    call writefile(
-                                \ [json_encode(g:_ZFLSP_autoSetup_doNotUpdateMap)],
-                                \ g:zf_vim_cache_path . '/ZFLSP_doNotUpdateMap')
+                    call ZF_stateSet('ZFLSP_doNotUpdate_' . a:name, 1)
                 endif
             endif
             return
@@ -171,10 +160,12 @@ endfunction
 
 " add a install task to reset `do not ask again`
 function! _ZFLSP_autoSetup_doNotUpdate_reset()
-    let g:_ZFLSP_autoSetup_doNotUpdateMap = {}
-    if filereadable(g:zf_vim_cache_path . '/ZFLSP_doNotUpdateMap')
-        call delete(g:zf_vim_cache_path . '/ZFLSP_doNotUpdateMap')
-    endif
+    let state = ZF_stateGetAll()
+    for key in keys(state)
+        if index(key, 'ZFLSP_doNotUpdate_') == 0
+            call ZF_stateSet(key, '')
+        endif
+    endfor
 endfunction
 call ZF_ModuleInstaller('_ZFLSP_autoSetup_doNotUpdate_reset', 'call _ZFLSP_autoSetup_doNotUpdate_reset()')
 

@@ -20,11 +20,19 @@ function! ZF_stateSet(key, value)
     call s:stateSave()
 endfunction
 
+function! ZF_stateGetAll()
+    let ret = {}
+    for key in keys(s:state)
+        let ret[key] = s:state[key]['value']
+    endfor
+    return ret
+endfunction
+
 function! s:stateFile()
     return g:zf_vim_cache_path . '/ZF_state'
 endfunction
 function! s:cacheTime()
-    return get(g:, 'ZF_state_cacheTime', 3 * 24 * 60 * 60)
+    return get(g:, 'ZF_state_cacheTime', 7 * 24 * 60 * 60)
 endfunction
 
 " state: {

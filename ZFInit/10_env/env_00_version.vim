@@ -12,8 +12,8 @@ function! ZF_versionParse(text)
         let lines = a:text
     endif
     for line in lines
-        " ([0-9]+(\.[0-9]+)+)
-        let v = matchstr(line, '\([0-9]\+\(\.[0-9]\+\)\+\)')
+        " ([0-9]+(\.[0-9]+)*)
+        let v = matchstr(line, '\([0-9]\+\(\.[0-9]\+\)*\)')
         if !empty(v)
             return v
         endif

@@ -62,7 +62,7 @@ if g:ZF_Plugin_w3m
     function! ZF_Plugin_w3m_openInTab()
         let url = ZF_Plugin_w3m_getCurUrl()
         if !empty(url)
-            call ZF_Plugin_w3m(url, {
+            call ZFWeb(url, {
                         \   'tab' : 1,
                         \ })
         endif
@@ -91,7 +91,7 @@ if g:ZF_Plugin_w3m
     augroup END
 
     " command
-    function! ZF_Plugin_w3m(arg, ...)
+    function! ZFWeb(arg, ...)
         let option = get(a:, 1, {})
         let cmd = get(option, 'tab', 0) ? 'W3mTab' : 'W3m'
         let arg = substitute(a:arg, '^ \+', '', 'g')
@@ -120,7 +120,7 @@ if g:ZF_Plugin_w3m
             execute cmd . ' ' . arg
         endif
     endfunction
-    command! -nargs=* -complete=file ZFWeb :call ZF_Plugin_w3m(<q-args>)
+    command! -nargs=* -complete=file ZFWeb :call ZFWeb(<q-args>)
     nnoremap <leader>vw :ZFWeb<space>
 endif
 

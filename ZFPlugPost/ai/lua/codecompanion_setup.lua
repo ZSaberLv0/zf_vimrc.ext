@@ -1,8 +1,8 @@
 
-local host = vim.api.nvim_get_var('ZFLLM_API_HOST') or 'https://spark-api-open.xf-yun.com'
-local addr_chat = vim.api.nvim_get_var('ZFLLM_API_ADDR_CHAT') or '/v1/chat/completions'
-local key = vim.api.nvim_get_var('ZFLLM_API_KEY')
-local model = vim.api.nvim_get_var('ZFLLM_API_MODEL') or 'lite'
+local host = vim.g.ZFLLM_API_HOST or 'https://spark-api-open.xf-yun.com'
+local addr_chat = vim.g.ZFLLM_API_ADDR_CHAT or '/v1/chat/completions'
+local key = vim.g.ZFLLM_API_KEY or ''
+local model = vim.g.ZFLLM_API_MODEL or 'lite'
 
 require('codecompanion').setup({
         adapters = {

@@ -44,7 +44,6 @@ if g:zflsp_lua
                     \       'assign-type-mismatch',
                     \       'cast-local-type',
                     \       'lowercase-global',
-                    \       'missing-parameter',
                     \       'need-check-nil',
                     \       'param-type-mismatch',
                     \       'redefined-local',

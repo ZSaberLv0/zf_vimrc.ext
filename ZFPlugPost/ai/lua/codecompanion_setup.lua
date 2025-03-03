@@ -3,6 +3,7 @@ local host = vim.g.ZFLLM_API_HOST or 'https://api.hunyuan.cloud.tencent.com'
 local addr_chat = vim.g.ZFLLM_API_ADDR_CHAT or '/v1/chat/completions'
 local key = vim.g.ZFLLM_API_KEY or ''
 local model = vim.g.ZFLLM_API_MODEL or 'hunyuan-lite'
+local language = vim.g.ZFLLM_LANG or 'Chinese'
 
 local openai = require("codecompanion.adapters.openai")
 local utils = require("codecompanion.utils.adapters")
@@ -100,6 +101,7 @@ local option = {
     },
     opts = {
         send_code = false,
+        language = language,
     },
 }
 

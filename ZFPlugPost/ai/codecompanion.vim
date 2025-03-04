@@ -11,8 +11,8 @@ if g:ZF_Plugin_codecompanion
     ZFPlug 'nvim-treesitter/nvim-treesitter'
     ZFPlug 'olimorris/codecompanion.nvim'
 
-    nnoremap <silent> <c-x> :CodeCompanionChat Toggle<cr>
-    inoremap <silent> <c-x> <esc>:CodeCompanionChat Toggle<cr>
+    nnoremap <silent> <c-q> :CodeCompanionChat Toggle<cr>
+    inoremap <silent> <c-q> <esc>:CodeCompanionChat Toggle<cr>
 
     if !exists('g:ZF_Plugin_codecompanion_scriptPath')
         let g:ZF_Plugin_codecompanion_scriptPath = expand('<sfile>:p:h')

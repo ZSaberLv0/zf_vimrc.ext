@@ -62,7 +62,6 @@ if g:ZF_Plugin_polyglot
     ZFPlug 'sheerun/vim-polyglot'
     let g:polyglot_disabled = [
                 \   'autoindent',
-                \   'markdown',
                 \   'sensible',
                 \ ]
     let g:no_plugin_maps = 1

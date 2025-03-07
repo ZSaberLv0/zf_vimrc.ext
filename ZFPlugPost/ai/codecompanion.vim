@@ -34,6 +34,7 @@ if g:ZF_Plugin_codecompanion
         autocmd FileType codecompanion set syntax=zftxt
         autocmd BufEnter * call s:updateIME(1)
         autocmd BufLeave * call s:updateIME(0)
+        autocmd User CodeCompanionChatCreated call feedkeys('i', 'nt')
     augroup END
     function! s:setup()
 lua << EOF

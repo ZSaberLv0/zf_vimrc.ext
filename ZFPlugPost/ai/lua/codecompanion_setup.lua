@@ -88,7 +88,7 @@ local option = {
     display = {
         chat = {
             window = {
-                layout = 'buffer',
+                layout = 'horizontal',
                 opts = {
                     cursorline = true,
                 },
@@ -96,7 +96,6 @@ local option = {
             intro_message = '',
             show_header_separator = true,
             show_token_count = false,
-            start_in_insert_mode = true,
         },
     },
     opts = {

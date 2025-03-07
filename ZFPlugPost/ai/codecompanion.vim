@@ -14,19 +14,28 @@ if g:ZF_Plugin_codecompanion
     nnoremap <silent> <c-q> :CodeCompanionChat Toggle<cr>
     inoremap <silent> <c-q> <esc>:CodeCompanionChat Toggle<cr>
 
+    function s:updateIME(enter)
+        if &filetype == 'codecompanion'
+            if a:enter
+                call ZFVimIME_start()
+            else
+                call ZFVimIME_stop()
+            endif
+        endif
+    endfunction
+
     if !exists('g:ZF_Plugin_codecompanion_scriptPath')
         let g:ZF_Plugin_codecompanion_scriptPath = expand('<sfile>:p:h')
         execute 'set rtp+=' . g:ZF_Plugin_codecompanion_scriptPath
     endif
     augroup ZF_Plugin_codecompanion_augroup
         autocmd!
-        autocmd User ZFVimrcPostNormal call ZF_Plugin_codecompanion_setup()
-        autocmd FileType codecompanion call ZF_Plugin_codecompanion_buf_setup()
+        autocmd User ZFVimrcPostNormal call s:setup()
+        autocmd FileType codecompanion set syntax=zftxt
+        autocmd BufEnter * call s:updateIME(1)
+        autocmd BufLeave * call s:updateIME(0)
     augroup END
-    function! ZF_Plugin_codecompanion_buf_setup()
-        set syntax=zftxt
-    endfunction
-    function! ZF_Plugin_codecompanion_setup()
+    function! s:setup()
 lua << EOF
         require('codecompanion_setup')
 EOF

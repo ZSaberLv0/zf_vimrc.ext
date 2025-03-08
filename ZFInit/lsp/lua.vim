@@ -3,7 +3,7 @@
 if !exists('g:zflsp_lua')
     let g:zflsp_lua = g:zflspEnable
 endif
-if g:zflsp_lua
+if g:zflsp_lua && (get(g:, 'zflsp_lua_impl', '') == 'lua-language-server' || get(g:, 'zflsp_lua_impl', '') == '')
     function! ZF_LSP_lua_checker()
         return executable('lua-language-server')
                     \ || executable(ZF_LSP_lua_exePath())

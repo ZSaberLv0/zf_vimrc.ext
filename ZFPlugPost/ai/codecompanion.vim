@@ -18,11 +18,9 @@ if g:ZF_Plugin_codecompanion
         normal \CodeCompanion?q
     endfunction
     function! ZF_Plugin_codecompanion_quit()
-        let hint = "close chat?"
-        let hint .= "\n    (y)es"
-        let hint .= "\n    (n)o"
+        let hint = "reset and close chat?"
         let hint .= "\n"
-        let hint .= "\nchoice: "
+        let hint .= "\n(y)es / (n)o : "
         redraw
         echo hint
         let confirm = nr2char(getchar())

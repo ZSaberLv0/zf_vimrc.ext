@@ -15,7 +15,7 @@ if g:ZF_Plugin_codecompanion
     inoremap <silent> <c-q> <esc>:CodeCompanionChat Toggle<cr>
 
     function s:updateIME(enter)
-        if &filetype == 'codecompanion'
+        if &filetype == 'codecompanion' && exists('*ZFVimIME_start')
             if a:enter
                 call ZFVimIME_start()
             else

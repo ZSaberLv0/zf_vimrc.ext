@@ -69,7 +69,7 @@ local option = {
                         i = {'<c-s>'},
                 }},
                 close = {modes = {
-                        n = {'q'},
+                        n = {'\\CodeCompanion?q'},
                 }},
                 stop = {modes = {
                         n = {'<c-c>'},

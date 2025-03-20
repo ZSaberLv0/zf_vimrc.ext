@@ -14,6 +14,27 @@ if g:ZF_Plugin_codecompanion
     nnoremap <silent> <c-q> :CodeCompanionChat Toggle<cr>
     inoremap <silent> <c-q> <esc>:CodeCompanionChat Toggle<cr>
 
+    function! ZF_Plugin_codecompanion_quitAction(...)
+        normal \CodeCompanion?q
+    endfunction
+    function! ZF_Plugin_codecompanion_quit()
+        let hint = "close chat?"
+        let hint .= "\n    (y)es"
+        let hint .= "\n    (n)o"
+        let hint .= "\n"
+        let hint .= "\nchoice: "
+        redraw
+        echo hint
+        let confirm = nr2char(getchar())
+        redraw
+        if confirm == 'y'
+            silent! execute "silent! normal \<c-c>"
+            call timer_start(100, function('ZF_Plugin_codecompanion_quitAction'))
+        else
+            execute "normal \<c-q>"
+        endif
+    endfunction
+
     function s:updateIME(enter)
         if &filetype == 'codecompanion' && exists('*ZFVimIME_start')
             if a:enter
@@ -34,6 +55,7 @@ if g:ZF_Plugin_codecompanion
         autocmd FileType codecompanion set syntax=zftxt
         autocmd BufEnter * call s:updateIME(1)
         autocmd BufLeave * call s:updateIME(0)
+        autocmd FileType codecompanion nnoremap <buffer><silent> q :call ZF_Plugin_codecompanion_quit()<cr>
         autocmd User CodeCompanionChatCreated call feedkeys('i', 'nt')
     augroup END
     function! s:setup()

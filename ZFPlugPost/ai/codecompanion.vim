@@ -25,7 +25,7 @@ if g:ZF_Plugin_codecompanion
         echo hint
         let confirm = nr2char(getchar())
         redraw
-        if confirm == 'y'
+        if confirm == 'y' || confirm == 'q'
             silent! execute "silent! normal \<c-c>"
             call timer_start(100, function('ZF_Plugin_codecompanion_quitAction'))
         else

@@ -33,12 +33,21 @@ if g:ZF_Plugin_codecompanion
         endif
     endfunction
 
-    function s:updateIME(enter)
-        if &filetype == 'codecompanion' && exists('*ZFVimIME_start')
-            if a:enter
-                call ZFVimIME_start()
-            else
-                call ZFVimIME_stop()
+    function s:bufUpdate(enter)
+        if &filetype == 'codecompanion'
+            if exists('*ZFVimIME_start')
+                if a:enter
+                    call ZFVimIME_start()
+                else
+                    call ZFVimIME_stop()
+                endif
+            endif
+            if exists(':RenderMarkdown')
+                if a:enter
+                    RenderMarkdown enable
+                else
+                    RenderMarkdown disable
+                endif
             endif
         endif
     endfunction
@@ -51,8 +60,8 @@ if g:ZF_Plugin_codecompanion
         autocmd!
         autocmd User ZFVimrcPostNormal call s:setup()
         autocmd FileType codecompanion set syntax=zftxt
-        autocmd BufEnter * call s:updateIME(1)
-        autocmd BufLeave * call s:updateIME(0)
+        autocmd BufEnter * call s:bufUpdate(1)
+        autocmd BufLeave * call s:bufUpdate(0)
         autocmd FileType codecompanion nnoremap <buffer><silent> q :call ZF_Plugin_codecompanion_quit()<cr>
         autocmd User CodeCompanionChatCreated call feedkeys('i', 'nt')
     augroup END
@@ -65,7 +74,10 @@ endif
 
 " ==================================================
 if !exists('g:ZF_Plugin_markview')
-    let g:ZF_Plugin_markview = g:ZF_Plugin_codecompanion
+    let g:ZF_Plugin_markview = g:ZF_Plugin_codecompanion && 0
+endif
+if !has('nvim-0.10.0')
+    let g:ZF_Plugin_markview = 0
 endif
 if g:ZF_Plugin_markview
     ZFPlug 'OXY2DEV/markview.nvim'
@@ -78,18 +90,76 @@ if g:ZF_Plugin_markview
 lua << EOF
     require('markview').setup({
             preview = {
-                filetypes = {'codecompanion'},
+                filetypes = {
+                    'markdown',
+                    'codecompanion',
+                },
                 ignore_buftypes = {},
-                condition = function(buffer)
-                    local ft, bt = vim.bo[buffer].ft, vim.bo[buffer].bt;
-                    if bt == "nofile" and ft == "codecompanion" then
-                        return true;
-                    elseif bt == "nofile" then
-                        return false;
-                    else
-                        return true;
-                    end
-                end,
+            },
+        })
+EOF
+    endfunction
+endif
+
+" ==================================================
+if !exists('g:ZF_Plugin_render_markdown')
+    let g:ZF_Plugin_render_markdown = g:ZF_Plugin_codecompanion
+endif
+if !has('nvim-0.10.0')
+    let g:ZF_Plugin_render_markdown = 0
+endif
+if g:ZF_Plugin_render_markdown
+    ZFPlug 'MeanderingProgrammer/render-markdown.nvim'
+
+    augroup ZF_Plugin_render_markdown_augroup
+        autocmd!
+        autocmd User ZFVimrcPostNormal call ZF_Plugin_render_markdown_setup()
+    augroup END
+    function! ZF_Plugin_render_markdown_setup()
+lua << EOF
+    require('render-markdown').setup({
+            enabled = false,
+            file_types = {
+                'markdown',
+                'codecompanion',
+            },
+            injections = {
+                gitcommit = {
+                    enabled = false,
+                },
+            },
+            anti_conceal = {
+                enabled = false,
+            },
+            win_options = {
+                concealcursor = {
+                    rendered = 'nc',
+                },
+            },
+            heading = {
+                sign = false,
+                icons = function(...) return '' end,
+                position = 'inline',
+                width = 'block',
+                left_margin = {0,4,8,12,16,20,24},
+                left_pad = 1,
+                right_pad = 1,
+            },
+            code = {
+                sign = false,
+                position = 'right',
+                width = 'block',
+            },
+            checkbox = {
+                unchecked = {
+                    icon = '[ ]',
+                },
+                checked = {
+                    icon = '[x]',
+                },
+            },
+            link = {
+                enabled = false,
             },
         })
 EOF

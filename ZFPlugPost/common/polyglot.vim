@@ -50,20 +50,3 @@ if g:ZF_Plugin_nerdcommenter
     map C/ <plug>NERDCommenterUncomment
 endif
 
-" ==================================================
-if !exists('g:ZF_Plugin_polyglot')
-    " good for idea, but shit for countless bugs
-    let g:ZF_Plugin_polyglot = 1
-endif
-if v:version <= 704
-    let g:ZF_Plugin_polyglot = 0
-endif
-if g:ZF_Plugin_polyglot
-    ZFPlug 'sheerun/vim-polyglot'
-    let g:polyglot_disabled = [
-                \   'autoindent',
-                \   'sensible',
-                \ ]
-    let g:no_plugin_maps = 1
-endif
-

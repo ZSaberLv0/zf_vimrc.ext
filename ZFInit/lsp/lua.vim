@@ -9,7 +9,7 @@ if g:zflsp_lua && (get(g:, 'zflsp_lua_impl', '') == 'lua-language-server' || get
                     \ || executable(ZF_LSP_lua_exePath())
     endfunction
     function! ZF_LSP_lua_installer()
-        if g:zf_windows && 0
+        if g:zf_windows
             let itemList = ZF_ModuleGetGithubRelease('LuaLS', 'lua-language-server')
             let itemIndex = match(itemList, 'win32-x64')
             if itemIndex != -1

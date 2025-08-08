@@ -131,14 +131,15 @@ local option = {
         chat = {
             window = {
                 layout = 'float',
-                height = 0.8,
-                width = 0.9,
+                height = 0.85,
+                width = 0.99,
                 opts = {
                     cursorline = true,
                 },
             },
             intro_message = '',
             show_header_separator = true,
+            show_context = false,
             show_token_count = false,
         },
     },

@@ -1,4 +1,63 @@
 
+--[[
+
+let g:ZFLLM_ADAPTER = 'hunyuan-lite'
+let g:ZFLLM_ADAPTERS = {
+            \   'hunyuan-lite' : {
+            \     'extend' : 'openai_compatible',
+            \     'opts' : {
+            \       'env' : {
+            \         'api_key' : 'xxx',
+            \         'url' : 'https://api.hunyuan.cloud.tencent.com',
+            \         'chat_url' : '/v1/chat/completions',
+            \       },
+            \       'schema' : {
+            \         'model' : {
+            \           'default' : 'hunyuan-lite',
+            \         },
+            \       },
+            \     },
+            \   },
+            \   'deepseek' : {
+            \     'extend' : 'deepseek',
+            \     'opts' : {
+            \       'env' : {
+            \         'api_key' : 'xxx',
+            \       },
+            \       'schema' : {
+            \         'model' : {
+            \           'default' : 'deepseek-chat',
+            \         },
+            \       },
+            \     },
+            \   },
+            \   'githubmodels' : {
+            \     'extend' : 'openai_compatible',
+            \     'opts' : {
+            \       'env' : {
+            \         'api_key' : 'xxx',
+            \         'url' : 'https://models.github.ai',
+            \         'chat_url' : '/inference/chat/completions',
+            \       },
+            \       'schema' : {
+            \         'model' : {
+            \           'default' : 'openai/gpt-4.1',
+            \         },
+            \       },
+            \     },
+            \   },
+            \   'tavily' : {
+            \     'extend' : 'tavily',
+            \     'opts' : {
+            \       'env' : {
+            \         'api_key' : 'xxx',
+            \       },
+            \     },
+            \   },
+            \ }
+
+]]
+
 local option = function(v, def)
     if v ~= nil and v ~= '' and v ~= {} then
         return v
@@ -6,41 +65,24 @@ local option = function(v, def)
         return def
     end
 end
-local host = option(vim.g.ZFLLM_API_HOST, 'https://api.hunyuan.cloud.tencent.com')
-local key = option(vim.g.ZFLLM_API_KEY, '')
-local model = option(vim.g.ZFLLM_API_MODEL, 'hunyuan-lite')
-local language = option(vim.g.ZFLLM_LANG, 'Chinese')
-local adapter = option(vim.g.ZFLLM_API_ADAPTER, 'ZFLLM')
-local adapter_opts = option(vim.g.ZFLLM_API_ADAPTER_OPTS, {})
+local ZFLLM_ADAPTER = option(vim.g.ZFLLM_ADAPTER, 'openai_compatible')
+local ZFLLM_ADAPTERS = option(vim.g.ZFLLM_ADAPTERS, {})
 
+local ZFLLM_LANG = option(vim.g.ZFLLM_LANG, 'Chinese')
+local ZFLLM_LOG_LEVEL = option(vim.g.ZFLLM_LOG_LEVEL, 'ERROR')
 
--- ============================================================
-local merge = nil
-merge = function(t1, t2)
-    for k, v in pairs(t2) do
-        if type(v) == "table" then
-            if type(t1[k]) == "table" then
-                merge(t1[k], v)
-            else
-                t1[k] = v
-            end
-        else
-            t1[k] = v
-        end
-    end
-    return t1
-end
 
 -- ============================================================
 local option = {
     adapters = {
         opts = {
-            show_defaults = false,
+            allow_insecure = false,
+            show_defaults = true,
         },
     },
     strategies = {
         chat = {
-            adapter = 'ZFLLM',
+            adapter = ZFLLM_ADAPTER,
             keymaps = {
                 completion = {modes = {
                         i = {'<c-p>'},
@@ -63,7 +105,10 @@ local option = {
             },
         },
         inline = {
-            adapter = 'ZFLLM',
+            adapter = ZFLLM_ADAPTER,
+        },
+        cmd = {
+            adapter = ZFLLM_ADAPTER,
         },
     },
     display = {
@@ -82,69 +127,15 @@ local option = {
         },
     },
     opts = {
+        log_level = ZFLLM_LOG_LEVEL,
+        language = ZFLLM_LANG,
         send_code = false,
-        language = language,
     },
 }
 
-if adapter ~= 'ZFLLM' then
-    option['adapters']['ZFLLM'] = function()
-        return require('codecompanion.adapters').extend(adapter, merge({
-            env = {
-                url = host,
-                api_key = key,
-            },
-            schema = {
-                model = {
-                    default = model,
-                },
-            },
-        }, adapter_opts))
-    end
-else
-    local openai = require("codecompanion.adapters.openai")
-    local utils = require("codecompanion.utils.adapters")
-    local form_messages = function(self, messages)
-        messages = openai.handlers.form_messages(self, messages).messages
-        local system_messages = vim
-            .iter(messages)
-            :filter(function(msg)
-                return msg.role == "system"
-            end)
-            :totable()
-        system_messages = utils.merge_messages(system_messages)
-
-        messages = vim
-            .iter(messages)
-            :filter(function(msg)
-                return msg.role ~= "system"
-            end)
-            :map(function(msg)
-                return {
-                    role = msg.role,
-                    content = msg.content,
-                }
-            end)
-            :totable()
-        messages = utils.merge_messages(messages)
-
-        return { messages = vim.list_extend(system_messages, messages) }
-    end
-    option['adapters']['ZFLLM'] = function()
-        return require('codecompanion.adapters').extend('openai_compatible', merge({
-            env = {
-                url = host,
-                api_key = key,
-            },
-            schema = {
-                model = {
-                    default = model,
-                },
-            },
-            handlers = {
-                form_messages = form_messages,
-            },
-        }, adapter_opts))
+for k,v in pairs(ZFLLM_ADAPTERS) do
+    option['adapters'][k] = function()
+        return require('codecompanion.adapters').extend(v['extend'], v['opts'])
     end
 end
 

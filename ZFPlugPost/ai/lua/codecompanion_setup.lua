@@ -1,57 +1,57 @@
 
 --[[
 
-let g:ZFLLM_ADAPTER = 'hunyuan-lite'
-let g:ZFLLM_ADAPTERS = {
-            \   'hunyuan-lite' : {
-            \     'extend' : 'openai_compatible',
-            \     'opts' : {
-            \       'env' : {
-            \         'api_key' : 'xxx',
-            \         'url' : 'https://api.hunyuan.cloud.tencent.com',
-            \         'chat_url' : '/v1/chat/completions',
-            \       },
-            \       'schema' : {
-            \         'model' : {
-            \           'default' : 'hunyuan-lite',
-            \         },
+let g:ZFLLM_ADAPTER = 'githubmodels'
+
+let g:ZFLLM_ADAPTERS = {}
+let g:ZFLLM_ADAPTERS['hunyuan-lite'] = {
+            \   'extend' : 'openai_compatible',
+            \   'opts' : {
+            \     'env' : {
+            \       'api_key' : 'xxx',
+            \       'url' : 'https://api.hunyuan.cloud.tencent.com',
+            \       'chat_url' : '/v1/chat/completions',
+            \     },
+            \     'schema' : {
+            \       'model' : {
+            \         'default' : 'hunyuan-lite',
             \       },
             \     },
             \   },
-            \   'deepseek' : {
-            \     'extend' : 'deepseek',
-            \     'opts' : {
-            \       'env' : {
-            \         'api_key' : 'xxx',
-            \       },
-            \       'schema' : {
-            \         'model' : {
-            \           'default' : 'deepseek-chat',
-            \         },
+            \ }
+let g:ZFLLM_ADAPTERS['deepseek'] = {
+            \   'extend' : 'deepseek',
+            \   'opts' : {
+            \     'env' : {
+            \       'api_key' : 'xxx',
+            \     },
+            \     'schema' : {
+            \       'model' : {
+            \         'default' : 'deepseek-chat',
             \       },
             \     },
             \   },
-            \   'githubmodels' : {
-            \     'extend' : 'openai_compatible',
-            \     'opts' : {
-            \       'env' : {
-            \         'api_key' : 'xxx',
-            \         'url' : 'https://models.github.ai',
-            \         'chat_url' : '/inference/chat/completions',
-            \       },
-            \       'schema' : {
-            \         'model' : {
-            \           'default' : 'openai/gpt-4.1',
-            \         },
+            \ }
+let g:ZFLLM_ADAPTERS['githubmodels'] = {
+            \   'extend' : 'openai_compatible',
+            \   'opts' : {
+            \     'env' : {
+            \       'api_key' : 'xxx',
+            \       'url' : 'https://models.github.ai',
+            \       'chat_url' : '/inference/chat/completions',
+            \     },
+            \     'schema' : {
+            \       'model' : {
+            \         'default' : 'openai/gpt-4.1',
             \       },
             \     },
             \   },
-            \   'tavily' : {
-            \     'extend' : 'tavily',
-            \     'opts' : {
-            \       'env' : {
-            \         'api_key' : 'xxx',
-            \       },
+            \ }
+let g:ZFLLM_ADAPTERS['tavily'] = {
+            \   'extend' : 'tavily',
+            \   'opts' : {
+            \     'env' : {
+            \       'api_key' : 'xxx',
             \     },
             \   },
             \ }

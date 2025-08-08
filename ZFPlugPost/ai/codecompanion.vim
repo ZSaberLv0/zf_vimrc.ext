@@ -11,6 +11,8 @@ if g:ZF_Plugin_codecompanion
     ZFPlug 'nvim-treesitter/nvim-treesitter'
     ZFPlug 'olimorris/codecompanion.nvim'
 
+    xnoremap <c-q> :CodeCompanion<space>
+
     nnoremap <silent> <c-q> :CodeCompanionChat Toggle<cr>
     inoremap <silent> <c-q> <esc>:CodeCompanionChat Toggle<cr>
 
@@ -63,13 +65,36 @@ if g:ZF_Plugin_codecompanion
         autocmd BufEnter * call s:bufUpdate(1)
         autocmd BufLeave * call s:bufUpdate(0)
         autocmd FileType codecompanion nnoremap <buffer><silent> q :call ZF_Plugin_codecompanion_quit()<cr>
+        autocmd FileType codecompanion inoremap <buffer><silent> @@ @{full_stack_dev}<space>
         autocmd User CodeCompanionChatCreated call feedkeys('i', 'nt')
     augroup END
     function! s:setup()
+        try
 lua << EOF
         require('codecompanion_setup')
 EOF
+        catch
+        endtry
     endfunction
+endif
+
+" ==================================================
+if !exists('g:ZF_Plugin_codecompanion_history')
+    let g:ZF_Plugin_codecompanion_history = g:ZF_Plugin_codecompanion
+endif
+if !has('nvim-0.8.0')
+    let g:ZF_Plugin_codecompanion_history = 0
+endif
+if g:ZF_Plugin_codecompanion_history
+    ZFPlug 'ravitemer/codecompanion-history.nvim'
+endif
+
+" ==================================================
+if !exists('g:ZF_Plugin_codecompanion_spinner')
+    let g:ZF_Plugin_codecompanion_spinner = g:ZF_Plugin_codecompanion
+endif
+if g:ZF_Plugin_codecompanion_spinner
+    ZFPlug 'franco-ruggeri/codecompanion-spinner.nvim'
 endif
 
 " ==================================================
@@ -87,17 +112,20 @@ if g:ZF_Plugin_markview
         autocmd User ZFVimrcPostNormal call ZF_Plugin_markview_setup()
     augroup END
     function! ZF_Plugin_markview_setup()
+        try
 lua << EOF
-    require('markview').setup({
-            preview = {
-                filetypes = {
-                    'markdown',
-                    'codecompanion',
+        require('markview').setup({
+                preview = {
+                    filetypes = {
+                        'markdown',
+                        'codecompanion',
+                    },
+                    ignore_buftypes = {},
                 },
-                ignore_buftypes = {},
-            },
-        })
+            })
 EOF
+        catch
+        endtry
     endfunction
 endif
 
@@ -116,53 +144,56 @@ if g:ZF_Plugin_render_markdown
         autocmd User ZFVimrcPostNormal call ZF_Plugin_render_markdown_setup()
     augroup END
     function! ZF_Plugin_render_markdown_setup()
+        try
 lua << EOF
-    require('render-markdown').setup({
-            enabled = false,
-            file_types = {
-                'markdown',
-                'codecompanion',
-            },
-            injections = {
-                gitcommit = {
+        require('render-markdown').setup({
+                enabled = false,
+                file_types = {
+                    'markdown',
+                    'codecompanion',
+                },
+                injections = {
+                    gitcommit = {
+                        enabled = false,
+                    },
+                },
+                anti_conceal = {
                     enabled = false,
                 },
-            },
-            anti_conceal = {
-                enabled = false,
-            },
-            win_options = {
-                concealcursor = {
-                    rendered = 'nc',
+                win_options = {
+                    concealcursor = {
+                        rendered = 'nc',
+                    },
                 },
-            },
-            heading = {
-                sign = false,
-                icons = function(...) return '' end,
-                position = 'inline',
-                width = 'block',
-                left_margin = {0,4,8,12,16,20,24},
-                left_pad = 1,
-                right_pad = 1,
-            },
-            code = {
-                sign = false,
-                position = 'right',
-                width = 'block',
-            },
-            checkbox = {
-                unchecked = {
-                    icon = '[ ]',
+                heading = {
+                    sign = false,
+                    icons = function(...) return '' end,
+                    position = 'inline',
+                    width = 'block',
+                    left_margin = {0,4,8,12,16,20,24},
+                    left_pad = 1,
+                    right_pad = 1,
                 },
-                checked = {
-                    icon = '[x]',
+                code = {
+                    sign = false,
+                    position = 'right',
+                    width = 'block',
                 },
-            },
-            link = {
-                enabled = false,
-            },
-        })
+                checkbox = {
+                    unchecked = {
+                        icon = '[ ]',
+                    },
+                    checked = {
+                        icon = '[x]',
+                    },
+                },
+                link = {
+                    enabled = false,
+                },
+            })
 EOF
+        catch
+        endtry
     endfunction
 endif
 

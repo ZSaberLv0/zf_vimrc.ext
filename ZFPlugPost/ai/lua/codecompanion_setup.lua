@@ -47,6 +47,21 @@ let g:ZFLLM_ADAPTERS['githubmodels'] = {
             \     },
             \   },
             \ }
+let g:ZFLLM_ADAPTERS['zhipu'] = {
+            \   'extend' : 'openai_compatible',
+            \   'opts' : {
+            \     'env' : {
+            \       'api_key' : 'xxx',
+            \       'url' : 'https://open.bigmodel.cn',
+            \       'chat_url' : '/api/paas/v4/chat/completions',
+            \     },
+            \     'schema' : {
+            \       'model' : {
+            \         'default' : 'glm-4.5-flash',
+            \       },
+            \     },
+            \   },
+            \ }
 let g:ZFLLM_ADAPTERS['tavily'] = {
             \   'extend' : 'tavily',
             \   'opts' : {
@@ -70,6 +85,7 @@ local ZFLLM_ADAPTERS = option(vim.g.ZFLLM_ADAPTERS, {})
 
 local ZFLLM_LANG = option(vim.g.ZFLLM_LANG, 'Chinese')
 local ZFLLM_LOG_LEVEL = option(vim.g.ZFLLM_LOG_LEVEL, 'ERROR')
+local ZFLLM_CACHE_PATH = option(vim.g.ZFLLM_CACHE_PATH, vim.g.zf_vim_cache_path .. '/codecompanion')
 
 
 -- ============================================================
@@ -77,7 +93,7 @@ local option = {
     adapters = {
         opts = {
             allow_insecure = false,
-            show_defaults = true,
+            show_defaults = false,
         },
     },
     strategies = {
@@ -129,7 +145,18 @@ local option = {
     opts = {
         log_level = ZFLLM_LOG_LEVEL,
         language = ZFLLM_LANG,
-        send_code = false,
+    },
+    extensions = {
+        history = {
+            enabled = true,
+            opts = {
+                keymap = 'gh',
+                expiration_days = 1,
+                dir_to_save = ZFLLM_CACHE_PATH .. '/codecompanion_history',
+            }
+        },
+        spinner = {
+        },
     },
 }
 

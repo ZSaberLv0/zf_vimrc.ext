@@ -82,6 +82,7 @@ local option = function(v, def)
 end
 local ZFLLM_ADAPTER = option(vim.g.ZFLLM_ADAPTER, 'openai_compatible')
 local ZFLLM_ADAPTERS = option(vim.g.ZFLLM_ADAPTERS, {})
+local ZFLLM_OPTIONS = option(vim.g.ZFLLM_OPTIONS, {})
 
 local ZFLLM_LANG = option(vim.g.ZFLLM_LANG, 'Chinese')
 local ZFLLM_LOG_LEVEL = option(vim.g.ZFLLM_LOG_LEVEL, 'ERROR')
@@ -166,6 +167,18 @@ for k,v in pairs(ZFLLM_ADAPTERS) do
         return require('codecompanion.adapters').extend(v['extend'], v['opts'])
     end
 end
+
+local function merge(target, source)
+    for key, value in pairs(source) do
+        if type(value) == "table" and type(target[key]) == "table" then
+            merge(target[key], value)
+        else
+            target[key] = value
+        end
+    end
+    return target
+end
+merge(option, ZFLLM_OPTIONS)
 
 require('codecompanion').setup(option)
 

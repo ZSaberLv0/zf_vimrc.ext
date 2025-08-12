@@ -17,12 +17,14 @@ endif
 
 if g:ZF_Plugin_w3m
     ZFPlug 'yuratomo/w3m.vim'
+    let g:w3m#option = '-o display_charset=' . &encoding . ' -halfdump -o frame=true -o ext_halfdump=1 -o strict_iso2022=0 -o ucs_conv=1'
+                \. ' -o accept_encoding=identity'
     let g:w3m#search_engine = 'https://www.bing.com/search?q=%s'
     let g:w3m#history#save_file = g:zf_vim_cache_path . '/w3m_history'
     let g:w3m#option_use_cookie = 1
     let g:w3m#option_accept_cookie = 1
-    let g:w3m#user_agent = 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.187 Safari/535.1'
-    let g:user_agent = g:w3m#user_agent
+    " let g:w3m#user_agent = 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.187 Safari/535.1'
+    " let g:user_agent = g:w3m#user_agent
     let g:w3m#download_ext = [
                 \   '7z',
                 \   'dll',

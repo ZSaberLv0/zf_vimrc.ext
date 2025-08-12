@@ -1,7 +1,7 @@
 extra bundles for [zf_vimrc.vim](https://github.com/ZSaberLv0/zf_vimrc.vim)
 
 this repo holds some plugins that are useful but hard to config or has heavy dependency,
-typically LSPs
+typically LSPs and AI Agents
 
 note: this repo requires zf_vimrc.vim, to install, follow
 [zf_vimrc.vim's install guide](https://github.com/ZSaberLv0/zf_vimrc.vim#quick-install)
@@ -86,4 +86,9 @@ we're trying hard to make it simple stupid, the minimal config is:
         * the `VisualStudio` is required only for its builtin C++ header,
             for Windows, there seems no simple way to get proper C++ header without the huge IDE
     * on unix like systems, install `gcc-c++` or `libstdc++`
+
+
+# AI Agents (neovim only)
+
+see [codecompanion_setup.lua](https://github.com/ZSaberLv0/zf_vimrc.ext/tree/master/ZFPlugPost/ai/lua/codecompanion_setup.lua)
 

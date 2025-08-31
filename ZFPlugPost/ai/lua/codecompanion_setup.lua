@@ -92,9 +92,11 @@ local ZFLLM_CACHE_PATH = option(vim.g.ZFLLM_CACHE_PATH, vim.g.zf_vim_cache_path 
 -- ============================================================
 local option = {
     adapters = {
-        opts = {
-            allow_insecure = false,
-            show_defaults = false,
+        http = {
+            opts = {
+                allow_insecure = false,
+                show_defaults = false,
+            },
         },
     },
     strategies = {
@@ -163,8 +165,8 @@ local option = {
 }
 
 for k,v in pairs(ZFLLM_ADAPTERS) do
-    option['adapters'][k] = function()
-        return require('codecompanion.adapters').extend(v['extend'], v['opts'])
+    option['adapters']['http'][k] = function()
+        return require('codecompanion.adapters.http').extend(v['extend'], v['opts'])
     end
 end
 

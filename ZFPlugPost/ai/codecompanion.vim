@@ -66,7 +66,10 @@ if g:ZF_Plugin_codecompanion
         autocmd BufLeave * call s:bufUpdate(0)
         autocmd FileType codecompanion nnoremap <buffer><silent> q :call ZF_Plugin_codecompanion_quit()<cr>
         autocmd FileType codecompanion inoremap <buffer><silent> @@ @{full_stack_dev}<space>
-        autocmd User CodeCompanionChatCreated call feedkeys('i', 'nt')
+        autocmd FileType codecompanion inoremap <buffer><silent> @# #{buffer}<space>
+        autocmd FileType codecompanion nnoremap <buffer><silent> <c-a> :call feedkeys('ga', 't')<cr>
+        autocmd FileType codecompanion inoremap <buffer><silent> <c-a> <esc>:call feedkeys('ga', 't')<cr>
+        autocmd User CodeCompanionChatCreated call feedkeys('a', 'nt')
     augroup END
     function! s:setup()
         try

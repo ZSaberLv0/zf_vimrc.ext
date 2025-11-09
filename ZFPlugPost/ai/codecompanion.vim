@@ -11,6 +11,8 @@ if g:ZF_Plugin_codecompanion
     ZFPlug 'nvim-treesitter/nvim-treesitter'
     ZFPlug 'olimorris/codecompanion.nvim'
 
+    let g:codecompanion_yolo_mode = 1
+
     xnoremap <c-q> :CodeCompanion<space>
 
     nnoremap <silent> <c-q> :CodeCompanionChat Toggle<cr>

@@ -122,27 +122,6 @@ local option = {
                 llm = 'AI :',
                 user = 'Me :',
             },
-            tools = {
-                ["cmd_runner"] = {
-                    opts = {
-                        requires_approval = false,
-                    },
-                },
-                ["create_file"] = {
-                    opts = {
-                        requires_approval = false,
-                    },
-                },
-                ["insert_edit_into_file"] = {
-                    opts = {
-                        requires_approval = {
-                            buffer = false,
-                            file = false,
-                        },
-                        user_confirmation = false,
-                    },
-                },
-            },
         },
         inline = {
             adapter = ZFLLM_ADAPTER,

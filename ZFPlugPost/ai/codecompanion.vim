@@ -67,7 +67,7 @@ if g:ZF_Plugin_codecompanion
         autocmd BufEnter * call s:bufUpdate(1)
         autocmd BufLeave * call s:bufUpdate(0)
         autocmd FileType codecompanion nnoremap <buffer><silent> q :call ZF_Plugin_codecompanion_quit()<cr>
-        autocmd FileType codecompanion inoremap <buffer><silent> @@ @{full_stack_dev}<space>
+        autocmd FileType codecompanion inoremap <buffer><silent><expr> @@ ZF_Plugin_codecompanion_quickAdapter()
         autocmd FileType codecompanion inoremap <buffer><silent> @# #{buffer}<space>
         autocmd FileType codecompanion nnoremap <buffer><silent> <c-a> :call feedkeys('ga', 't')<cr>
         autocmd FileType codecompanion inoremap <buffer><silent> <c-a> <esc>:call feedkeys('ga', 't')<cr>
@@ -80,6 +80,19 @@ lua << EOF
 EOF
         catch
         endtry
+    endfunction
+
+    function! ZF_Plugin_codecompanion_changeAdapter(name, model)
+lua << EOF
+        require('CodeCompanion_changeAdapter').changeAdapter(vim.api.nvim_eval('a:name'), vim.api.nvim_eval('a:model'))
+EOF
+    endfunction
+    function! ZF_Plugin_codecompanion_quickAdapter()
+        if !empty(get(g:, 'ZFLLM_QUICK_ADAPTER_NAME', ''))
+                    \ && !empty(get(g:, 'ZFLLM_QUICK_ADAPTER_MODEL', ''))
+            call ZF_Plugin_codecompanion_changeAdapter(g:ZFLLM_QUICK_ADAPTER_NAME, g:ZFLLM_QUICK_ADAPTER_MODEL)
+        endif
+        return "@{full_stack_dev}\<space>"
     endfunction
 endif
 

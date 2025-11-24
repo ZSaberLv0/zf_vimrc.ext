@@ -4,14 +4,33 @@ if !exists('g:zflsp_java')
     let g:zflsp_java = g:zflspEnable
 endif
 if g:zflsp_java && executable('java')
+    function! ZF_LSP_java_remoteFile()
+        if ZF_versionCompare(ZF_versionGet('java'), '21') >= 0
+            return 'http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz'
+        else
+            return 'https://download.eclipse.org/jdtls/milestones/1.43.0/jdt-language-server-1.43.0-202412191447.tar.gz'
+        endif
+    endfunction
     function! ZF_LSP_java_archiveFile()
-        return g:zf_vim_cache_path . '/ZFLSP_jdt/jdt-language-server-latest.tar.gz'
+        if ZF_versionCompare(ZF_versionGet('java'), '21') >= 0
+            return g:zf_vim_cache_path . '/ZFLSP_jdt/jdt-language-server-latest.tar.gz'
+        else
+            return g:zf_vim_cache_path . '/ZFLSP_jdt/old/jdt-language-server-latest.tar.gz'
+        endif
     endfunction
     function! ZF_LSP_java_contentsPath()
-        return g:zf_vim_cache_path . '/ZFLSP_jdt/contents'
+        if ZF_versionCompare(ZF_versionGet('java'), '21') >= 0
+            return g:zf_vim_cache_path . '/ZFLSP_jdt/contents'
+        else
+            return g:zf_vim_cache_path . '/ZFLSP_jdt/old/contents'
+        endif
     endfunction
     function! ZF_LSP_java_cachePath()
-        return g:zf_vim_cache_path . '/ZFLSP_jdt/cache'
+        if ZF_versionCompare(ZF_versionGet('java'), '21') >= 0
+            return g:zf_vim_cache_path . '/ZFLSP_jdt/cache'
+        else
+            return g:zf_vim_cache_path . '/ZFLSP_jdt/old/cache'
+        endif
     endfunction
 
     function! ZF_LSP_java_checker()
@@ -22,12 +41,7 @@ if g:zflsp_java && executable('java')
             echo 'ERROR: no tar available'
             return
         endif
-        if ZF_versionCompare(ZF_versionGet('java'), '21') >= 0
-            let url = 'http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz'
-        else
-            let url = 'https://download.eclipse.org/jdtls/milestones/1.43.0/jdt-language-server-1.43.0-202412191447.tar.gz'
-        endif
-        call ZF_ModuleDownloadFile(ZF_LSP_java_archiveFile(), url)
+        call ZF_ModuleDownloadFile(ZF_LSP_java_archiveFile(), ZF_LSP_java_remoteFile())
         if filereadable(ZF_LSP_java_archiveFile())
             call ZF_rm(ZF_LSP_java_cachePath())
             call ZF_rm(ZF_LSP_java_contentsPath())

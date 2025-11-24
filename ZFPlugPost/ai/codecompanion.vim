@@ -64,6 +64,7 @@ if g:ZF_Plugin_codecompanion
         autocmd!
         autocmd User ZFVimrcPostNormal call s:setup()
         autocmd FileType codecompanion set syntax=zftxt
+        autocmd FileType codecompanion call s:bufUpdate(1)
         autocmd BufEnter * call s:bufUpdate(1)
         autocmd BufLeave * call s:bufUpdate(0)
         autocmd FileType codecompanion nnoremap <buffer><silent> q :call ZF_Plugin_codecompanion_quit()<cr>

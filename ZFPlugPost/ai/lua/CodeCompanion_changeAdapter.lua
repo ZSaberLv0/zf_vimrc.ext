@@ -5,7 +5,7 @@ local util = require('codecompanion.utils')
 
 local M = {}
 function M.changeAdapter(adapter_name, model_name)
-    local chat = require('codecompanion.strategies.chat').last_chat()
+    local chat = require('codecompanion.interactions.chat').last_chat()
     if not chat then
         util.notify('no chat window', vim.log.levels.WARN)
         return

@@ -99,7 +99,7 @@ local option = {
             },
         },
     },
-    strategies = {
+    interactions = {
         chat = {
             adapter = ZFLLM_ADAPTER,
             keymaps = {
@@ -121,6 +121,38 @@ local option = {
             roles = {
                 llm = 'AI :',
                 user = 'Me :',
+            },
+            tools = {
+                ['cmd_runner'] = {
+                    opts = {
+                        allowed_in_yolo_mode = true,
+                        require_approval_before = false,
+                        require_cmd_approval = false,
+                    },
+                },
+                ['create_file'] = {
+                    opts = {
+                        require_approval_before = false,
+                        require_cmd_approval = false,
+                    },
+                },
+                ['file_search'] = {
+                    opts = {
+                        require_cmd_approval = false,
+                    },
+                },
+                ['grep_search'] = {
+                    opts = {
+                        require_approval_before = false,
+                        require_cmd_approval = false,
+                    },
+                },
+                ['read_file'] = {
+                    opts = {
+                        require_approval_before = false,
+                        require_cmd_approval = false,
+                    },
+                },
             },
         },
         inline = {

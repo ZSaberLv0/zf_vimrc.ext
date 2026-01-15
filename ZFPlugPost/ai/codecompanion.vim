@@ -89,9 +89,9 @@ lua << EOF
 EOF
     endfunction
     function! ZF_Plugin_codecompanion_quickAdapter()
-        if !empty(get(g:, 'ZFLLM_QUICK_ADAPTER_NAME', ''))
-                    \ && !empty(get(g:, 'ZFLLM_QUICK_ADAPTER_MODEL', ''))
-            call ZF_Plugin_codecompanion_changeAdapter(g:ZFLLM_QUICK_ADAPTER_NAME, g:ZFLLM_QUICK_ADAPTER_MODEL)
+        if !empty(get(g:, 'ZFLLM_QUICK_ADAPTER', ''))
+                    \ && exists("g:ZFLLM_ADAPTERS[g:ZFLLM_QUICK_ADAPTER]['opts']['schema']['model']['default']")
+            call ZF_Plugin_codecompanion_changeAdapter(g:ZFLLM_QUICK_ADAPTER, g:ZFLLM_ADAPTERS[g:ZFLLM_QUICK_ADAPTER]['opts']['schema']['model']['default'])
         endif
         return "@{full_stack_dev}\<space>"
     endfunction

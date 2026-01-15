@@ -1,7 +1,8 @@
 
 --[[
 
-let g:ZFLLM_ADAPTER = 'githubmodels'
+let g:ZFLLM_ADAPTER = 'hunyuan-lite'
+let g:ZFLLM_QUICK_ADAPTER = 'modelscope'
 
 let g:ZFLLM_ADAPTERS = {}
 let g:ZFLLM_ADAPTERS['hunyuan-lite'] = {
@@ -15,34 +16,6 @@ let g:ZFLLM_ADAPTERS['hunyuan-lite'] = {
             \     'schema' : {
             \       'model' : {
             \         'default' : 'hunyuan-lite',
-            \       },
-            \     },
-            \   },
-            \ }
-let g:ZFLLM_ADAPTERS['deepseek'] = {
-            \   'extend' : 'deepseek',
-            \   'opts' : {
-            \     'env' : {
-            \       'api_key' : 'xxx',
-            \     },
-            \     'schema' : {
-            \       'model' : {
-            \         'default' : 'deepseek-chat',
-            \       },
-            \     },
-            \   },
-            \ }
-let g:ZFLLM_ADAPTERS['githubmodels'] = {
-            \   'extend' : 'openai_compatible',
-            \   'opts' : {
-            \     'env' : {
-            \       'api_key' : 'xxx',
-            \       'url' : 'https://models.github.ai',
-            \       'chat_url' : '/inference/chat/completions',
-            \     },
-            \     'schema' : {
-            \       'model' : {
-            \         'default' : 'openai/gpt-4.1',
             \       },
             \     },
             \   },
@@ -62,11 +35,63 @@ let g:ZFLLM_ADAPTERS['zhipu'] = {
             \     },
             \   },
             \ }
-let g:ZFLLM_ADAPTERS['tavily'] = {
-            \   'extend' : 'tavily',
+let g:ZFLLM_ADAPTERS['modelscope'] = {
+            \   'extend' : 'openai_compatible',
             \   'opts' : {
             \     'env' : {
             \       'api_key' : 'xxx',
+            \       'url' : 'https://api-inference.modelscope.cn',
+            \       'chat_url' : '/v1/chat/completions',
+            \     },
+            \     'schema' : {
+            \       'model' : {
+            \         'default' : 'Qwen/Qwen3-32B',
+            \       },
+            \     },
+            \     'parameters' : {
+            \       'enable_thinking' : v:false,
+            \     },
+            \   },
+            \ }
+let g:ZFLLM_ADAPTERS['deepseek'] = {
+            \   'extend' : 'deepseek',
+            \   'opts' : {
+            \     'env' : {
+            \       'api_key' : 'xxx',
+            \     },
+            \     'schema' : {
+            \       'model' : {
+            \         'default' : 'deepseek-chat',
+            \       },
+            \     },
+            \   },
+            \ }
+
+" ============================================================
+let g:ZFLLM_ADAPTERS['langsearch'] = {
+            \   'extend' : 'langsearch',
+            \   'opts' : {
+            \     'env' : {
+            \       'api_key' : 'xxx',
+            \     },
+            \   },
+            \ }
+
+" ============================================================
+let g:ZFLLM_OPTIONS = {
+            \   'interactions' : {
+            \     'chat' : {
+            \       'tools' : {
+            \         'web_search' : {
+            \           'callback' : 'interactions.chat.tools.builtin.web_search',
+            \           'description' : 'Search the web for information',
+            \           'opts' : {
+            \             'adapter' : 'langsearch',
+            \             'opts' : {
+            \             },
+            \           },
+            \         },
+            \       },
             \     },
             \   },
             \ }

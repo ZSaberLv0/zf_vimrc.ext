@@ -20,7 +20,7 @@ function M.changeAdapter(adapter_name, model_name)
         util.notify('adapter not exist: ' .. adapter_name, vim.log.levels.ERROR)
         return
     end
-    chat:change_adapter(adapter_name, model_name)
+    chat:change_adapter(adapter_name)
 end
 
 return M

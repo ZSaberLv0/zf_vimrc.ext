@@ -102,7 +102,7 @@ EOF
                 call ZF_Plugin_codecompanion_changeAdapter(g:ZFLLM_QUICK_ADAPTER_2, g:ZFLLM_ADAPTERS[g:ZFLLM_QUICK_ADAPTER_2]['opts']['schema']['model']['default'])
             endif
         endif
-        return "@{full_stack_dev}\<space>"
+        return "@{agent}\<space>"
     endfunction
 endif
 

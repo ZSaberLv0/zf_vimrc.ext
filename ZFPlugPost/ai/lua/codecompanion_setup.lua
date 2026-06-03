@@ -1,0 +1,255 @@
+
+--[[
+
+let g:ZFLLM_ADAPTER = 'hunyuan-lite'
+let g:ZFLLM_QUICK_ADAPTER = 'modelscope'
+
+let g:ZFLLM_ADAPTERS = {}
+let g:ZFLLM_ADAPTERS['hunyuan-lite'] = {
+            \   'extend' : 'openai_compatible',
+            \   'opts' : {
+            \     'env' : {
+            \       'api_key' : 'xxx',
+            \       'url' : 'https://api.hunyuan.cloud.tencent.com',
+            \       'chat_url' : '/v1/chat/completions',
+            \     },
+            \     'schema' : {
+            \       'model' : {
+            \         'default' : 'hunyuan-lite',
+            \       },
+            \     },
+            \   },
+            \ }
+let g:ZFLLM_ADAPTERS['zhipu'] = {
+            \   'extend' : 'openai_compatible',
+            \   'opts' : {
+            \     'env' : {
+            \       'api_key' : 'xxx',
+            \       'url' : 'https://open.bigmodel.cn',
+            \       'chat_url' : '/api/paas/v4/chat/completions',
+            \     },
+            \     'schema' : {
+            \       'model' : {
+            \         'default' : 'glm-4.5-flash',
+            \       },
+            \     },
+            \   },
+            \ }
+let g:ZFLLM_ADAPTERS['modelscope'] = {
+            \   'extend' : 'openai_compatible',
+            \   'opts' : {
+            \     'env' : {
+            \       'api_key' : 'xxx',
+            \       'url' : 'https://api-inference.modelscope.cn',
+            \       'chat_url' : '/v1/chat/completions',
+            \     },
+            \     'schema' : {
+            \       'model' : {
+            \         'default' : 'Qwen/Qwen3-32B',
+            \       },
+            \     },
+            \     'parameters' : {
+            \       'enable_thinking' : v:false,
+            \     },
+            \   },
+            \ }
+let g:ZFLLM_ADAPTERS['deepseek'] = {
+            \   'extend' : 'deepseek',
+            \   'opts' : {
+            \     'env' : {
+            \       'api_key' : 'xxx',
+            \     },
+            \     'schema' : {
+            \       'model' : {
+            \         'default' : 'deepseek-chat',
+            \       },
+            \     },
+            \   },
+            \ }
+
+" ============================================================
+let g:ZFLLM_ADAPTERS['langsearch'] = {
+            \   'extend' : 'langsearch',
+            \   'opts' : {
+            \     'env' : {
+            \       'api_key' : 'xxx',
+            \     },
+            \   },
+            \ }
+
+" ============================================================
+let g:ZFLLM_OPTIONS = {
+            \   'interactions' : {
+            \     'chat' : {
+            \       'tools' : {
+            \         'web_search' : {
+            \           'callback' : 'interactions.chat.tools.builtin.web_search',
+            \           'description' : 'Search the web for information',
+            \           'opts' : {
+            \             'adapter' : 'langsearch',
+            \             'opts' : {
+            \             },
+            \           },
+            \         },
+            \       },
+            \     },
+            \   },
+            \ }
+
+]]
+
+local option = function(v, def)
+    if v ~= nil and v ~= '' and v ~= {} then
+        return v
+    else
+        return def
+    end
+end
+local ZFLLM_ADAPTER = option(vim.g.ZFLLM_ADAPTER, 'openai_compatible')
+local ZFLLM_ADAPTERS = option(vim.g.ZFLLM_ADAPTERS, {})
+local ZFLLM_OPTIONS = option(vim.g.ZFLLM_OPTIONS, {})
+
+local ZFLLM_LANG = option(vim.g.ZFLLM_LANG, 'Chinese')
+local ZFLLM_LOG_LEVEL = option(vim.g.ZFLLM_LOG_LEVEL, 'ERROR')
+local ZFLLM_CACHE_PATH = option(vim.g.ZFLLM_CACHE_PATH, vim.g.zf_vim_cache_path .. '/codecompanion')
+
+
+-- ============================================================
+local option = {
+    adapters = {
+        http = {
+            opts = {
+                allow_insecure = false,
+                show_defaults = false,
+            },
+        },
+    },
+    interactions = {
+        chat = {
+            adapter = ZFLLM_ADAPTER,
+            keymaps = {
+                completion = {modes = {
+                        i = {'<c-p>'},
+                }},
+                send = {modes = {
+                        n = {'<c-s>', '<cr>'},
+                        i = {'<c-s>'},
+                }},
+                close = {modes = {
+                        n = {'\\CodeCompanion?q'},
+                }},
+                stop = {modes = {
+                        n = {'<c-c>'},
+                        i = {'<c-c>'},
+                }},
+            },
+            roles = {
+                llm = 'AI :',
+                user = 'Me :',
+            },
+            tools = {
+                ['create_file'] = {
+                    opts = {
+                        allowed_in_yolo_mode = true,
+                        require_approval_before = false,
+                        require_cmd_approval = false,
+                    },
+                },
+                ['delete_file'] = {
+                    opts = {
+                        allowed_in_yolo_mode = true,
+                        require_approval_before = false,
+                        require_cmd_approval = false,
+                    },
+                },
+                ['grep_search'] = {
+                    opts = {
+                        allowed_in_yolo_mode = true,
+                        require_approval_before = false,
+                        require_cmd_approval = false,
+                    },
+                },
+                ['memory'] = {
+                    opts = {
+                        allowed_in_yolo_mode = true,
+                        require_approval_before = false,
+                        require_cmd_approval = false,
+                    },
+                },
+                ['read_file'] = {
+                    opts = {
+                        allowed_in_yolo_mode = true,
+                        require_approval_before = false,
+                        require_cmd_approval = false,
+                    },
+                },
+                ['run_command'] = {
+                    opts = {
+                        allowed_in_yolo_mode = true,
+                        require_approval_before = false,
+                        require_cmd_approval = false,
+                    },
+                },
+            },
+        },
+        inline = {
+            adapter = ZFLLM_ADAPTER,
+        },
+        cmd = {
+            adapter = ZFLLM_ADAPTER,
+        },
+    },
+    display = {
+        chat = {
+            window = {
+                layout = 'float',
+                height = 0.85,
+                width = 0.99,
+                opts = {
+                    cursorline = true,
+                },
+            },
+            intro_message = '',
+            show_header_separator = true,
+            show_context = false,
+            show_token_count = false,
+        },
+    },
+    opts = {
+        log_level = ZFLLM_LOG_LEVEL,
+        language = ZFLLM_LANG,
+    },
+    extensions = {
+        history = {
+            enabled = true,
+            opts = {
+                keymap = 'gh',
+                expiration_days = 1,
+                dir_to_save = ZFLLM_CACHE_PATH .. '/codecompanion_history',
+            }
+        },
+        spinner = {
+        },
+    },
+}
+
+for k,v in pairs(ZFLLM_ADAPTERS) do
+    option['adapters']['http'][k] = function()
+        return require('codecompanion.adapters.http').extend(v['extend'], v['opts'])
+    end
+end
+
+local function merge(target, source)
+    for key, value in pairs(source) do
+        if type(value) == "table" and type(target[key]) == "table" then
+            merge(target[key], value)
+        else
+            target[key] = value
+        end
+    end
+    return target
+end
+merge(option, ZFLLM_OPTIONS)
+
+require('codecompanion').setup(option)
+

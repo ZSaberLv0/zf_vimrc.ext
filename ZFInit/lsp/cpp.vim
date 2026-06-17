@@ -33,6 +33,30 @@ if g:zflsp_cpp
     endif
 endif
 
+if !exists('g:zflsp_cpp_strictFlags_Windows')
+    let g:zflsp_cpp_strictFlags_Windows = [
+                \   '/W4',
+                \   '/WX',
+                \ ]
+endif
+
+if !exists('g:zflsp_cpp_strictFlags_Linux')
+    let g:zflsp_cpp_strictFlags_Linux = [
+                \   '-Wall',
+                \   '-Werror',
+                \   '-fno-strict-aliasing',
+                \ ]
+endif
+
+if !exists('g:zflsp_cpp_strictFlags_MacOS')
+    let g:zflsp_cpp_strictFlags_MacOS = [
+                \   '-Wall',
+                \   '-Werror',
+                \   '-Wextra',
+                \   '-fno-strict-aliasing',
+                \ ]
+endif
+
 " ============================================================
 if g:zflsp_cpp && !empty(ZF_ModuleGetApt())
     function! ZF_LSP_cpp_checker()

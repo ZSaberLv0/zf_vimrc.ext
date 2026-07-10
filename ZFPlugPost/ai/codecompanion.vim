@@ -68,6 +68,7 @@ if g:ZF_Plugin_codecompanion
         autocmd BufEnter * call s:bufUpdate(1)
         autocmd BufLeave * call s:bufUpdate(0)
         autocmd FileType codecompanion nnoremap <buffer><silent> q :call ZF_Plugin_codecompanion_quit()<cr>
+        autocmd FileType codecompanion inoremap <buffer><silent><expr> @~ ZF_Plugin_codecompanion_quickAdapter('~')
         autocmd FileType codecompanion inoremap <buffer><silent><expr> @@ ZF_Plugin_codecompanion_quickAdapter('@')
         autocmd FileType codecompanion inoremap <buffer><silent><expr> @! ZF_Plugin_codecompanion_quickAdapter('!')
         autocmd FileType codecompanion inoremap <buffer><silent> @# #{buffer}<space>
@@ -91,7 +92,12 @@ EOF
     endfunction
     function! ZF_Plugin_codecompanion_quickAdapter(...)
         let type = get(a:, 1, '')
-        if type == '@'
+        if type == '~'
+            if !empty(get(g:, 'ZFLLM_ADAPTER', ''))
+                        \ && exists("g:ZFLLM_ADAPTERS[g:ZFLLM_ADAPTER]['opts']['schema']['model']['default']")
+                call ZF_Plugin_codecompanion_changeAdapter(g:ZFLLM_ADAPTER, g:ZFLLM_ADAPTERS[g:ZFLLM_ADAPTER]['opts']['schema']['model']['default'])
+            endif
+        elseif type == '@'
             if !empty(get(g:, 'ZFLLM_QUICK_ADAPTER', ''))
                         \ && exists("g:ZFLLM_ADAPTERS[g:ZFLLM_QUICK_ADAPTER]['opts']['schema']['model']['default']")
                 call ZF_Plugin_codecompanion_changeAdapter(g:ZFLLM_QUICK_ADAPTER, g:ZFLLM_ADAPTERS[g:ZFLLM_QUICK_ADAPTER]['opts']['schema']['model']['default'])

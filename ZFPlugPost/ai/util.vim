@@ -1,5 +1,6 @@
 
 " params: {
+"   'prompt' : 'You are a helpful assistant.',
 "   'text' : 'output `OK` immediately, do not output anything else',
 "   'msg' : [
 "     {
@@ -15,7 +16,7 @@
 "   'chat_url' : '/v1/chat/completions',
 "   'key' : 'xxx',
 "   'model' : 'Qwen/Qwen3.5-27B',
-"   'verbose' : '0/1',
+"   'verbose' : '1/0',
 " }
 function! ZFLLM_test(params)
     if type(a:params) == type('')
@@ -35,7 +36,7 @@ function! ZFLLM_test(params)
         let params = a:params
     endif
 
-    let verbose = get(params, 'verbose', '') == '1'
+    let verbose = get(params, 'verbose', '') != '0'
 
     let cfg = ZF_get({}, g:, 'ZFLLM_ADAPTERS', get(g:, 'ZFLLM_ADAPTER', ''))
 
@@ -65,6 +66,10 @@ function! ZFLLM_test(params)
 
     let msg = get(params, 'msg', [])
     if empty(msg)
+        let prompt = get(params, 'prompt', '')
+        if empty(prompt)
+            let prompt = 'You are a helpful assistant.'
+        endif
         let text = get(params, 'text', '')
         if empty(text)
             let text = 'output `OK` immediately, do not output anything else'
@@ -72,7 +77,7 @@ function! ZFLLM_test(params)
         let msg = [
                     \   {
                     \     'role' : 'system',
-                    \     'content' : 'You are a helpful assistant.',
+                    \     'content' : prompt,
                     \   },
                     \   {
                     \     'role' : 'user',
@@ -93,6 +98,9 @@ function! ZFLLM_test(params)
     let @t = result
     if verbose
         echo cmd
+        echo "\n"
+        echo '------------------------------------------------------------'
+        echo "\n"
     endif
     echo result
 endfunction

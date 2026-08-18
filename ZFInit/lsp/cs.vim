@@ -12,7 +12,7 @@ else
         let g:zflsp_cs = 0
     endif
 endif
-if g:zflsp_cs
+if g:zflsp_cs && executable('dotnet')
     augroup ZF_LSP_cs_install_augroup
         autocmd!
         autocmd User ZFVimrcPlug ZFPlug 'OmniSharp/omnisharp-vim'

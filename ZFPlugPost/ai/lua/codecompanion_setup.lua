@@ -192,6 +192,9 @@ local option = {
                 },
             },
         },
+        code_review = {
+            enabled = false,
+        },
         inline = {
             adapter = ZFLLM_ADAPTER,
         },

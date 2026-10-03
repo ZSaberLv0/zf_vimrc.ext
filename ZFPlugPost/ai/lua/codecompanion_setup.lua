@@ -98,20 +98,20 @@ let g:ZFLLM_OPTIONS = {
 
 ]]
 
-local option = function(v, def)
+local vimOption = function(v, def)
     if v ~= nil and v ~= '' and v ~= {} then
         return v
     else
         return def
     end
 end
-local ZFLLM_ADAPTER = option(vim.g.ZFLLM_ADAPTER, 'openai_compatible')
-local ZFLLM_ADAPTERS = option(vim.g.ZFLLM_ADAPTERS, {})
-local ZFLLM_OPTIONS = option(vim.g.ZFLLM_OPTIONS, {})
+local ZFLLM_ADAPTER = vimOption(vim.g.ZFLLM_ADAPTER, 'openai_compatible')
+local ZFLLM_ADAPTERS = vimOption(vim.g.ZFLLM_ADAPTERS, {})
+local ZFLLM_OPTIONS = vimOption(vim.g.ZFLLM_OPTIONS, {})
 
-local ZFLLM_LANG = option(vim.g.ZFLLM_LANG, 'Chinese')
-local ZFLLM_LOG_LEVEL = option(vim.g.ZFLLM_LOG_LEVEL, 'ERROR')
-local ZFLLM_CACHE_PATH = option(vim.g.ZFLLM_CACHE_PATH, vim.g.zf_vim_cache_path .. '/codecompanion')
+local ZFLLM_LANG = vimOption(vim.g.ZFLLM_LANG, 'Chinese')
+local ZFLLM_LOG_LEVEL = vimOption(vim.g.ZFLLM_LOG_LEVEL, 'ERROR')
+local ZFLLM_CACHE_PATH = vimOption(vim.g.ZFLLM_CACHE_PATH, vim.g.zf_vim_cache_path .. '/codecompanion')
 
 
 -- ============================================================
@@ -236,7 +236,26 @@ local option = {
     },
 }
 
+local function getOption(def, t, ...)
+    local cur = t
+    for i = 1, select('#', ...) do
+        if type(cur) ~= 'table' then
+            return def
+        end
+        local k = select(i, ...)
+        cur = cur[k]
+        if cur == nil or cur == '' then
+            return def
+        end
+    end
+    return cur
+end
 for k,v in pairs(ZFLLM_ADAPTERS) do
+    if getOption('', v, 'opts', 'schema', 'model', 'default') ~= ''
+        and getOption('', v, 'opts', 'schema', 'model', 'choices') == ''
+        then
+        v['opts']['schema']['model']['choices'] = v['opts']['schema']['model']['default']
+    end
     option['adapters']['http'][k] = function()
         return require('codecompanion.adapters.http').extend(v['extend'], v['opts'])
     end

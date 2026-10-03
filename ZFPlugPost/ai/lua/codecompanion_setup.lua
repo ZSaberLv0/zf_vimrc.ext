@@ -150,42 +150,42 @@ local option = {
             tools = {
                 ['create_file'] = {
                     opts = {
-                        allowed_in_yolo_mode = true,
+                        protect = false,
                         require_approval_before = false,
                         require_cmd_approval = false,
                     },
                 },
                 ['delete_file'] = {
                     opts = {
-                        allowed_in_yolo_mode = true,
+                        protect = false,
                         require_approval_before = false,
                         require_cmd_approval = false,
                     },
                 },
                 ['grep_search'] = {
                     opts = {
-                        allowed_in_yolo_mode = true,
+                        protect = false,
                         require_approval_before = false,
                         require_cmd_approval = false,
                     },
                 },
                 ['memory'] = {
                     opts = {
-                        allowed_in_yolo_mode = true,
+                        protect = false,
                         require_approval_before = false,
                         require_cmd_approval = false,
                     },
                 },
                 ['read_file'] = {
                     opts = {
-                        allowed_in_yolo_mode = true,
+                        protect = false,
                         require_approval_before = false,
                         require_cmd_approval = false,
                     },
                 },
                 ['run_command'] = {
                     opts = {
-                        allowed_in_yolo_mode = true,
+                        protect = false,
                         require_approval_before = false,
                         require_cmd_approval = false,
                     },

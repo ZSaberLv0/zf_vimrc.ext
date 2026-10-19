@@ -3,7 +3,7 @@
 if !exists('g:ZF_Plugin_codecompanion')
     let g:ZF_Plugin_codecompanion = 1
 endif
-if !has('nvim-0.10.0')
+if !has('nvim-0.12.0')
     let g:ZF_Plugin_codecompanion = 0
 endif
 if g:ZF_Plugin_codecompanion

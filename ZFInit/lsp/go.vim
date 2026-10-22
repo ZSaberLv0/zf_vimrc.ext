@@ -11,7 +11,7 @@ if g:zflsp_go && executable('go')
         return executable('go') && executable(ZF_LSP_go_GOPATH() . '/bin/gopls')
     endfunction
     function! ZF_LSP_go_installer()
-        call ZF_ModuleExecShell('go get golang.org/x/tools/gopls@latest')
+        call ZF_ModuleExecShell('go install golang.org/x/tools/gopls@latest')
     endfunction
     call ZFLSP_autoSetup(1, 'go', function('ZF_LSP_go_checker'), function('ZF_LSP_go_installer'), {
                 \   'cmd' : ZF_LSP_go_GOPATH() . '/bin/gopls',

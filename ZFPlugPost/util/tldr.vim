@@ -24,6 +24,7 @@ if g:ZF_Plugin_tldr
         call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'tldr')
         call ZF_ModuleExec('git clone --single-branch --depth=1 https://github.com/tldr-pages/tldr "%s"', path)
         call ZF_ModuleExec('cd "%s" && git pull', path)
+        call ZF_ModuleInstallerPermissionFix(path)
     endfunction
     call ZF_ModuleInstaller('ZF_Plugin_tldr', 'call ZF_Plugin_tldr_install()')
 endif

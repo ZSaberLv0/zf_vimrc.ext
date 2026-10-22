@@ -68,6 +68,7 @@ if g:zflsp_rust
         endif
         call mkdir(fnamemodify(s:globalConfigPath, ':h'), 'p')
         call writefile(contents, s:globalConfigPath)
+        call ZF_ModuleInstallerPermissionFix(g:zf_vim_cache_path . '/ZFLSP_rust_analyzer')
         if filePath != get(s:, 'filePathLast', '')
             let s:filePathLast = filePath
             call ZFLSP_restart()

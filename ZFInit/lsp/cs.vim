@@ -17,7 +17,7 @@ if g:zflsp_cs && executable('dotnet')
         autocmd!
         autocmd User ZFVimrcPlug ZFPlug 'OmniSharp/omnisharp-vim'
     augroup END
-    let g:OmniSharp_server_install = g:zf_vim_cache_path . '/ZFLSP_omnisharp-vim'
+    let g:OmniSharp_server_install = g:zf_vim_cache_path . '/ZFLSP_omnisharp/server'
     let g:OmniSharp_server_stdio = 1
 
     if !filereadable(g:OmniSharp_server_install . '/run')
@@ -26,6 +26,7 @@ if g:zflsp_cs && executable('dotnet')
 
         function! ZF_LSP_cs_install()
             call OmniSharp#Install()
+            call ZF_ModuleInstallerPermissionFix(g:zf_vim_cache_path . '/ZFLSP_omnisharp')
         endfunction
         call ZF_ModuleInstaller('ZF_LSP_cs', 'call ZF_LSP_cs_install()')
     endif

@@ -11,15 +11,21 @@ function! ZF_Plugin_neoformat_lua_install()
     endif
 
     if g:zf_windows || g:zf_cygwin
-        let platform = 'win64'
+        let platform = 'windows'
     elseif g:zf_mac
         let platform = 'macos'
     else
         let platform = 'linux'
     endif
+    if g:zf_windows || g:zf_cygwin
+        let arch = 'x86_64'
+    else
+        let arch = join(split(ZF_system('uname -m')))
+    endif
+    let fileName = printf('stylua-%s-%s.zip', platform, arch)
     let url = ''
     for f in urls
-        if match(f, 'stylua-' . platform . '.zip') >= 0
+        if match(f, fileName) >= 0
             let url = f
             break
         endif
@@ -29,7 +35,6 @@ function! ZF_Plugin_neoformat_lua_install()
         return
     endif
 
-    let fileName = 'stylua-' . platform . '.zip'
     if !ZF_ModuleDownloadFile(g:zf_vim_cache_path . '/neoformat/lua/' . fileName, url)
         echo 'ERROR: unable to download: ' . url
         return
@@ -47,6 +52,7 @@ function! ZF_Plugin_neoformat_lua_install()
                 \   'indent_type="Spaces"',
                 \   'quote_style="AutoPreferSingle"',
                 \ ], printf('%s/neoformat/lua/stylua.toml', g:zf_vim_cache_path))
+    call ZF_ModuleInstallerPermissionFix(printf('%s/neoformat', g:zf_vim_cache_path))
 endfunction
 call ZF_ModuleInstaller('neoformat_lua', 'call ZF_Plugin_neoformat_lua_install()')
 

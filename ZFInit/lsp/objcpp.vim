@@ -1,12 +1,12 @@
 
-function! ZF_LSP_objcpp_setup(...)
+function! ZF_LSP_objcpp_setup()
     if !g:zf_mac
         return 0
     endif
 
-    let xcodePath = get(a:, 1, '/Applications/Xcode.app')
-    let platform = get(a:, 2, 'iPhoneSimulator')
-    let cachePath = get(a:, 3, g:zf_vim_cache_path . '/ZFLSP_objcpp/iOS')
+    let xcodePath = '/Applications/Xcode.app'
+    let platform = 'iPhoneSimulator'
+    let cachePath = g:zf_vim_cache_path . '/ZFLSP_objcpp/iOS'
 
     if !isdirectory(xcodePath)
         echo 'xcode path not exist: ' . xcodePath
@@ -38,6 +38,7 @@ function! ZF_LSP_objcpp_setup(...)
         call ZF_system('ln -s "' . frameworkPath . '/' . framework . '/Headers" "' . cachePath . '/' . frameworkName . '"')
     endfor
 
+    call ZF_ModuleInstallerPermissionFix(g:zf_vim_cache_path . '/ZFLSP_objcpp')
     return 1
 endfunction
 

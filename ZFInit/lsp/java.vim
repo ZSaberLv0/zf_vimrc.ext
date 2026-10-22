@@ -48,6 +48,7 @@ if g:zflsp_java && executable('java')
             call ZF_system('mkdir "' . ZF_LSP_java_contentsPath() . '"')
             call ZF_system('tar zxf "' . ZF_LSP_java_archiveFile() . '" -C "' . ZF_LSP_java_contentsPath() . '/."')
         endif
+        call ZF_ModuleInstallerPermissionFix(g:zf_vim_cache_path . '/ZFLSP_jdt')
     endfunction
     function! ZF_LSP_java_cmdargs()
         if g:zf_windows

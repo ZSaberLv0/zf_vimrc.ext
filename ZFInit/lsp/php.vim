@@ -24,6 +24,16 @@ if g:zflsp_php && !empty(ZF_ModuleGetNpm())
                 \     'clearCache' : 1,
                 \   },
                 \   'workspaceOption' : {
+                \     'intelephense' : {
+                \       'files' : {
+                \         'maxSize' : 5*1024*1024,
+                \       },
+                \       'diagnostics' : {
+                \         'exclude' : {
+                \           '*.php' : ['P1132'],
+                \         },
+                \       },
+                \     },
                 \   },
                 \ })
 

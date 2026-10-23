@@ -38,7 +38,6 @@ function! ZF_LSP_objcpp_setup()
         call ZF_system('ln -s "' . frameworkPath . '/' . framework . '/Headers" "' . cachePath . '/' . frameworkName . '"')
     endfor
 
-    call ZF_ModuleInstallerPermissionFix(g:zf_vim_cache_path . '/ZFLSP_objcpp')
     return 1
 endfunction
 

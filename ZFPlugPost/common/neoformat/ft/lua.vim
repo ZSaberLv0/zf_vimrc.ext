@@ -52,7 +52,6 @@ function! ZF_Plugin_neoformat_lua_install()
                 \   'indent_type="Spaces"',
                 \   'quote_style="AutoPreferSingle"',
                 \ ], printf('%s/neoformat/lua/stylua.toml', g:zf_vim_cache_path))
-    call ZF_ModuleInstallerPermissionFix(printf('%s/neoformat', g:zf_vim_cache_path))
 endfunction
 call ZF_ModuleInstaller('neoformat_lua', 'call ZF_Plugin_neoformat_lua_install()')
 

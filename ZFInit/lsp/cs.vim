@@ -26,7 +26,6 @@ if g:zflsp_cs && executable('dotnet')
 
         function! ZF_LSP_cs_install()
             call OmniSharp#Install()
-            call ZF_ModuleInstallerPermissionFix(g:zf_vim_cache_path . '/ZFLSP_omnisharp')
         endfunction
         call ZF_ModuleInstaller('ZF_LSP_cs', 'call ZF_LSP_cs_install()')
     endif

@@ -30,7 +30,6 @@ if g:zflsp_kotlin
             call ZF_system('mkdir "' . ZF_LSP_kotlin_contentsPath() . '"')
             call ZF_unzip(ZF_LSP_kotlin_contentsPath(), ZF_LSP_kotlin_archiveFile())
         endif
-        call ZF_ModuleInstallerPermissionFix(g:zf_vim_cache_path . '/ZFLSP_kotlin')
     endfunction
     call ZFLSP_autoSetup(1, 'kotlin', function('ZF_LSP_kotlin_checker'), function('ZF_LSP_kotlin_installer'), {
                 \   'cmd' : ZF_LSP_kotlin_contentsPath() . '/server/bin/kotlin-language-server',

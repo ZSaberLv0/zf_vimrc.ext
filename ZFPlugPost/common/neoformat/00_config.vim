@@ -11,7 +11,7 @@ if g:ZF_Plugin_neoformat
     function! ZF_Plugin_neoformat_install()
         call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'astyle clang-format shfmt swiftformat tidy uncrustify')
         call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'cmake_format jsbeautifier sqlparse yapf')
-        call ZF_ModulePackAdd(ZF_ModuleGetNpm(), 'eslint lua-fmt prettier typescript typescript-formatter')
+        call ZF_ModulePackAdd(ZF_ModuleGetNpm(), 'eslint lua-fmt prettier typescript@6 typescript-formatter')
     endfunction
     call ZF_ModuleInstaller('neoformat', 'call ZF_Plugin_neoformat_install()')
 endif

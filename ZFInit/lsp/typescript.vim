@@ -8,7 +8,7 @@ if g:zflsp_typescript && !empty(ZF_ModuleGetNpm())
         return executable('typescript-language-server')
     endfunction
     function! ZF_LSP_typescript_installer()
-        call ZF_ModulePackAdd(ZF_ModuleGetNpm(), 'typescript typescript-language-server')
+        call ZF_ModulePackAdd(ZF_ModuleGetNpm(), 'typescript@6 typescript-language-server')
     endfunction
     call ZFLSP_autoSetup(1, 'typescript', function('ZF_LSP_typescript_checker'), function('ZF_LSP_typescript_installer'), {
                 \   'cmd' : 'typescript-language-server',

@@ -31,7 +31,6 @@ if g:zflsp_lua && executable('java') && get(g:, 'zflsp_lua_impl', '') == 'EmmyLu
         endif
 
         call ZF_ModuleGitClone(get(g:, 'zf_githost', 'https://github.com') . '/ZSaberLv0/EmmyLua_stdFolder', ZF_LSP_lua_stdPath())
-        call ZF_ModuleInstallerPermissionFix(g:zf_vim_cache_path . '/ZFLSP_EmmyLua')
     endfunction
     call ZFLSP_autoSetup(1, 'lua', function('ZF_LSP_lua_checker'), function('ZF_LSP_lua_installer'), {
                 \   'cmd' : 'java',

@@ -8,7 +8,7 @@ if g:zflsp_cmake && !empty(ZF_ModuleGetPip())
         return executable('cmake-language-server')
     endfunction
     function! ZF_LSP_cmake_installer()
-        call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'cmake-language-server')
+        call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'git+https://github.com/w4term3loon/cmake-language-server.git')
     endfunction
     call ZFLSP_autoSetup(1, 'cmake', function('ZF_LSP_cmake_checker'), function('ZF_LSP_cmake_installer'), {
                 \   'cmd' : 'cmake-language-server',

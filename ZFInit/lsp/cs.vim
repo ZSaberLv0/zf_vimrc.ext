@@ -25,6 +25,9 @@ if g:zflsp_cs && executable('dotnet')
         let g:OmniSharp_start_server = 0
 
         function! ZF_LSP_cs_install()
+            if filereadable(g:OmniSharp_server_install . '/OmniSharpInstall-version.txt')
+                return
+            endif
             call OmniSharp#Install()
         endfunction
         call ZF_ModuleInstaller('ZF_LSP_cs', 'call ZF_LSP_cs_install()')

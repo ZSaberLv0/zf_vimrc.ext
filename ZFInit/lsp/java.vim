@@ -5,28 +5,28 @@ if !exists('g:zflsp_java')
 endif
 if g:zflsp_java && executable('java')
     function! ZF_LSP_java_remoteFile()
-        if ZF_versionCompare(ZF_versionGet('java'), '21') >= 0
+        if ZF_versionCompare(ZF_versionGet('java'), '25') >= 0
             return 'http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz'
         else
-            return 'https://download.eclipse.org/jdtls/milestones/1.43.0/jdt-language-server-1.43.0-202412191447.tar.gz'
+            return 'https://download.eclipse.org/jdtls/milestones/1.47.0/jdt-language-server-1.47.0-202505151856.tar.gz'
         endif
     endfunction
     function! ZF_LSP_java_archiveFile()
-        if ZF_versionCompare(ZF_versionGet('java'), '21') >= 0
+        if ZF_versionCompare(ZF_versionGet('java'), '25') >= 0
             return g:zf_vim_cache_path . '/ZFLSP_jdt/jdt-language-server-latest.tar.gz'
         else
             return g:zf_vim_cache_path . '/ZFLSP_jdt/old/jdt-language-server-latest.tar.gz'
         endif
     endfunction
     function! ZF_LSP_java_contentsPath()
-        if ZF_versionCompare(ZF_versionGet('java'), '21') >= 0
+        if ZF_versionCompare(ZF_versionGet('java'), '25') >= 0
             return g:zf_vim_cache_path . '/ZFLSP_jdt/contents'
         else
             return g:zf_vim_cache_path . '/ZFLSP_jdt/old/contents'
         endif
     endfunction
     function! ZF_LSP_java_cachePath()
-        if ZF_versionCompare(ZF_versionGet('java'), '21') >= 0
+        if ZF_versionCompare(ZF_versionGet('java'), '25') >= 0
             return g:zf_vim_cache_path . '/ZFLSP_jdt/cache'
         else
             return g:zf_vim_cache_path . '/ZFLSP_jdt/old/cache'

@@ -148,6 +148,9 @@ local option = {
                 user = 'Me :',
             },
             tools = {
+                ['opts'] = {
+                    approval_mode = 'yolo',
+                },
                 ['create_file'] = {
                     opts = {
                         protect = false,

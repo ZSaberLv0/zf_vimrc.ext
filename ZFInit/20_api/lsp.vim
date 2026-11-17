@@ -177,17 +177,17 @@ augroup ZFLSP_augroup
     autocmd User ZFLSP_restartEnd silent
     autocmd User ZFVimrcPostNormal call ZFLSP_restart(1000)
     if exists('##DirChanged')
-        autocmd DirChanged * call ZFLSP_restart()
+        autocmd DirChanged * call ZFLSP_restart(3000)
     endif
 augroup END
 function! ZFLSP_restart(...)
-    let delay = get(a:, 1, 3000)
+    let delay = get(a:, 1, 0)
     if exists('s:restart_delayTimerId')
         call timer_stop(s:restart_delayTimerId)
         unlet s:restart_delayTimerId
     endif
     if has('timers') && delay > 0
-        let s:restart_delayTimerId = timer_start(get(a:, 1, 3000), function('s:restart_delay'))
+        let s:restart_delayTimerId = timer_start(delay, function('s:restart_delay'))
     else
         call s:restart_delay()
     endif
